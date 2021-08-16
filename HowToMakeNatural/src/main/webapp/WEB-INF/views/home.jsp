@@ -13,4 +13,6 @@
 <P>  The time on the server is ${serverTime}. </P>
 <a href="/blog/main">블로그 메인으로 이동</a>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </html>
