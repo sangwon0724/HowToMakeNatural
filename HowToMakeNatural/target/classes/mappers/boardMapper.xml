@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+    <select id="selectPost" resultType="com.my.vo.boardVO" >
+      		SELECT * FROM board where category=#{category} order by no desc
+    </select>
+    <select id="selectOnePost" resultType="com.my.vo.boardVO" >
+      		SELECT * FROM board where no=#{no}
+    </select>
+    <insert id="insertPost" parameterType="com.my.vo.boardVO">
+    	insert into board(no, text, category, writerID, signdate) values (#{name}, #{text}, #{category}, #{writerID}, NOW())
+    </insert>
+    <update id="updatePost">
+    	update board set category=#{category},text=#{text},signdate=NOW() where no=#{no}
+    </update>
+    <delete id="deletePost">
+    	delete from board where no=#{no} and writerID=#{writerID}
+    </delete>
+    <delete id="deleteCategory">
+    	delete from board where category=#{writerID} and userID=#{writerID}
+    </delete>
+</mapper>
