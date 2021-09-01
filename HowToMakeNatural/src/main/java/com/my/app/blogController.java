@@ -21,6 +21,18 @@ import com.my.vo.blogVO;
 
 @Controller
 public class blogController {
+	//==========할 일 목록==========
+	//1. 블로그 메인 기본 틀 완성
+	//2. 개인 블로그 추가 (주소 : "/blog/유저아이디")
+	//3. view 기능 추가 (주소 : "/blog/유저아이디/게시글번호")
+	//4. write 기능 추가 (작성 전 주소 : "/blog/유저아이디/write" => 작성 후 주소 : "/blog/유저아이디")
+	//5. update 기능 추가  (수정 시 주소 : "/blog/유저아이디/게시글번호/update" => 수정 후 주소 : "/blog/유저아이디/게시글번호")
+	//6. delete 기능 추가 (삭제 전 주소 : "/blog/유저아이디/게시글번호/delete" => 삭제 후 주소 : "/blog/유저아이디/")
+	//7. 페이징 기능 추가
+	//8. 이웃 관련 기능 추가
+	
+	//==========완료 목록==========
+	
 	@Autowired
     private SqlSession sqlSession;
 	
