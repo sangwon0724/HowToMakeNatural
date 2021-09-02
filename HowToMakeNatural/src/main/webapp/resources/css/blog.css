@@ -6,7 +6,46 @@ html {overflow-x : hidden;}
 #blog_header{
 	width : 100vw;
 	height: 10vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	background-color: skyblue;
+}
+#blog_header>section{
+	width : 80vw;
+	height: 100%;
+	background-color: lightgreen;
+}
+
+/*============================================================================================================*/
+
+/* 블로그 홈 + 이웃 새글 (로그인시) */
+#blog_main_category{
+	width : 100vw;
+	height: 7vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #f1f2f6;
+}
+
+#blog_main_category>section{
+	width : 80vw;
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+#blog_main_category>section>div{
+	width: 15%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    box-sizing: border-box;
+}
+#blog_main_category>section>div:first-child{
+	border-bottom: 5px solid #a4b0be;
 }
 
 /*============================================================================================================*/
@@ -18,6 +57,7 @@ html {overflow-x : hidden;}
 	min-height: 90vh;
 	display: flex;
 	justify-content: center;
+	margin-top: 10vh;
 	margin-bottom: 5vh;
 }
 
@@ -64,6 +104,18 @@ html {overflow-x : hidden;}
 	width: 100%;
 	height: 20%;
 	margin-top: 1.7%;
+	margin-bottom: 1.7%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 1.3em;
+}
+.post_userProfile{
+	width: 2.3vw;
+	height: 2.3vw;
+	border-radius: 50%;
+	margin-right: 0.7vw;
+	background-color: red;
 }
 /* 게시글 제목 */
 .post_title{
@@ -74,7 +126,7 @@ html {overflow-x : hidden;}
 	text-decoration:none;
 	color : black;
 	font-weight: bold;
-	font-size: 1.3em;
+	font-size: 1.5em;
 }
 .post_title>a:hover{
 	text-decoration: underline;
@@ -133,10 +185,74 @@ html {overflow-x : hidden;}
 
 /*============================================================================================================*/
 
-/* 광고 및 개인정보 */
+/* 로그인 메뉴 + 개인 메뉴  */
 #info_area{
 	width : 20vw;
 	height: auto;
 	min-height: 90vh;
-	background-color: blue;
+	display: flex;
+	flex-direction: column;
+}
+/* 로그인 + 아이디 및 비밀번호 찾기 + 회원가입 */
+#sign{
+	width: 100%;
+	height: 20vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	background-color: #a4b0be;
+}
+#sign>#login{
+	width: 87.5%;
+	height: 42%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    text-align: center;
+    line-height: 1;
+    margin-top: 5%;
+    color: black;
+}
+#sign>#searchAndSignUp{
+	width: 87.5%;
+	height: 23%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#sign>#searchAndSignUp>span{
+	font-size: 0.75em;
+}
+#sign>#searchAndSignUp>span>#searchID,
+#sign>#searchAndSignUp>span>#searchPW,
+#sign>#searchAndSignUp>#signUp{
+	cursor: pointer;
+}
+/* 내 정보 + 내 블로그 */
+#my_menu{
+	width: 100%;
+	height: 65vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	background-color: #a4b0be;
+}
+#my_menu>#first,
+#my_menu>#second,
+#my_menu>#third{
+	width: 100%;
+	height: 7.5vh;
+	background-color: #ecf0f1;
+	border-bottom: 1px solid #c8d6e5;
+}
+#my_menu>#show_info{
+	width: 100%;
+	height: 42.5vh;
+	background-color: red;
 }
