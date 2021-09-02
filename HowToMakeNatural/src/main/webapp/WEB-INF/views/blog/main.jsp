@@ -24,18 +24,19 @@
 				<c:forEach items="${postList}" var="post" begin="0" end="10">
 					<div class="post">
 						<div class="post_content">
-							<div class="post_profileAndName"></div>
+							<div class="post_profileAndName">${post.userNickName}</div>
 							<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
 							<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content}</a></div>
-							<div class="post_goodAndComment"></div>
+							<div class="post_goodAndComment">
+								<span>좋아요 0</span>
+								<span>댓글 0</span>
+							</div>
 						</div>
 						<div class="post_image"></div>
-						
 					</div>
-					<hr>
 			    </c:forEach>
     		</main>
-			<footer id="paging"></footer>
+			<footer id="paging">페이징 부분</footer>
 		</section>
 		<section id="info_area"></section>
 	</main>
