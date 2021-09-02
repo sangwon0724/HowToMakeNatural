@@ -63,6 +63,7 @@ html {overflow-x : hidden;}
 .post_profileAndName{
 	width: 100%;
 	height: 20%;
+	margin-top: 1.7%;
 }
 /* 게시글 제목 */
 .post_title{
