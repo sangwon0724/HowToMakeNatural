@@ -5,17 +5,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>블로그 메인</title>
+	<meta charset="UTF-8">
+	<link href="<c:url value="/resources/css/reset.css" />" rel="stylesheet" type="text/css">
+	<link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet" type="text/css">
+	<title>블로그 메인</title>
 </head>
 <body>
-<span>블로그 메인</span>
-	<c:forEach items="${postList}" var="post" begin="0" end="10">
-		<div class="post_row">
-			<span class="title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></span>
-			<span class="signdate">${boardList.signdate}</span>
-		</div>
-		<hr>
-    </c:forEach>
+<!-- 아이콘 + 로고 + 검색창 시작 -->
+	<header id="blog_header">
+		
+	</header>
+<!-- 아이콘 + 로고 + 검색창 종료 -->
+<!-- 메인 화면 시작 -->
+	<main id="blog_main">
+		<section id="post_area">
+			<header id="category"></header>
+			<main id="board">
+				<c:forEach items="${postList}" var="post" begin="0" end="10">
+					<div class="post">
+						<div class="post_content">
+							<div class="post_profileAndName"></div>
+							<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
+							<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content}</a></div>
+							<div class="post_goodAndComment"></div>
+						</div>
+						<div class="post_image"></div>
+						
+					</div>
+					<hr>
+			    </c:forEach>
+    		</main>
+			<footer id="paging"></footer>
+		</section>
+		<section id="info_area"></section>
+	</main>
+<!-- 메인 화면 종료 -->
+
+	<!-- Scripts -->
+	<script src="<c:url value="/resources/js/blog.js" />"></script>
 </body>
 </html>

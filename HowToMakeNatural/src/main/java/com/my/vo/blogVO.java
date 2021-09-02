@@ -10,8 +10,8 @@ public class blogVO {
 	private Date signdate; //작성일
 	private Date updateDate; //최종 수정일
 	private String userID; //작성자 아이디
+	private String userNickName; //작성자 닉네임
 	private int good; //좋아요 개수
-	
 	public int getNo() {
 		return no;
 	}
@@ -53,6 +53,12 @@ public class blogVO {
 	}
 	public void setUserID(String userID) {
 		this.userID = userID;
+	}
+	public String getUserNickName() {
+		return userNickName;
+	}
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
 	}
 	public int getGood() {
 		return good;

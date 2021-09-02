@@ -13,10 +13,17 @@ import com.my.vo.blogVO;
 public class blogService implements blogServiceInterface {
 	@Autowired
     private blogDAOInterface dao;
-
+	
+	/* 메인에서 가장 최근글 10개 긁어오기 */
 	@Override
 	public List<blogVO> selectAllPost(Map<String, Object> map) throws Exception {
 		return dao.selectAllPost(map);
+	}
+	
+	/* 게시글 개수 가져요기 */
+	@Override
+	public int selectCount(Map<String, Object> map) throws Exception {
+		return dao.selectCount(map);
 	}
 
 	@Override

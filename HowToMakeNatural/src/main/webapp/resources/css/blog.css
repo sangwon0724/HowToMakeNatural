@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+html {overflow-x : hidden;}
+
+/* 아이콘 + 로고 + 검색창 */
+#blog_header{
+	width : 100vw;
+	height: 10vh;
+	background-color: skyblue;
+}
+
+/*============================================================================================================*/
+
+/* 메인 화면 */
+#blog_main{
+	width : 100vw;
+	height: auto;
+	min-height: 90vh;
+	display: flex;
+	justify-content: center;
+}
+
+/*============================================================================================================*/
+
+/* 카테고리 및 게시글 */
+#post_area{
+	width : 57vw;
+	height: auto;
+	min-height: 90vh;
+	margin-right : 3vw;
+}
+/* 카테고리 */
+#category{
+	width: 100%;
+	height: 8vh;
+	background-color: gray;
+}
+/* 게시글 목록 */
+#board{
+	width: 100%;
+	height: auto;
+}
+/* 게시글 */
+.post{
+	width : 100%;
+	height: 30vh;
+	display : flex;
+	justify-content : space-between;
+	border-bottom: 1px solid #dfe4ea;
+}
+/* 게시글 내용 */
+.post_content{
+	width : 65%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+/* 프로필 사진  + 닉네임 */
+.post_profileAndName{
+	width: 100%;
+	height: 20%;
+}
+/* 게시글 제목 */
+.post_title{
+	width: 100%;
+	height: 17%;
+}
+/* 게시글 내용 */
+.post_text{
+	width: 100%;
+	height: 35%;
+}
+/* 좋아요 + 댓글 */
+.post_goodAndComment{
+	width: 100%;
+	height: 8%;
+}
+/* 게시글 이미지 */
+.post_image{
+	width : 25%;
+	height: 100%;
+	background-color: blue;
+}
+/* 페이징  */
+#paging{
+	width: 100%;
+	height: 5vh;
+	background-color: yellow;
+}
+
+/*============================================================================================================*/
+
+/* 광고 및 개인정보 */
+#info_area{
+	width : 20vw;
+	height: auto;
+	min-height: 90vh;
+	background-color: blue;
+}

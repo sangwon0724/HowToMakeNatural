@@ -21,6 +21,13 @@ public class blogDAO implements blogDAOInterface {
 		return sqlSession.selectList("blogMapper.selectAllPost", map);
 	}
 	
+	/* 게시글 개수 가져요기 */
+	@Override
+	public int selectCount(Map<String, Object> map) throws Exception {
+		int count=sqlSession.selectOne("blogMapper.selectCount", map);
+		return count;
+	}
+	
 	@Override
 	public List<blogVO> selectPost(String category) throws Exception {
 		return sqlSession.selectList("blogMapper.selectPost",category);

@@ -41,7 +41,25 @@ public class blogController {
 	
 	/* 블로그 메인 */
 	@RequestMapping(value = "/blog/main", method = RequestMethod.GET)
-	public String getBoardList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String category,  Model model) throws Exception {
+	public String getMainPostList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String category,  Model model) throws Exception {
+		List<blogVO> postList;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page*10);
+		map.put("category", category);
+		
+		postList=blogService.selectAllPost(map); //게시글 10개
+		int count = blogService.selectCount(map); //게시글 총 개수
+		
+		model.addAttribute("postList", postList);
+		model.addAttribute("count", count);
+		
+	    return "/blog/main";
+	}
+	
+	/* 블로그 메인 글 가져오기 - Ajax */
+	@RequestMapping(value = "/blog/main/Ajax", method = RequestMethod.GET)
+	public List<blogVO> getMainPostListAjax(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String category,  Model model) throws Exception {
 		List<blogVO> postList;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -51,6 +69,6 @@ public class blogController {
 		
 		model.addAttribute("postList", postList);
 		
-	    return "/blog/main";
+	    return postList;
 	}
 }

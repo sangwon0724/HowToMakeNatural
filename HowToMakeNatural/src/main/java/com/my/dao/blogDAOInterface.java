@@ -8,6 +8,7 @@ import com.my.vo.blogVO;
 public interface blogDAOInterface {
 	public List<blogVO> selectAllPost(Map<String, Object> map) throws Exception;
 	public List<blogVO> selectPost(String category) throws Exception;
+	public int selectCount(Map<String, Object> map) throws Exception;
 	public blogVO selectOnePost(int no) throws Exception;
 	public void insertPost(blogVO vo) throws Exception;
 	public void updatePost(blogVO vo) throws Exception;
