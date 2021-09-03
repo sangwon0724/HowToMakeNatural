@@ -43,9 +43,12 @@ html {overflow-x : hidden;}
 	justify-content: center;
 	align-items: center;
     box-sizing: border-box;
+    cursor: pointer;
 }
-#blog_main_category>section>div:first-child{
-	border-bottom: 5px solid #a4b0be;
+#blog_main_category>section>div.active, #blog_main_category>section>div:hover{
+	border-bottom: 5px solid #00ab33;
+	color: #00ab33;
+	font-weight: bold;
 }
 
 /*============================================================================================================*/
@@ -73,8 +76,27 @@ html {overflow-x : hidden;}
 /* 카테고리 */
 #category{
 	width: 100%;
-	height: 8vh;
-	background-color: gray;
+	height: 42px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+.category_name{
+    border: 0;
+    font-weight: 400;
+    color: #000;
+    height: 42px;
+    margin: 0 11px;
+    font-family: "나눔고딕", "NanumGothic", "NanumGothicWebFont", "Malgun Gothic", "맑은 고딕", "Dotum", "돋움", "Helvetica", "Apple SD Gothic Neo", "sans-serif";
+    font-size: 14px;
+    line-height: 42px;
+    cursor: pointer;
+}
+.category_name.active{
+	color: #00ab33;
+	font-weight: bold;
+}
+.category_name:hover{
+	text-decoration: underline;
 }
 /* 게시글 목록 */
 #board{
@@ -109,6 +131,13 @@ html {overflow-x : hidden;}
 	justify-content: flex-start;
 	align-items: center;
 	font-size: 1.3em;
+}
+.post_profileAndName>a{
+	text-decoration:none;
+	color: black;
+}
+.post_profileAndName>a:hover{
+	text-decoration: underline;
 }
 .post_userProfile{
 	width: 2.3vw;

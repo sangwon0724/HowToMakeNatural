@@ -20,9 +20,9 @@
 <!-- 블로그 홈 + 이웃 새글 (로그인시) 시작 -->
 	<header id="blog_main_category">
 		<section>
-			<div>블로그홈</div>
+			<div class="active">블로그홈</div>
 			<!-- 로그인시 보이는 화면 시작 -->
-			<div>이웃 새글</div>
+			<div class="">이웃 새글</div>
 			<!-- 로그인시 보이는 화면 종료 -->
 		</section>
 	</header>
@@ -31,7 +31,13 @@
 	<main id="blog_main">
 		<section id="post_area">
 			<header id="category">
-				카테고리
+				<span class="category_name active">전체</span>
+				<span class="category_name">IT</span>
+				<span class="category_name">미술</span>
+				<span class="category_name">드라마</span>
+				<span class="category_name">공연</span>
+				<span class="category_name">여행</span>
+				<span class="category_name">요리</span>
 			</header>
 			<main id="board">
 				<c:forEach items="${postList}" var="post" begin="0" end="10">
@@ -39,7 +45,7 @@
 						<div class="post_content">
 							<div class="post_profileAndName">
 								<div class="post_userProfile"></div>
-								<span>${post.userNickName}</span>
+								<a href="/blog/${post.userID}">${post.userNickName}</a>
 							</div>
 							<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
 							<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content}</a></div>
