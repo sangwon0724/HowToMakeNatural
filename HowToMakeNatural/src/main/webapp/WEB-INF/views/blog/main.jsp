@@ -15,6 +15,8 @@
 <!-- 아이콘 + 로고 + 검색창 시작 -->
 	<header id="blog_header">
 		<section>
+			<div id="logo">로고</div>
+			<div id="search"></div>
 		</section>
 	</header>
 <!-- 아이콘 + 로고 + 검색창 종료 -->
@@ -31,21 +33,24 @@
 <!-- 메인 화면 시작 -->
 	<main id="blog_main">
 		<section id="post_area">
+			<!-- 게시글 카테고리 시작 -->
 			<header id="category">
 				<span class="category_name active">전체</span>
-				<span class="category_name">IT</span>
-				<span class="category_name">미술</span>
-				<span class="category_name">드라마</span>
-				<span class="category_name">공연</span>
-				<span class="category_name">여행</span>
-				<span class="category_name">요리</span>
+				<span class="category_name" category="IT">IT</span>
+				<span class="category_name" category="미술">미술</span>
+				<span class="category_name" category="드라마">드라마</span>
+				<span class="category_name" category="공연">공연</span>
+				<span class="category_name" category="여행">여행</span>
+				<span class="category_name" category="요리">요리</span>
 			</header>
+			<!-- 게시글 카테고리 종료 -->
+			<!-- 게시글 목록 시작 -->
 			<main id="board">
 				<c:forEach items="${postList}" var="post" begin="0" end="10">
 					<div class="post">
 						<div class="post_content">
 							<div class="post_profileAndName">
-								<div class="post_userProfile"></div>
+								<div class="post_userProfile" userID="${post.userID}"></div>
 								<a href="/blog/${post.userID}">${post.userNickName}</a>
 							</div>
 							<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
@@ -59,7 +64,12 @@
 					</div>
 			    </c:forEach>
     		</main>
-			<footer id="paging">페이징 부분</footer>
+			<!-- 게시글 목록 종료 -->
+			<!-- 게시글 페이징 시작 -->
+			<footer id="paging">
+				페이징 부분
+			</footer>
+			<!-- 게시글 페이징 종료 -->
 		</section>
 		<section id="info_area">
 			<!-- 로그인을 하지 않았을 경우에 보일 부분 시작 -->
@@ -72,7 +82,7 @@
 			<div id="my_menu">
 				<div id="first">
 					<div id="my_info">
-						<div class="post_userProfile"></div>
+						<div class="post_userProfile" userID=""></div>
 						<span id="my_nickname">닉네임</span>
 					</div>
 					<div id="my_logout">
@@ -96,6 +106,8 @@
 		</section>
 	</main>
 <!-- 메인 화면 종료 -->
+	<!-- Use jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 	<!-- Scripts -->
 	<script src="<c:url value="/resources/js/blog.js"/>"></script>

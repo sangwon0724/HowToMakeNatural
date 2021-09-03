@@ -5,7 +5,7 @@ html {overflow-x : hidden;}
 /* 아이콘 + 로고 + 검색창 */
 #blog_header{
 	width : 100vw;
-	height: 10vh;
+	height: 8vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -14,15 +14,16 @@ html {overflow-x : hidden;}
 #blog_header>section{
 	width : 80vw;
 	height: 100%;
+	display: flex;
 	background-color: lightgreen;
 }
 #blog_header>section>#logo{
-	width: 20%;
+	width: 22%;
 	height: 100%;
 	background-color: red;
 }
 #blog_header>section>#search{
-	width: 30%;
+	width: 35%;
 	height: 100%;
 	background-color: blue;
 }
@@ -52,7 +53,6 @@ html {overflow-x : hidden;}
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    box-sizing: border-box;
     cursor: pointer;
 }
 #blog_main_category>section>div.active, #blog_main_category>section>div:hover{
@@ -141,6 +141,7 @@ html {overflow-x : hidden;}
 	justify-content: flex-start;
 	align-items: center;
 	font-size: 1.3em;
+	cursor: pointer;
 }
 .post_profileAndName>a{
 	text-decoration:none;
@@ -334,6 +335,7 @@ html {overflow-x : hidden;}
     letter-spacing: -0.1px;
     color: #666;
     margin-top: 22.5%;
+    cursor: pointer;
 }
 #my_menu>#second{
 	height: 8vh;
@@ -366,6 +368,7 @@ html {overflow-x : hidden;}
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
+	cursor: pointer;
 }
 #my_menu>#third>div.active,
 #my_menu>#third>div:hover{

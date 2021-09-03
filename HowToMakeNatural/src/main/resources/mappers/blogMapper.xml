@@ -8,9 +8,9 @@
     <select id="selectAllPost" parameterType="hashmap" resultType="com.my.vo.blogVO" >
       		SELECT * FROM blog
       		<if test='category != null and category != ""'>
-			where category like '%#{category}%'
+			where category like '%${category}%'
  			</if>
-      		order by no desc limit #{page},10
+      		order by no desc limit ${page},10
     </select>
     
     <!-- 블로그 게시글의 개수 가져오기 -->
@@ -19,12 +19,12 @@
       		<if test='userID != null and userID != ""'>
 				where userID=#{userID}
 				<if test='category != null and category != ""'>
-					and category=#{category}
+					and category=#{category} or tag like '%#{category}%'
  				</if>
  			</if>
       		<if test='userID == null or userID == ""'>
 				<if test='category != null and category != ""'>
-					where category like '%#{category}%'
+					where category like '%#{category}%' or tag like '%#{category}%'
  				</if>
  			</if>
     </select>

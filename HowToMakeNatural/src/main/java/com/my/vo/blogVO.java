@@ -6,12 +6,15 @@ public class blogVO {
 	private int no; //글 번호
 	private String title; //제목
 	private String content; //내용
-	private String category; //분류
+	private String category; //분류 - 블로그 내부
+	private String tag; //분류 - 블로그 외부
 	private Date signdate; //작성일
 	private Date updateDate; //최종 수정일
 	private String userID; //작성자 아이디
 	private String userNickName; //작성자 닉네임
 	private int good; //좋아요 개수
+	private int page; //페이지
+	
 	public int getNo() {
 		return no;
 	}
@@ -35,6 +38,12 @@ public class blogVO {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 	public Date getSigndate() {
 		return signdate;
@@ -65,5 +74,12 @@ public class blogVO {
 	}
 	public void setGood(int good) {
 		this.good = good;
+	}
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
 	}
 }

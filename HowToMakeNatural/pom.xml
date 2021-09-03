@@ -150,6 +150,13 @@
 		    <artifactId>mariadb-java-client</artifactId>
 		    <version>2.6.0</version>
 		</dependency>
+		
+		<!-- ajax -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
 	</dependencies>
     <build>
         <plugins>
