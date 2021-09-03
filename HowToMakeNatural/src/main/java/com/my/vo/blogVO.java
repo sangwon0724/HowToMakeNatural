@@ -14,6 +14,8 @@ public class blogVO {
 	private String userNickName; //작성자 닉네임
 	private int good; //좋아요 개수
 	
+	private String object; //검색 항목
+	private String search_text; //검색 단어
 	private int page; //페이지 - 페이징용
 	
 	public int getNo() {
@@ -75,6 +77,19 @@ public class blogVO {
 	}
 	public void setGood(int good) {
 		this.good = good;
+	}
+	
+	public String getObject() {
+		return object;
+	}
+	public void setObject(String object) {
+		this.object = object;
+	}
+	public String getSearch_text() {
+		return search_text;
+	}
+	public void setSearch_text(String search_text) {
+		this.search_text = search_text;
 	}
 	
 	public int getPage() {

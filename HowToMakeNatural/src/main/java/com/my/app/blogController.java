@@ -30,12 +30,12 @@ public class blogController {
 	//7. 페이징 기능 추가
 	//8. 이웃 관련 기능 추가
 	//9. 내가 쓴 글 목록 가져오기 기능 추가
-	//10. 검색 기능 추가 (Ajax로 board 영역만 변경)
 	
 	//==========완료 목록==========
 	//1. 블로그 메인 기본 틀 완성
 	//1-1. 세션값 확인을 통한 이웃새글 파트 추가
 	//1-2. 세션값 확인을 통한 내정보 파트 및 로그인 파트 추가
+	//10. 검색 기능 추가 (Ajax로 board 영역만 변경)
 	
 	@Autowired
     private SqlSession sqlSession;
@@ -69,13 +69,15 @@ public class blogController {
 	@RequestMapping(value = "/blog/main/Ajax", method = RequestMethod.POST)
 	public Map<String, Object> getMainPostListAjax(blogVO blog,  Model model) throws Exception {
 		
-		System.out.println("Ajax 요청 - 블로그 메인 / 요청 카테고리 : "+blog.getCategory());
+		System.out.println("Ajax 요청 - 블로그 메인 / 요청 카테고리 : "+ blog.getCategory() + " / 검색 요청 항목 : " + blog.getObject() + " / 검색 요청 문자 : "+blog.getSearch_text());
 		
 		List<blogVO> postList;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", blog.getPage());
 		map.put("category", blog.getCategory());
+		map.put("object", blog.getObject());
+		map.put("search", blog.getSearch_text());
 		
 		postList=blogService.selectPost(map); //게시글 10개
 		int count = blogService.selectCount(map); //게시글 총 개수

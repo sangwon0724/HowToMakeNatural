@@ -1,4 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
@@ -75,6 +74,13 @@
 				<span class="category_name" category="요리">요리</span>
 			</header>
 			<!-- 게시글 카테고리 종료 -->
+			<!-- 검색시 게시글 카테고리 시작 -->
+			<header id="search_category" class="hidden">
+				<span class="search_category_name active" category="post">제목/내용</span>
+				<span class="search_category_name" category="theme">주제</span>
+				<span class="search_category_name" category="writer">닉네임/아이디</span>
+			</header>
+			<!-- 검색시 게시글 카테고리 종료 -->
 			<!-- 게시글 목록 시작 -->
 			<main id="board">
 				<c:forEach items="${postList}" var="post" begin="0" end="10">

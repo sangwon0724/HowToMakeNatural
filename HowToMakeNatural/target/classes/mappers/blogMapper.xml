@@ -19,6 +19,17 @@
 				<if test='category != null and category != ""'>
 					where category like '%${category}%' or tag like '%${category}%'
  				</if>
+				<if test='object != null and object != ""'>
+					<if test='object =="post"'>
+						where title like '%${search}%' or content like '%${search}%'
+	 				</if>
+					<if test='object =="theme"'>
+						where category like '%${search}%' or tag like '%${search}%'
+	 				</if>
+					<if test='object =="writer"'>
+						where userID like '%${search}%' or userNickName like '%${search}%'
+	 				</if>
+ 				</if>
  			</if>
       		order by no desc limit ${page*10},10
     </select>
