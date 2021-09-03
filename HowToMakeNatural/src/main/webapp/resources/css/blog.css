@@ -9,12 +9,22 @@ html {overflow-x : hidden;}
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: skyblue;
+	background-color: #a29bfe;
 }
 #blog_header>section{
 	width : 80vw;
 	height: 100%;
 	background-color: lightgreen;
+}
+#blog_header>section>#logo{
+	width: 20%;
+	height: 100%;
+	background-color: red;
+}
+#blog_header>section>#search{
+	width: 30%;
+	height: 100%;
+	background-color: blue;
 }
 
 /*============================================================================================================*/
@@ -46,8 +56,8 @@ html {overflow-x : hidden;}
     cursor: pointer;
 }
 #blog_main_category>section>div.active, #blog_main_category>section>div:hover{
-	border-bottom: 5px solid #00ab33;
-	color: #00ab33;
+	border-bottom: 5px solid #a29bfe;
+	color: #a29bfe;
 	font-weight: bold;
 }
 
@@ -92,7 +102,7 @@ html {overflow-x : hidden;}
     cursor: pointer;
 }
 .category_name.active{
-	color: #00ab33;
+	color: #a29bfe;
 	font-weight: bold;
 }
 .category_name:hover{
@@ -222,6 +232,9 @@ html {overflow-x : hidden;}
 	display: flex;
 	flex-direction: column;
 }
+
+
+
 /* 로그인 + 아이디 및 비밀번호 찾기 + 회원가입 */
 #sign{
 	width: 100%;
@@ -230,7 +243,8 @@ html {overflow-x : hidden;}
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	background-color: #a4b0be;
+	background-color: #a29bfe;
+    border: 1px solid #6c5ce7;
 }
 #sign>#login{
 	width: 87.5%;
@@ -238,14 +252,16 @@ html {overflow-x : hidden;}
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
     border: 1px solid #ccc;
     background-color: #fff;
     text-align: center;
     line-height: 1;
     margin-top: 5%;
-    color: black;
+    color: #6c5ce7;
+    font-weight: bolder;
+    font-size: 1.5em;
 }
 #sign>#searchAndSignUp{
 	width: 87.5%;
@@ -262,26 +278,102 @@ html {overflow-x : hidden;}
 #sign>#searchAndSignUp>#signUp{
 	cursor: pointer;
 }
+
+
+
 /* 내 정보 + 내 블로그 */
 #my_menu{
 	width: 100%;
-	height: 65vh;
+	height: 66vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
 	background-color: #a4b0be;
+    border: 1px solid #6c5ce7;
 }
 #my_menu>#first,
 #my_menu>#second,
 #my_menu>#third{
 	width: 100%;
-	height: 7.5vh;
 	background-color: #ecf0f1;
 	border-bottom: 1px solid #c8d6e5;
+}
+#my_menu>#first{
+	height: 8.5vh;
+	display: flex;
+}
+#my_menu>#first>#my_info{
+	width: 70%;
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+#my_menu>#first>#my_info>.post_userProfile{
+	margin: 0 5%;
+	cursor: pointer;
+}
+#my_menu>#first>#my_info>#my_nickname{
+	color: black;
+	font-weight: bold;
+	cursor: pointer;
+}
+#my_menu>#first>#my_info>#my_nickname:hover{
+	text-decoration: underline;
+}
+#my_menu>#first>#my_logout{
+	width: 30%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+#my_menu>#first>#my_logout>#logout{
+	border: 1px solid #6c5ce7;
+    letter-spacing: -0.1px;
+    color: #666;
+    margin-top: 22.5%;
+}
+#my_menu>#second{
+	height: 8vh;
+	background-color: #a29bfe;
+	display: flex;
+}
+#my_menu>#second>div{
+	width: 50%;
+	height: 100%;
+	color: white;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+#my_menu>#second>div#my_blog{
+    border-right: 0.5px solid #6c5ce7;
+}
+#my_menu>#second>div#write_new_post{
+    border-left: 0.5px solid #6c5ce7;
+}
+#my_menu>#third{
+	height: 7vh;
+	display: flex;
+}
+#my_menu>#third>div{
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+}
+#my_menu>#third>div.active,
+#my_menu>#third>div:hover{
+	font-weight: bold;
+	border-bottom: 1px solid black;
 }
 #my_menu>#show_info{
 	width: 100%;
 	height: 42.5vh;
-	background-color: red;
+	background-color: white;
 }

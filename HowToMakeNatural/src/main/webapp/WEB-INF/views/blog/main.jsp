@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	<link href="<c:url value="/resources/css/reset.css" />" rel="stylesheet" type="text/css">
 	<link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/34a8d510cf.js" crossorigin="anonymous"></script>
 	<title>블로그 메인</title>
 </head>
 <body>
@@ -70,15 +71,20 @@
 			<!-- 로그인시 보이는 화면 시작 -->
 			<div id="my_menu">
 				<div id="first">
-					<div id="my_info">간락한 내정보</div>
-					<div id="logout">로그아웃</div>
+					<div id="my_info">
+						<div class="post_userProfile"></div>
+						<span id="my_nickname">닉네임</span>
+					</div>
+					<div id="my_logout">
+						<div id="logout">로그아웃</div>
+					</div>
 				</div>
 				<div id="second">
-					<div id="my_blog">내 블로그</div>
-					<div id="write_new_post">글쓰기</div>
+					<div id="my_blog"><span>내 블로그</span></div>
+					<div id="write_new_post"><i class="fas fa-pen"></i>&nbsp;&nbsp;<span>글쓰기</span></div>
 				</div>
 				<div id="third">
-					<div id="my_news">새소식</div>
+					<div id="my_news" class="active">새소식</div>
 					<div id="my_post">내 글</div>
 					<div id="my_neighbor">내 이웃</div>
 				</div>
@@ -92,6 +98,6 @@
 <!-- 메인 화면 종료 -->
 
 	<!-- Scripts -->
-	<script src="<c:url value="/resources/js/blog.js" />"></script>
+	<script src="<c:url value="/resources/js/blog.js"/>"></script>
 </body>
 </html>
