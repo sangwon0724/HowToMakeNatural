@@ -10,10 +10,24 @@ $('#logout').on('click',function(){
 
 //프로필 사진 클릭시 해당 유저의 블로그로 이동
 $('.post_userProfile').on('click', function(event){
-    	location.href="/blog/"+$(event.target).attr("userID");
+	//location.href="/blog/"+$(event.target).attr("userID");
+	location.href="/blog/"+$("#my_ID").val();
 });
+
+//내 닉네임 클릭시 내 블로그로 이동
 $('#my_nickname').on('click', function(event){
-	location.href="/blog/"+$(event.target).attr("userID");
+	//location.href="/blog/"+$(event.target).attr("userID");
+	location.href="/blog/"+$("#my_ID").val();
+});
+
+//내 블로그 클릭시 내 블로그로 이동
+$('#my_blog').on('click', function(event){
+	location.href="/blog/"+$("#my_ID").val();
+});
+
+//글 쓰기 클릭시 내 블로그의 글쓰기 화면으로 이동
+$('#write_new_post').on('click', function(event){
+	location.href="/blog/"+$("#my_ID").val()+"/write";
 });
 
 //게시글 카테고리 클릭

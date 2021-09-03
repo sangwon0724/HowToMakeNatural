@@ -85,10 +85,11 @@
 			<!-- 로그인시 보이는 화면 시작 -->
 			<c:if test="${not  empty sessionScope.user.id}">
 			<div id="my_menu">
+				<input type="hidden" id="my_ID" value="${sessionScope.user.id}">
 				<div id="first">
 					<div id="my_info">
 						<div class="post_userProfile" userID="${sessionScope.user.id}"></div>
-						<span id="my_nickname" userID="${sessionScope.user.id}">닉네임</span>
+						<span id="my_nickname">닉네임</span>
 					</div>
 					<div id="my_logout">
 						<div id="logout">로그아웃</div>

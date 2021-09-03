@@ -61,14 +61,14 @@ public class userController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String getLogout(HttpServletRequest request, HttpSession session) throws Exception {
 		System.out.println("start logout - method : get");
-		
-		userService.logout(session);
 
-		//로그인 전의 페이지 주소를 세션에 저장
+		//로그인 전의 페이지 주소를 String 변수에 저장
 		String referer = request.getHeader("Referer");
-		request.getSession().setAttribute("redirectURI", referer);
+
+		//세션 무효화
+		userService.logout(session);
 	   
 		//로그아웃 하기 전의 페이지 주소로 이동
-		return "redirect:"+(String) session.getAttribute("redirectURI");
+		return "redirect:"+referer;
 	}
 }
