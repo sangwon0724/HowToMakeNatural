@@ -17,8 +17,8 @@ public class blogDAO implements blogDAOInterface {
 	
 	/* 메인에서 가장 최근글 10개 긁어오기 */
 	@Override
-	public List<blogVO> selectAllPost(Map<String, Object> map) throws Exception {
-		return sqlSession.selectList("blogMapper.selectAllPost", map);
+	public List<blogVO> selectPost(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList("blogMapper.selectPost", map);
 	}
 	
 	/* 게시글 개수 가져요기 */
@@ -28,10 +28,6 @@ public class blogDAO implements blogDAOInterface {
 		return count;
 	}
 	
-	@Override
-	public List<blogVO> selectPost(String category) throws Exception {
-		return sqlSession.selectList("blogMapper.selectPost",category);
-	}
 
 	@Override
 	public blogVO selectOnePost(int no) throws Exception {
@@ -51,10 +47,5 @@ public class blogDAO implements blogDAOInterface {
 	@Override
 	public void deletePost(blogVO vo) throws Exception {
 		sqlSession.delete("blogMapper.deletePost", vo);
-	}
-
-	@Override
-	public void deleteCategory(blogVO vo) throws Exception {
-		sqlSession.delete("blogMapper.deleteCategory", vo);
 	}
 }

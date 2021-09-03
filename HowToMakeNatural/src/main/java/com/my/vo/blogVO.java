@@ -13,7 +13,8 @@ public class blogVO {
 	private String userID; //작성자 아이디
 	private String userNickName; //작성자 닉네임
 	private int good; //좋아요 개수
-	private int page; //페이지
+	
+	private int page; //페이지 - 페이징용
 	
 	public int getNo() {
 		return no;

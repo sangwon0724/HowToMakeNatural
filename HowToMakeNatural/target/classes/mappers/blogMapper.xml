@@ -5,33 +5,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blogMapper">
 	<!-- 블로그 메인 페이지의 글 가져오기 -->
-    <select id="selectAllPost" parameterType="hashmap" resultType="com.my.vo.blogVO" >
+    <!-- 아이디 값 존재 O => 해당 유저의 블로그에 대한 글  가져오기 -->
+    <!-- 아이디 값 존재 X => 블로그 메인에 대한 글 가져오기 -->
+    <select id="selectPost" parameterType="hashmap" resultType="com.my.vo.blogVO" >
       		SELECT * FROM blog
-      		<if test='category != null and category != ""'>
-			where category like '%${category}%'
- 			</if>
-      		order by no desc limit ${page},10
-    </select>
-    
-    <!-- 블로그 게시글의 개수 가져오기 -->
-    <select id="selectCount" parameterType="hashmap" resultType="java.lang.Integer" >
-      		SELECT COUNT(*) FROM blog
       		<if test='userID != null and userID != ""'>
-				where userID=#{userID}
+				where userID=${userID}
 				<if test='category != null and category != ""'>
-					and category=#{category} or tag like '%#{category}%'
+					and category='%${category}%' or tag like '%${category}%'
  				</if>
  			</if>
       		<if test='userID == null or userID == ""'>
 				<if test='category != null and category != ""'>
-					where category like '%#{category}%' or tag like '%#{category}%'
+					where category like '%${category}%' or tag like '%${category}%'
+ 				</if>
+ 			</if>
+      		order by no desc limit ${page*10},10
+    </select>
+    
+    <!-- 블로그 게시글의 개수 가져오기 -->
+    <!-- 아이디 값 존재 O => 해당 유저의 블로그에서 글 개수 가져오기 -->
+    <!-- 아이디 값 존재 X => 블로그 메인에서 글 개수 가져오기 -->
+    <select id="selectCount" parameterType="hashmap" resultType="java.lang.Integer" >
+      		SELECT COUNT(*) FROM blog
+      		<if test='userID != null and userID != ""'>
+				where userID=${userID}
+				<if test='category != null and category != ""'>
+					and category='%${category}%' or tag like '%${category}%'
+ 				</if>
+ 			</if>
+      		<if test='userID == null or userID == ""'>
+				<if test='category != null and category != ""'>
+					where category like '%${category}%' or tag like '%${category}%'
  				</if>
  			</if>
     </select>
     
-    <select id="selectPost" resultType="com.my.vo.blogVO" >
-      		SELECT * FROM blog where category=#{category} order by no desc
-    </select>
     <select id="selectOnePost" resultType="com.my.vo.blogVO" >
       		SELECT * FROM blog where no=#{no}
     </select>
@@ -43,8 +52,5 @@
     </update>
     <delete id="deletePost">
     	delete from blog where no=#{no} and writerID=#{writerID}
-    </delete>
-    <delete id="deleteCategory">
-    	delete from blog where category=#{writerID} and userID=#{writerID}
     </delete>
 </mapper>

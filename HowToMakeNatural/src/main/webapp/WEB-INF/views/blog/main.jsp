@@ -8,15 +8,44 @@
 	<meta charset="UTF-8">
 	<link href="<c:url value="/resources/css/reset.css" />" rel="stylesheet" type="text/css">
 	<link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet" type="text/css">
+	
+	<!-- 아이콘 -->
     <script src="https://kit.fontawesome.com/34a8d510cf.js" crossorigin="anonymous"></script>
+    
+    <!-- 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Allison&display=swap" rel="stylesheet">
+    
 	<title>블로그 메인</title>
 </head>
 <body>
 <!-- 아이콘 + 로고 + 검색창 시작 -->
 	<header id="blog_header">
 		<section>
-			<div id="logo">로고</div>
-			<div id="search"></div>
+			<div id="logo">
+				<span>Totalian</span>
+			</div>
+			<div id="search">
+				<div id="search_box">
+					<select id="search_object">
+						<option value="post">제목/내용</option>
+						<option value="theme">주제</option>
+						<option value="writer">닉네임/아이디</option>
+					</select>
+					<input type="text" id="search_text">
+					<div id="search_button">
+						<i class="fas fa-search"></i>
+					</div>
+				</div>
+			</div>
+			<div id="blank"></div>
+			<div id="login_small">
+				<div>로그인</div>
+			</div>
+			<div id="all_menu">
+				<i class="fas fa-th"></i>
+			</div>
 		</section>
 	</header>
 <!-- 아이콘 + 로고 + 검색창 종료 -->

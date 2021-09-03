@@ -2,6 +2,9 @@
 $('#login').on('click',function(){
 	location.href="/login";
 });
+$('#blog_header>section>#login_small>div').on('click',function(){
+	location.href="/login";
+});
 
 //로그아웃
 $('#logout').on('click',function(){
@@ -47,9 +50,9 @@ $('#category > .category_name').on('click', function(event){
         type: "POST",
         data: form,
         success: function(result){
-        	//alert("성공");
         	var postList="";
-        	$.each(result, function (index, item) {
+        	
+        	$.each(result.postList, function (index, item) {
         		postList+=
                `<div class="post">
                    <div class="post_content">

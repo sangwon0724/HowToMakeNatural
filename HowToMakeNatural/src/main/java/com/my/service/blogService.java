@@ -16,19 +16,14 @@ public class blogService implements blogServiceInterface {
 	
 	/* 메인에서 가장 최근글 10개 긁어오기 */
 	@Override
-	public List<blogVO> selectAllPost(Map<String, Object> map) throws Exception {
-		return dao.selectAllPost(map);
+	public List<blogVO> selectPost(Map<String, Object> map) throws Exception {
+		return dao.selectPost(map);
 	}
 	
 	/* 게시글 개수 가져요기 */
 	@Override
 	public int selectCount(Map<String, Object> map) throws Exception {
 		return dao.selectCount(map);
-	}
-
-	@Override
-	public List<blogVO> selectPost(String category) throws Exception {
-		return dao.selectPost(category);
 	}
 
 	@Override
@@ -49,10 +44,5 @@ public class blogService implements blogServiceInterface {
 	@Override
 	public void deletePost(blogVO vo) throws Exception {
 		dao.deletePost(vo);
-	}
-
-	@Override
-	public void deleteCategory(blogVO vo) throws Exception {
-		dao.deleteCategory(vo);
 	}
 }
