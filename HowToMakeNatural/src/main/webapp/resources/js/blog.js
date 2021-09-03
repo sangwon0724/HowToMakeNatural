@@ -1,6 +1,19 @@
+//로그인
+$('#login').on('click',function(){
+	location.href="/login";
+});
+
+//로그아웃
+$('#logout').on('click',function(){
+	location.href="/logout";
+});
+
 //프로필 사진 클릭시 해당 유저의 블로그로 이동
 $('.post_userProfile').on('click', function(event){
     	location.href="/blog/"+$(event.target).attr("userID");
+});
+$('#my_nickname').on('click', function(event){
+	location.href="/blog/"+$(event.target).attr("userID");
 });
 
 //게시글 카테고리 클릭

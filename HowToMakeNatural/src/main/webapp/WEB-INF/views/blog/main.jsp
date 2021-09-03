@@ -25,7 +25,9 @@
 		<section>
 			<div class="active">블로그홈</div>
 			<!-- 로그인시 보이는 화면 시작 -->
-			<div class="">이웃 새글</div>
+			<c:if test="${not empty sessionScope.user.id}">
+				<div class="">이웃 새글</div>
+			</c:if>
 			<!-- 로그인시 보이는 화면 종료 -->
 		</section>
 	</header>
@@ -73,17 +75,20 @@
 		</section>
 		<section id="info_area">
 			<!-- 로그인을 하지 않았을 경우에 보일 부분 시작 -->
+			<c:if test="${empty sessionScope.user.id}">
 			<div id="sign">
 				<div id="login"><span>Totailian 로그인</span></div>
 				<div id="searchAndSignUp"><span><span id="searchID">아이디 찾기</span> | <span id="searchPW">비밀번호 찾기</span></span><span id="signUp">회원가입</span></div>
 			</div>
+			</c:if>
 			<!-- 로그인을 하지 않았을 경우에 보일 부분 종료 -->
 			<!-- 로그인시 보이는 화면 시작 -->
+			<c:if test="${not  empty sessionScope.user.id}">
 			<div id="my_menu">
 				<div id="first">
 					<div id="my_info">
-						<div class="post_userProfile" userID=""></div>
-						<span id="my_nickname">닉네임</span>
+						<div class="post_userProfile" userID="${sessionScope.user.id}"></div>
+						<span id="my_nickname" userID="${sessionScope.user.id}">닉네임</span>
 					</div>
 					<div id="my_logout">
 						<div id="logout">로그아웃</div>
@@ -102,6 +107,7 @@
 					정보가 보여질 부분
 				</div>
 			</div>
+			</c:if>
 			<!-- 로그인시 보이는 화면 종료 -->
 		</section>
 	</main>

@@ -263,6 +263,7 @@ html {overflow-x : hidden;}
     color: #6c5ce7;
     font-weight: bolder;
     font-size: 1.5em;
+    cursor: pointer;
 }
 #sign>#searchAndSignUp{
 	width: 87.5%;
