@@ -1,8 +1,6 @@
+/* 공통 부분 - 차후에 분리 */
 //로그인
 $('#login').on('click',function(){
-	location.href="/login";
-});
-$('#blog_header>section>#login_small>div').on('click',function(){
 	location.href="/login";
 });
 
@@ -14,6 +12,16 @@ $('#logout').on('click',function(){
 //로고 클릭
 $('#logo>span').on('click', function(event){
 	location.href="/";
+});
+
+
+/*============================================================================================================*/
+
+/* 블로그 메인 부분 */
+
+//로그인
+$('#blog_header>section>#login_small>div').on('click',function(){
+	location.href="/login";
 });
 
 //프로필 사진 클릭시 해당 유저의 블로그로 이동
@@ -38,8 +46,8 @@ $('#write_new_post').on('click', function(event){
 	location.href="/blog/"+$("#my_ID").val()+"/write";
 });
 
-//검색 기능
-$('#search_button').on('click', function(event){
+//검색 기능 - 블로그 메인
+$('#common_header>section>#search>#search_box>#search_button').on('click', function(event){
 	//강조 변경
 	$('#blog_main_category>section>div').removeClass('active');
 	$('#category').addClass('hidden');
@@ -74,7 +82,7 @@ $('#search_button').on('click', function(event){
       	
       	$.each(result.postList, function (index, item) {
       		postList+=
-             `<div class="post">
+             `<div class="main_post">
                  <div class="post_content">
 					<div class="post_profileAndName">
 						<div class="post_userProfile" userID="${item.userID}"></div>
@@ -98,7 +106,7 @@ $('#search_button').on('click', function(event){
       }
   });
 });
-$("#search_text").on("keyup",function(key){
+$("#common_header>section>#search>#search_box>#search_text").on("keyup",function(key){
     if(key.keyCode==13) {
     	$('#search_button').click();
     }
@@ -127,7 +135,7 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
         	
         	$.each(result.postList, function (index, item) {
         		postList+=
-               `<div class="post">
+               `<div class="main_post">
                    <div class="post_content">
 					<div class="post_profileAndName">
 						<div class="post_userProfile" userID="${item.userID}"></div>
@@ -188,7 +196,7 @@ $('#search_category > .search_category_name').on('click', function(event){
       	
       	$.each(result.postList, function (index, item) {
       		postList+=
-             `<div class="post">
+             `<div class="main_post">
                  <div class="post_content">
 					<div class="post_profileAndName">
 						<div class="post_userProfile" userID="${item.userID}"></div>
@@ -234,7 +242,7 @@ $('#category > .category_name').on('click', function(event){
         	
         	$.each(result.postList, function (index, item) {
         		postList+=
-               `<div class="post">
+               `<div class="main_post">
                    <div class="post_content">
 					<div class="post_profileAndName">
 						<div class="post_userProfile" userID="${item.userID}"></div>
@@ -258,3 +266,7 @@ $('#category > .category_name').on('click', function(event){
         }
     });
 });
+
+/*============================================================================================================*/
+
+/* 개인 블로그 부분 */

@@ -60,6 +60,7 @@
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
+	margin: 1vh auto 0 auto;
 	background-color: red;/*임시*/
 }
 #profile_panel>#profile_image{
@@ -84,7 +85,7 @@
 	height: 4vh;
 	border: 1px solid black;
 	overflow-y: hidden;
-	margin: 1vh 0;
+	margin: 1vh auto 0 auto;
 }
 #search_panel>#search_text{
 	width: 80%;
@@ -108,13 +109,13 @@
 #category_panel{
 	width: 95%;
 	height: 20vh;
-	margin-top: 1vh;
+	margin: 1vh auto 0 auto;
 	background-color: lightblue;/*임시*/
 }
 #neighbor_panel{
 	width: 95%;
 	height: 45vh;
-	margin-top: 1vh;
+	margin: 1vh auto 0 auto;
 	background-color: blue;/*임시*/
 }
 

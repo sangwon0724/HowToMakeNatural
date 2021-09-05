@@ -12,7 +12,7 @@
 </head>
 <body>
 <!-- 아이콘 + 로고 + 검색창 시작 -->
-	<header id="blog_header">
+	<header id="common_header">
 		<section>
 			<div id="logo">
 				<span>Totalian</span>
@@ -89,7 +89,16 @@
 								<span>댓글 0</span>
 							</div>
 						</div>
-						<div class="post_image"></div>
+						
+						<div class="post_image"
+							<%-- 임시 코드 사용하는 부분 시작 --%>
+							<c:if test="${post.no == 22}"> style="background-image : url('<c:url value="/resources/image/test/cheeze.jpg"/>');background-size:cover;"</c:if>
+							<c:if test="${post.no == 21}"> style="background-image : url('<c:url value="/resources/image/test/googleAndApple.jpg"/>');background-size:cover;"</c:if>
+							<c:if test="${post.no == 20}"> style="background-image : url('<c:url value="/resources/image/test/penthouse.jpg"/>');background-size:cover;"</c:if>
+						>
+						<%-- 임시 코드 사용하는 부분 종료 --%>
+						</div>
+						
 					</div>
 			    </c:forEach>
     		</main>
