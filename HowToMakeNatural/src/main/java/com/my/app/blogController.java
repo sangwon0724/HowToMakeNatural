@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.service.blogServiceInterface;
 import com.my.vo.blogVO;
+import com.my.service.userServiceInterface;
+import com.my.vo.userVO;
 
 @Controller
 public class blogController {
@@ -44,6 +46,9 @@ public class blogController {
 	
 	@Inject
 	private blogServiceInterface blogService;
+	
+	@Inject
+	private userServiceInterface userService;
 	
 	/* 블로그 메인 */
 	@RequestMapping(value = "/blog/main", method = RequestMethod.GET)
@@ -93,10 +98,11 @@ public class blogController {
 	
 	/* 개인 블로그 */
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
-	public String getpersonalPostList(@PathVariable String userID, Model model) throws Exception {
+	public String getPersonalBlog(@PathVariable String userID, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
+		//게시글 긁어오기
 		List<blogVO> postList;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -107,10 +113,12 @@ public class blogController {
 		postList=blogService.selectPost(map); //게시글 10개
 		int count = blogService.selectCount(map); //게시글 총 개수
 		
+		//해당 블로그의 유저 정보 가져오기
+		userVO userInfo=userService.selectUserInfoForBlog(userID);
+		
 		model.addAttribute("postList", postList);
 		model.addAttribute("count", count);
-		model.addAttribute("userID", userID);
-		
+		model.addAttribute("userInfo", userInfo);
 	    return "/blog/personal";
 	}
 }

@@ -1,18 +1,169 @@
 @charset "UTF-8";
 
+/* 전체를 중앙에 위치 */
+#center_panel{
+	width : 82.3vw;
+	height: auto;
+	min-height: 100vh;
+	margin: 0 auto;
+	background-color: red;/*임시*/
+}
+/*============================================================================================================*/
+
 /* 블로그 네비게이션 */
+#nav{
+	width : 100%;
+	height: 7vh;
+	background-color: lightgray;/*임시*/
+}
 
 /*============================================================================================================*/
 
 /* 블로그 배경글 (=최상단 로고) */
+#background_logo{
+	width : 100%;
+	height: 20vh;
+	margin-bottom: 3vh;
+	background-color: lightblue;/*임시*/
+}
 
 /*============================================================================================================*/
 
-/* 프로필 + 카테고리 + 위젯 */
+/* 블로그 메인 화면 (jstl로 값 비교해서 스타일 변경) */
+#blog_personal_main{
+	width: 100%;
+	height: auto;
+	min-height: 68vh;
+	background-color: green;/*임시*/
+}
+#blog_personal_main.typeA{
+	display: flex;
+	justify-content: space-between;
+}
+#blog_personal_main>div:not(#bottom){
+	min-height: 68vh;
+}
 /*============================================================================================================*/
 
-/* 중앙 */
+/* 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 (typeA)*/
+#left{
+	width: 20%;
+	background-color: lightgray;/*임시*/
+}
+#profile_panel{
+	width: 95%;
+	height: 50vh;
+	margin-top: 1vh;
+	border: 1px solid black;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	background-color: red;/*임시*/
+}
+#profile_panel>#profile_image{
+	width: 95%;
+	height: 55%;
+	background-color: yellow;/*임시*/
+}
+#profile_panel>#profile_text{
+	width: 95%;
+	height: 13%;
+	font-size: 0.9em;
+	background-color: lightblue;/*임시*/
+}
+#profile_panel>#personal_buttons{
+	width: 95%;
+	height: 12%;
+	font-size: 0.9em;
+	background-color: lightgreen;/*임시*/
+}
+#search_panel{
+	width: 95%;
+	height: 4vh;
+	border: 1px solid black;
+	overflow-y: hidden;
+	margin: 1vh 0;
+}
+#search_panel>#search_text{
+	width: 80%;
+	height: 100%;
+	text-indent: 10px;
+	background-color: white;
+}
+#search_panel>#search_text:focus{
+	outline: none;
+}
+#search_panel>#search_button{
+	width: 20%;
+	height: 100%;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	cursor: pointer;
+	background-color: black;
+}
+#category_panel{
+	width: 95%;
+	height: 20vh;
+	margin-top: 1vh;
+	background-color: lightblue;/*임시*/
+}
+#neighbor_panel{
+	width: 95%;
+	height: 45vh;
+	margin-top: 1vh;
+	background-color: blue;/*임시*/
+}
 
 /*============================================================================================================*/
 
-/* 이웃목록 + 위젯 */
+/* 게시글 (jstl로 값 비교해서 스타일 변경) */
+#center{
+	width: 67%;
+	background-color: lightyellow;/*임시*/
+}
+#center.typeA{margin-right: 5vw;}
+#center.typeB{}
+/* 게시글 목록 (목록 얼기/닫기 가능 O) */
+#post_list_summary_O{
+	width: 100%;
+	height: auto;
+	min-height: 7vh;
+	margin: 3vh 0;
+	background-color: pink;/*임시*/
+}
+/* 게시글이 보이는 화면 */
+#post_panel{
+	width: 100%;
+	height: auto;
+	min-height: 20vh;
+	background-color: yellow;/*임시*/
+}
+/* 게시글 */
+.personal_post{
+	width : 100%;
+	height: 30vh;
+	display : flex;
+	justify-content : space-between;
+	border-bottom: 1px solid #dfe4ea;
+	margin-top: 1vh;
+}
+/* 게시글 목록 (목록 얼기/닫기 가능 X) */
+#post_list_summary_X{
+	width: 100%;
+	height: 20vh;
+	margin: 3vh 0;
+	background-color: pink;/*임시*/
+}
+
+/*============================================================================================================*/
+
+/* 프로필 + 카테고리 + 이웃목록 + 위젯  (typeB)*/
+#bottom{
+	width: 100%;
+	height: 20vh;
+	background-color: lightpurple;/*임시*/
+}

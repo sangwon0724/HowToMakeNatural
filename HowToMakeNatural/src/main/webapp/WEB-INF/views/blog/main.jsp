@@ -76,7 +76,7 @@
 			<!-- 게시글 목록 시작 -->
 			<main id="board">
 				<c:forEach items="${postList}" var="post" begin="0" end="10">
-					<div class="post">
+					<div class="main_post">
 						<div class="post_content">
 							<div class="post_profileAndName">
 								<div class="post_userProfile" userID="${post.userID}"></div>
