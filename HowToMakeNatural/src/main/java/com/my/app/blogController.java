@@ -95,7 +95,7 @@ public class blogController {
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
 	public String getpersonalPostList(@PathVariable String userID, Model model) throws Exception {
 		
-		System.out.println("개인 블로그 - " + userID);
+		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
 		List<blogVO> postList;
 		
@@ -109,6 +109,7 @@ public class blogController {
 		
 		model.addAttribute("postList", postList);
 		model.addAttribute("count", count);
+		model.addAttribute("userID", userID);
 		
 	    return "/blog/personal";
 	}
