@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,5 +89,27 @@ public class blogController {
 		result.put("count", count);
 		
 	    return result;
+	}
+	
+	/* 개인 블로그 */
+	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
+	public String getpersonalPostList(@PathVariable String userID, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 - " + userID);
+		
+		List<blogVO> postList;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", 0);
+		map.put("category", "");
+		map.put("userID", userID);
+		
+		postList=blogService.selectPost(map); //게시글 10개
+		int count = blogService.selectCount(map); //게시글 총 개수
+		
+		model.addAttribute("postList", postList);
+		model.addAttribute("count", count);
+		
+	    return "/blog/personal";
 	}
 }

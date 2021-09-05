@@ -13,7 +13,7 @@
     <!-- B-1. 카테고리 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <!-- B-2. 검색 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <select id="selectPost" parameterType="hashmap" resultType="com.my.vo.blogVO" >
-      		SELECT * FROM blog
+      		SELECT * FROM blog_post
       		<if test='userID != null and userID != ""'>
 				where userID=${userID}
 				<if test='category != null and category != ""'>
@@ -51,7 +51,7 @@
     <!-- 아이디 값 존재 O => 해당 유저의 블로그에서 글 개수 가져오기 -->
     <!-- 아이디 값 존재 X => 블로그 메인에서 글 개수 가져오기 -->
     <select id="selectCount" parameterType="hashmap" resultType="java.lang.Integer" >
-      		SELECT COUNT(*) FROM blog
+      		SELECT COUNT(*) FROM blog_post
       		<if test='userID != null and userID != ""'>
 				where userID=${userID}
 				<if test='category != null and category != ""'>
@@ -66,15 +66,15 @@
     </select>
     
     <select id="selectOnePost" resultType="com.my.vo.blogVO" >
-      		SELECT * FROM blog where no=#{no}
+      		SELECT * FROM blog_post where no=#{no}
     </select>
     <insert id="insertPost" parameterType="com.my.vo.blogVO">
-    	insert into blog(no, text, category, writerID, signdate) values (#{name}, #{text}, #{category}, #{writerID}, NOW())
+    	insert into blog_post(no, text, category, writerID, signdate) values (#{name}, #{text}, #{category}, #{writerID}, NOW())
     </insert>
     <update id="updatePost">
-    	update blog set category=#{category},text=#{text},signdate=NOW() where no=#{no}
+    	update blog_post set category=#{category},text=#{text},signdate=NOW() where no=#{no}
     </update>
     <delete id="deletePost">
-    	delete from blog where no=#{no} and writerID=#{writerID}
+    	delete from blog_post where no=#{no} and writerID=#{writerID}
     </delete>
 </mapper>
