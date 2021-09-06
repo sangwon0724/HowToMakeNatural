@@ -141,6 +141,7 @@
 	width: 100%;
 	height: auto;
 	min-height: 20vh;
+	margin: 10vh 0;
 	background-color: yellow;/*임시*/
 }
 /* 게시글 */
@@ -158,6 +159,26 @@
 	height: 20vh;
 	margin: 3vh 0;
 	background-color: pink;/*임시*/
+}
+/* 게시글 목록 공통 */
+.post_summary_list{
+	width: 100%;
+	height: 100%;
+}
+.post_summary_list>thead>tr>th{
+	color: lightgray;
+}
+.post_summary_list>thead>tr>th>.title{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 1vw;
+}
+.post_summary_list>thead>tr>th>.date{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding-right: 1vw;
 }
 
 /*============================================================================================================*/
