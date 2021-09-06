@@ -16,6 +16,9 @@
 </title>
 </head>
 <body>
+	<!-- 히든 값 영역 시작 -->
+	<input type="hidden" id="blogUserID" value="${userInfo.id}">
+	<!-- 히든 값 영역 종료 -->
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
 		<nav id="nav">
@@ -84,7 +87,7 @@
 				<!-- 게시글 목록 종료 (목록 열기/닫기 가능 O) -->
 				<!-- 게시글이 보이는 화면 시작 -->
 				<main id="post_panel">
-					<c:forEach items="${postList}" var="post" begin="0" end="10">
+					<c:forEach items="${postList}" var="post" begin="0" end="0">
 					<div class="personal_post">
 						<div class="post_content">
 							<div class="post_profileAndName">

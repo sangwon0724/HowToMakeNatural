@@ -47,7 +47,13 @@
 	 				</if>
  				</if>
  			</if>
-      		order by no desc limit ${page*10},10
+      		order by no desc
+			<if test='block == null or block == ""'>
+				limit ${page*10},5
+			</if>
+			<if test='block != null or block != ""'>
+				limit ${page*10},${block}
+			</if>
     </select>
     
     <!-- 블로그 게시글의 개수 가져오기 -->

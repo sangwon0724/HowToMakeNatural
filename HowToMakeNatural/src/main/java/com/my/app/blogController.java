@@ -62,6 +62,7 @@ public class blogController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", 0);
 		map.put("category", "");
+		map.put("block", 10);
 		
 		postList=blogService.selectPost(map); //게시글 10개
 		int count = blogService.selectCount(map); //게시글 총 개수
@@ -86,6 +87,7 @@ public class blogController {
 		map.put("category", blog.getCategory());
 		map.put("object", blog.getObject());
 		map.put("search", blog.getSearch_text());
+		map.put("block", blog.getBlock());
 		
 		postList=blogService.selectPost(map); //게시글 10개
 		int count = blogService.selectCount(map); //게시글 총 개수
@@ -110,6 +112,7 @@ public class blogController {
 		map.put("page", 0);
 		map.put("category", "");
 		map.put("userID", userID);
+		map.put("block", 5);
 		
 		postList=blogService.selectPost(map); //게시글 10개
 		int count = blogService.selectCount(map); //게시글 총 개수
@@ -137,6 +140,7 @@ public class blogController {
 		map.put("category", "");
 		map.put("userID", userID);
 		map.put("no", no);
+		map.put("block", 5);
 		
 		postList=blogService.selectPost(map); //게시글 검색
 		
@@ -146,5 +150,27 @@ public class blogController {
 		model.addAttribute("postList", postList);
 		model.addAttribute("userInfo", userInfo);
 	    return "/blog/personal";
+	}
+	
+	/* 개인 블로그 게시글 목록 가져오기 - Ajax */
+	@ResponseBody
+	@RequestMapping(value = "/blog/${userID}/Ajax", method = RequestMethod.POST)
+	public Map<String, Object> getPersonalPostListAjax(@PathVariable String userID, blogVO blog,  Model model) throws Exception {
+		
+		System.out.println("게시글 목록을 위한 Ajax 요청 - 개인 블로그 - 유저 아이디 : " + userID);
+		
+		List<blogVO> postList;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", blog.getPage()-1); //MariaDB 특성때문에  - 1
+		map.put("category", blog.getCategory());
+		map.put("block", blog.getBlock());
+		
+		postList=blogService.selectPost(map); //게시글 5개
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("postList", postList);
+		
+	    return result;
 	}
 }

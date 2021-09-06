@@ -67,7 +67,8 @@ $('#common_header>section>#search>#search_box>#search_button').on('click', funct
 	}
 	
 	var form = {
-	  page: 0,
+	  page: 1,
+	  block: 10,
       object: $('#search_object').val(),
       search_text : $('#search_text').val()
 	};
@@ -121,7 +122,8 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
 	$('#blog_main_category>section>div:first-child').addClass('active');
 	
 	var form = {
-		page: 0,
+		page: 1,
+	    block: 10,
         category: ""
     };
 	
@@ -181,7 +183,8 @@ $('#search_category > .search_category_name').on('click', function(event){
 	}
 	
 	var form = {
-	  page: 0,
+	  page: 1,
+	  block: 10,
       object: $(event.target).attr("category"),
       search_text : $('#search_text').val()
 	};
@@ -228,7 +231,8 @@ $('#category > .category_name').on('click', function(event){
 	$(event.target).addClass('active');
 	
 	var form = {
-		page: 0,
+		page: 1,
+	    block: 10,
         category: $(event.target).attr('category')
     };
 	
