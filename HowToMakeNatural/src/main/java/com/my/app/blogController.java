@@ -82,7 +82,7 @@ public class blogController {
 		List<blogVO> postList;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", blog.getPage());
+		map.put("page", blog.getPage()-1); //MariaDB 특성때문에  - 1
 		map.put("category", blog.getCategory());
 		map.put("object", blog.getObject());
 		map.put("search", blog.getSearch_text());
@@ -97,7 +97,7 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 개인 블로그 */
+	/* 개인 블로그 - 방문하기 */
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
 	public String getPersonalBlog(@PathVariable String userID, Model model) throws Exception {
 		
@@ -119,6 +119,31 @@ public class blogController {
 		
 		model.addAttribute("postList", postList);
 		model.addAttribute("count", count);
+		model.addAttribute("userInfo", userInfo);
+	    return "/blog/personal";
+	}
+	
+	/* 개인 블로그 - 게시글 한 개만 보기 */
+	@RequestMapping(value = "/blog/{userID}/{no}", method = RequestMethod.GET)
+	public String getPersonalPostView(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
+		
+		//게시글 긁어오기
+		List<blogVO> postList;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", 0);
+		map.put("category", "");
+		map.put("userID", userID);
+		map.put("no", no);
+		
+		postList=blogService.selectPost(map); //게시글 검색
+		
+		//해당 블로그의 유저 정보 가져오기
+		userVO userInfo=userService.selectUserInfoForBlog(userID);
+		
+		model.addAttribute("postList", postList);
 		model.addAttribute("userInfo", userInfo);
 	    return "/blog/personal";
 	}

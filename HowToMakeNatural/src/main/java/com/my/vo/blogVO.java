@@ -17,6 +17,7 @@ public class blogVO {
 	private String object; //검색 항목
 	private String search_text; //검색 단어
 	private int page; //페이지 - 페이징용
+	private int block; //블록 - 페이징용
 	
 	public int getNo() {
 		return no;
@@ -97,5 +98,12 @@ public class blogVO {
 	}
 	public void setPage(int page) {
 		this.page = page;
+	}
+	
+	public int getBlock() {
+		return block;
+	}
+	public void setBlock(int page) {
+		this.block = block;
 	}
 }

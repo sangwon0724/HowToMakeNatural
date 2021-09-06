@@ -27,6 +27,9 @@
 						and (title like '%${search}%' or content like '%${search}%')
 	 				</if>
  				</if>
+				<if test='no != null and no != ""'>
+					and no = ${no}
+ 				</if>
  			</if>
       		<if test='userID == null or userID == ""'>
 				<if test='category != null and category != ""'>
