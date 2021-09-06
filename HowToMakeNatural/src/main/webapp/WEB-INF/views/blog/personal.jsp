@@ -18,6 +18,7 @@
 <body>
 	<!-- 히든 값 영역 시작 -->
 	<input type="hidden" id="blogUserID" value="${userInfo.id}">
+	<input type="hidden" id="nowPostNo" value="${nowPostNo}">
 	<!-- 히든 값 영역 종료 -->
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
@@ -39,6 +40,7 @@
 			<div id="left" class="typeA">
 				<div id="profile_panel">
 					<div id="profile_image">프로필 이미지</div>
+					<div id="profile_nickname" class="flex_center_center"><span>${userInfo.blog_nickname}</span>&nbsp;<span>(${userInfo.id})</span></div>
 					<div id="profile_text" class="flex_center_center">
 						<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
 					</div>
@@ -62,6 +64,7 @@
 				<!-- 검색창 종료  (type B. 기본X) -->
 				<!-- 게시글 목록 시작 (목록 열기/닫기 가능 O) -->
 				<header id="post_list_summary_O">
+					<span id="post_list_toggle">목록 닫기</span>
 					<table cellspacing="0" cellpadding="0" class="post_summary_list">
 						<colgroup>
 							<col width="75%" style="background: lightgray" />
@@ -77,62 +80,78 @@
 							<c:forEach items="${postList}" var="post" begin="0" end="4">
 							<tr class="">
 								<td class="title">
-									<div class="wrap_td"><div class="meta_data"><span class="num pcol3">(<span>17</span>)</span></div><span class="ell2 pcol2"><a href="xxx" class="pcol2 _setTop _setTopListUrl">1번 게시글</a></span><i class="cline"></i></div>
+									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == nowPostNo}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
 								</td>
 								<td class="date">
-									<div class="wrap_td"><span class="date pcol2">3시간 전</span><i class="cline"></i></div>
+									<span>${post.signdate}</span>
 								</td>
 							</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-					<footer class="paging"></footer>
+					<footer class="post_list_summary_paging">게시글 목록용 페이징</footer>
 				</header>
 				<!-- 게시글 목록 종료 (목록 열기/닫기 가능 O) -->
 				<!-- 게시글이 보이는 화면 시작 -->
 				<main id="post_panel">
-					<c:forEach items="${postList}" var="post" begin="0" end="0">
-						<div class="personal_post">
-							<div class="post_content">
-								<div class="post_profileAndName">
-									<div class="post_userProfile" userID="${post.userID}"></div>
-									<a href="/blog/${post.userID}">${post.userNickName}</a>
-								</div>
-								<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
-								<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content}</a></div>
-								<div class="post_goodAndComment">
+					<c:if test='${onePost == null or onePost == ""}'>
+						<c:forEach items="${postList}" var="post" begin="0" end="0">
+							<div class="personal_post">
+								<header class="post_category">${post.category}</header>
+								<header class="post_title">${post.title}</header>
+								<header class="post_profileAndNameAndSigndate">${userInfo.blog_nickname}</header>
+								<main class="post_content">${post.content}</main>
+								<footer class="post_goodAndComment">
 									<span>좋아요 0</span>
 									<span>댓글 0</span>
-								</div>
+								</footer>
 							</div>
-							<div class="post_image"></div>
+					    </c:forEach>
+				    </c:if>
+					<c:if test='${onePost != null and onePost != ""}'>
+						<div class="personal_post">
+							<header class="post_category"><span>${onePost.category}</span></header>
+							<header class="post_title"><span>${onePost.title}</span></header>
+							<header class="post_profileAndNameAndSigndate">
+								<div class="profile_image"></div>
+								<span>${userInfo.blog_nickname}</span>
+							</header>
+							<main class="post_content">${onePost.content}</main>
+							<footer class="post_goodAndComment">
+								<span>좋아요 0</span>
+								<span>댓글 0</span>
+							</footer>
 						</div>
-				    </c:forEach>
+				    </c:if>
 				</main>
 				<!-- 게시글이 보이는 화면 종료 -->
 				<!-- 게시글 목록 시작 (목록 열기/닫기 가능 X) -->
 				<footer id="post_list_summary_X">
-					<table cellspacing="0" cellpadding="0" class="blog2_list blog2_categorylist" summary="21' 붇life 글 목록">
-						<caption><span class="blind">[카테고리명] 목록</span></caption>
-						<colgroup><col class="title"><col class="date"></colgroup>
+					<table cellspacing="0" cellpadding="0" class="post_summary_list">
+						<colgroup>
+							<col width="75%" style="background: lightgray" />
+    						<col width="25%" style="background: lightblue" />
+						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col"><div class="wrap_td"><span class="title pcol2">글 제목</span><i class="cline"></i></div></th>
-								<th scope="col"><div class="wrap_td"><span class="date pcol2">작성일</span><i class="cline"></i></div></th>
+								<th><div class="title"><span>글 제목</span></div></th>
+								<th><div class="date"><span>작성일</span></div></th>
 							</tr>
 						</thead>
 						<tbody>
+							<c:forEach items="${postList}" var="post" begin="0" end="4">
 							<tr class="">
 								<td class="title">
-									<div class="wrap_td"><div class="meta_data"><span class="num pcol3">(<span>17</span>)</span></div><span class="ell2 pcol2"><a href="xxx" class="pcol2 _setTop _setTopListUrl">1번 게시글</a></span><i class="cline"></i></div>
+									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == nowPostNo}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
 								</td>
 								<td class="date">
-									<div class="wrap_td"><span class="date pcol2">3시간 전</span><i class="cline"></i></div>
+									<span>${post.signdate}</span>
 								</td>
-							</tr>*반복
+							</tr>
+							</c:forEach>
 						</tbody>
 					</table>
-					<footer class="paging"></footer>
+					<footer class="post_list_summary_paging">게시글 목록용 페이징</footer>
 				</footer>
 				<!-- 게시글 패널 종료 (목록 열기/닫기 가능 X) -->
 			</div>
@@ -159,5 +178,8 @@
 		</div>
 		<!-- 블로그 메인화면 종료 -->
 	</div>
+	
+	<!-- Scripts -->
+	<script src="<c:url value="/resources/js/blog.js"/>"></script>
 </body>
 </html>

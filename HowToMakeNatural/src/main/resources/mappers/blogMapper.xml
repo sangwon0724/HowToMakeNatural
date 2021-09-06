@@ -30,28 +30,32 @@
 				<if test='no != null and no != ""'>
 					and no = ${no}
  				</if>
+ 				and useYN ='Y'
  			</if>
       		<if test='userID == null or userID == ""'>
 				<if test='category != null and category != ""'>
-					where category like '%${category}%' or tag like '%${category}%'
+					where category like '%${category}%' or tag like '%${category}%' and useYN ='Y'
  				</if>
 				<if test='object != null and object != ""'>
 					<if test='object =="post"'>
-						where title like '%${search}%' or content like '%${search}%'
+						where title like '%${search}%' or content like '%${search}%' and useYN ='Y'
 	 				</if>
 					<if test='object =="theme"'>
-						where category like '%${search}%' or tag like '%${search}%'
+						where category like '%${search}%' or tag like '%${search}%' and useYN ='Y'
 	 				</if>
 					<if test='object =="writer"'>
-						where userID like '%${search}%' or userNickName like '%${search}%'
+						where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y'
 	 				</if>
+ 				</if>
+				<if test='(category == null or category == "") and (object == null or object == "")'>
+					where useYN ='Y'
  				</if>
  			</if>
       		order by no desc
 			<if test='block == null or block == ""'>
 				limit ${page*10},5
 			</if>
-			<if test='block != null or block != ""'>
+			<if test='block != null and block != ""'>
 				limit ${page*10},${block}
 			</if>
     </select>

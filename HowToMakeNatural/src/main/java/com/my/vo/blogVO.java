@@ -102,7 +102,7 @@ public class blogVO {
 	public int getBlock() {
 		return block;
 	}
-	public void setBlock(int page) {
+	public void setBlock(int block) {
 		this.block = block;
 	}
 }

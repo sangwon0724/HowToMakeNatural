@@ -274,3 +274,20 @@ $('#category > .category_name').on('click', function(event){
 /*============================================================================================================*/
 
 /* 개인 블로그 부분 */
+$('#background_logo').on('click', function(event){
+	location.href="/blog/"+$("#blogUserID").val();
+});
+
+/* 게시글 목록 열고 닫기 */
+$('#post_list_summary_O>#post_list_toggle').on('click', function(event){
+	if($("#post_list_summary_O>#post_list_toggle").text()==="목록 닫기"){
+		$("#post_list_summary_O>#post_list_toggle").text("목록 열기");
+		$("#post_list_summary_O>table").addClass("hidden");
+		$("#post_list_summary_O>.post_list_summary_paging").addClass("hidden");
+	}
+	else if($("#post_list_summary_O>#post_list_toggle").text()==="목록 열기"){
+		$("#post_list_summary_O>#post_list_toggle").text("목록 닫기");
+		$("#post_list_summary_O>table").removeClass("hidden");
+		$("#post_list_summary_O>.post_list_summary_paging").removeClass("hidden");
+	}
+});

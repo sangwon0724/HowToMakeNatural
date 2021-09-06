@@ -29,13 +29,20 @@ public class blogController {
 	//5. update 기능 추가  (수정 시 주소 : "/blog/유저아이디/게시글번호/update" => 수정 후 주소 : "/blog/유저아이디/게시글번호")
 	//6. delete 기능 추가 (삭제 전 주소 : "/blog/유저아이디/게시글번호/delete" => 삭제 후 주소 : "/blog/유저아이디/")
 	//7. 페이징 기능 추가
+	//7-1. 메인 화면
+	//7-2. 개인 블로그
 	//8. 이웃 관련 기능 추가
+	//8-1. 메인 화면
+	//8-2. 개인 블로그
 	//9. 내가 쓴 글 목록 가져오기 기능 추가
 	//11. 게시글이 존재하지 않을 시 존재하지 않는다는 문구 추가
 	//12. 블로그 메인에 대한 사진 작업
 	//13. 댓글 작업
-	//14. 검색 기능 추가 - 개인 블로그 (단어검색)
-	//15. 검색 기능 추가 - 개인 블로그 (태그 클릭)
+	//14. 검색 기능 추가 - 개인 블로그
+	//14-1. 개인 블로그 (단어검색)
+	//14-2. 개인 블로그 (태그 클릭)
+	//15. 개인 블로그 - 게시글 리스트 가져오기
+	//15-2. 글 리스트에서 다른 페이지의 클릭시 이동후 해당 게시글의 페이지를 보여주기
 	
 	//==========완료 목록==========
 	//1. 블로그 메인 기본 틀 완성
@@ -44,6 +51,7 @@ public class blogController {
 	//2. 개인 블로그 화면 추가 (주소 : "/blog/유저아이디")
 	//3. view 기능 추가 (주소 : "/blog/유저아이디/게시글번호")
 	//10. 검색 기능 추가 - 메인(Ajax로 board 영역만 변경)
+	//15-1. 글 리스트 가져오기
 	
 	@Autowired
     private SqlSession sqlSession;
@@ -81,7 +89,7 @@ public class blogController {
 	@RequestMapping(value = "/blog/main/Ajax", method = RequestMethod.POST)
 	public Map<String, Object> getMainPostListAjax(blogVO blog,  Model model) throws Exception {
 		
-		System.out.println("Ajax 요청 - 블로그 메인 / 요청 카테고리 : "+ blog.getCategory() + " / 검색 요청 항목 : " + blog.getObject() + " / 검색 요청 문자 : "+blog.getSearch_text());
+		System.out.println("Ajax 요청 - 블로그 메인 / 페이지 : " + blog.getPage() + " / 게시글 단위 수 : " + blog.getBlock() + " / 요청 카테고리 : "+ blog.getCategory() + " / 검색 요청 항목 : " + blog.getObject() + " / 검색 요청 문자 : "+blog.getSearch_text());
 		
 		List<blogVO> postList;
 		
@@ -135,23 +143,29 @@ public class blogController {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		
-		//게시글 긁어오기
+		//게시글 목록
 		List<blogVO> postList;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", 0);
+		map.put("page", 0);  //MariaDB 특성
 		map.put("category", "");
 		map.put("userID", userID);
-		map.put("no", no);
 		map.put("block", 5);
 		
-		postList=blogService.selectPost(map); //게시글 검색
+		postList=blogService.selectPost(map); //게시글 목록
 		
 		//해당 블로그의 유저 정보 가져오기
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
 		
 		model.addAttribute("postList", postList);
 		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("nowPostNo", no);
+		
+
+		map.put("no", no);
+		postList=blogService.selectPost(map); //단일 게시물 검색
+		model.addAttribute("onePost", postList.get(0));
+		
 	    return "/blog/personal";
 	}
 	
