@@ -7,6 +7,7 @@ public class userVO {
 	
 	//블로그 관련 개인정보
 	private String blog_nickname; //블로그 닉네임
+	private String blog_profile_image; //블로그 프로필 이미지
 	private String blog_profile_text; //블로그 소개글
 	private String blog_logo_text; //블로그 배경글
 	private String blog_logo_image; //블로그 배경글의 배경이미지 파일 주소
@@ -33,6 +34,12 @@ public class userVO {
 	}
 	public void setBlog_nickname(String blog_nickname) {
 		this.blog_nickname = blog_nickname;
+	}
+	public String getBlog_profile_image() {
+		return blog_profile_image;
+	}
+	public void setBlog_profile_image(String blog_profile_image) {
+		this.blog_profile_image = blog_profile_image;
 	}
 	public String getBlog_profile_text() {
 		return blog_profile_text;

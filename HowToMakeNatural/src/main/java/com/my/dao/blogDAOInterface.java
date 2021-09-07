@@ -1,5 +1,6 @@
 package com.my.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ import com.my.vo.blogVO;
 
 public interface blogDAOInterface {
 	//select
-	public List<blogVO> selectPost(Map<String, Object> map) throws Exception;
+	public List<HashMap<String, Object>> selectPost(Map<String, Object> map) throws Exception;
 	public int selectCount(Map<String, Object> map) throws Exception;
 	public blogVO selectOnePost(int no) throws Exception;
 	

@@ -66,7 +66,7 @@ $('#common_header>section>#search>#search_box>#search_button').on('click', funct
 	    break;
 	}
 	
-	var form = {
+	var data = {
 	  page: 1,
 	  block: 10,
       object: $('#search_object').val(),
@@ -77,7 +77,8 @@ $('#common_header>section>#search>#search_box>#search_button').on('click', funct
 	$.ajax({
       url: "/blog/main/Ajax",
       type: "POST",
-      data: form,
+      data: JSON.stringify(data),
+      contentType: "application/json",
       success: function(result){
       	var postList="";
       	
@@ -121,7 +122,7 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
 	$('#search_category').addClass('hidden');
 	$('#blog_main_category>section>div:first-child').addClass('active');
 	
-	var form = {
+	var data = {
 		page: 1,
 	    block: 10,
         category: ""
@@ -131,7 +132,8 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
 	$.ajax({
         url: "/blog/main/Ajax",
         type: "POST",
-        data: form,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: function(result){
         	var postList="";
         	
@@ -182,7 +184,7 @@ $('#search_category > .search_category_name').on('click', function(event){
 	    break;
 	}
 	
-	var form = {
+	var data = {
 	  page: 1,
 	  block: 10,
       object: $(event.target).attr("category"),
@@ -193,7 +195,8 @@ $('#search_category > .search_category_name').on('click', function(event){
 	$.ajax({
       url: "/blog/main/Ajax",
       type: "POST",
-      data: form,
+      data: JSON.stringify(data),
+      contentType: "application/json",
       success: function(result){
       	var postList="";
       	
@@ -230,7 +233,7 @@ $('#category > .category_name').on('click', function(event){
 	$('#category > .category_name').removeClass('active');
 	$(event.target).addClass('active');
 	
-	var form = {
+	var data = {
 		page: 1,
 	    block: 10,
         category: $(event.target).attr('category')
@@ -240,7 +243,8 @@ $('#category > .category_name').on('click', function(event){
 	$.ajax({
         url: "/blog/main/Ajax",
         type: "POST",
-        data: form,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: function(result){
         	var postList="";
         	

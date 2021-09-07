@@ -17,7 +17,7 @@ public class blogDAO implements blogDAOInterface {
 	
 	/* 메인에서 가장 최근글 10개 긁어오기 */
 	@Override
-	public List<blogVO> selectPost(Map<String, Object> map) throws Exception {
+	public List<HashMap<String, Object>> selectPost(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList("blogMapper.selectPost", map);
 	}
 	

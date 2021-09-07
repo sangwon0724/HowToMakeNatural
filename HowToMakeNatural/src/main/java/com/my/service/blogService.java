@@ -1,5 +1,6 @@
 package com.my.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class blogService implements blogServiceInterface {
 	
 	/* 메인에서 가장 최근글 10개 긁어오기 */
 	@Override
-	public List<blogVO> selectPost(Map<String, Object> map) throws Exception {
+	public List<HashMap<String, Object>> selectPost(Map<String, Object> map) throws Exception {
 		return dao.selectPost(map);
 	}
 	

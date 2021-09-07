@@ -12,7 +12,7 @@
     <!-- B. 아이디 값 존재 X => 블로그 메인에 대한 글 가져오기 -->
     <!-- B-1. 카테고리 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <!-- B-2. 검색 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
-    <select id="selectPost" parameterType="hashmap" resultType="com.my.vo.blogVO" >
+    <select id="selectPost" parameterType="hashmap" resultType="hashmap" >
       		SELECT * FROM blog_post
       		<if test='userID != null and userID != ""'>
 				where userID=${userID}
