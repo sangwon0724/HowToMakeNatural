@@ -15,7 +15,7 @@
     <select id="selectPost" parameterType="hashmap" resultType="hashmap" >
       		SELECT * FROM blog_post
       		<if test='userID != null and userID != ""'>
-				where userID=${userID}
+				where userID=#{userID}
 				<if test='category != null and category != ""'>
 					and category='%${category}%'
  				</if>

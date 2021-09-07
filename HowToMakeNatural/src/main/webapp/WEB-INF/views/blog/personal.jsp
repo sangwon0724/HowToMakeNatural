@@ -22,8 +22,17 @@
 	<!-- 히든 값 영역 종료 -->
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
-		<nav id="nav">
-			네비게이션
+		<nav id="personal_nav">
+			<div>
+				<div id="span_type">
+					<span class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">내 블로그</span><span> | </span><span class="click">이웃 블로그</span><span> | </span><span class="click">블로그홈</span>
+				</div>
+				<div id="blog_sign" class="flex_center_center">
+				<c:if test="${empty sessionScope.user.id}"><span>로그인</span></c:if>
+				<c:if test="${not empty sessionScope.user.id}"><span>로그아웃</span></c:if>
+				</div>
+				<div id="blog_all_menu" class="flex_center_center"><i class="fas fa-th"></i></div>
+			</div>
 		</nav>
 		<!-- 네비게이션 종료 -->
 		<!-- 배경글 시작 -->
@@ -60,15 +69,15 @@
 			<!-- 게시글 패널 (type A. 기본) -->
 			<div id=center class="flex_column_center_center typeA">
 				<!-- 검색창 시작 (type B. 기본X) -->
-				<div class="searchbox typeB"></div>
+				<span class="searchbox typeB"></span>
 				<!-- 검색창 종료  (type B. 기본X) -->
 				<!-- 게시글 목록 시작 (목록 열기/닫기 가능 O) -->
 				<header id="post_list_summary_O">
-					<span id="post_list_toggle">목록 닫기</span>
+					<div id="post_list_toggle">목록 닫기</div>
 					<table cellspacing="0" cellpadding="0" class="post_summary_list">
 						<colgroup>
-							<col width="75%" style="background: lightgray" />
-    						<col width="25%" style="background: lightblue" />
+							<col width = "75%">
+							<col width = "25%">
 						</colgroup>
 						<thead>
 							<tr>
@@ -78,7 +87,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${postList}" var="post" begin="0" end="4">
-							<tr class="">
+							<tr>
 								<td class="title">
 									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == nowPostNo}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
 								</td>
@@ -97,13 +106,28 @@
 					<c:if test='${onePost == null or onePost == ""}'>
 						<c:forEach items="${postList}" var="post" begin="0" end="0">
 							<div class="personal_post">
-								<header class="post_category">${post.category}</header>
+								<header class="post_category"><span>${post.category}</span></header>
 								<header class="post_title">${post.title}</header>
-								<header class="post_profileAndNameAndSigndate">${userInfo.blog_nickname}</header>
+								<header class="post_profileAndNameAndSigndate">
+									<div class="profile_image"><%-- 프로필 이미지 --%></div>
+									<span>${userInfo.blog_nickname}</span>
+								</header>
 								<main class="post_content">${post.content}</main>
 								<footer class="post_goodAndComment">
-									<span>좋아요 0</span>
-									<span>댓글 0</span>
+									<div id="post_good">
+									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
+										<i class="fas fa-heart"></i>
+									</c:if>
+									<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
+										<i class="far fa-heart"></i>
+									</c:if>
+									<span>좋아요 <span id="goodCount">0</span></span>
+								</div>
+								<div id="post_comment">
+									<span>댓글 <span id="commentCount">0</span></span>|
+									<i class="fas fa-chevron-up"></i>
+									<i class="fas fa-chevron-down"></i>
+								</div>
 								</footer>
 							</div>
 					    </c:forEach>
@@ -118,8 +142,18 @@
 							</header>
 							<main class="post_content">${onePost.content}</main>
 							<footer class="post_goodAndComment">
-								<span>좋아요 0</span>
-								<span>댓글 0</span>
+								<div id="post_good">
+									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
+										<i class="fas fa-heart"></i>
+									</c:if>
+									<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
+										<i class="far fa-heart"></i>
+									</c:if>
+									<span>좋아요 <span id="goodCount">0</span></span>
+								</div>
+								<div id="post_comment">
+									<span>댓글 <span id="commentCount">0</span></span>|<span></span>
+								</div>
 							</footer>
 						</div>
 				    </c:if>
@@ -129,8 +163,8 @@
 				<footer id="post_list_summary_X">
 					<table cellspacing="0" cellpadding="0" class="post_summary_list">
 						<colgroup>
-							<col width="75%" style="background: lightgray" />
-    						<col width="25%" style="background: lightblue" />
+							<col width="75%"/>
+    						<col width="25%"/>
 						</colgroup>
 						<thead>
 							<tr>

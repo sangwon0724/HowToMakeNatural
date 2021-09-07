@@ -277,9 +277,35 @@ $('#category > .category_name').on('click', function(event){
 
 /*============================================================================================================*/
 
-/* 개인 블로그 부분 */
-$('#background_logo').on('click', function(event){
-	location.href="/blog/"+$("#blogUserID").val();
+
+/* 개인 블로그 네이게이션 - 내 블로그 */
+$('#personal_nav>div>#span_type>span.click:nth-child(1)').on('click', function(event){
+	if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')===""){
+		location.href="/login";
+	}
+	else if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')!==""){
+		location.href="/blog/"+$('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID');
+	}
+});
+
+/* 개인 블로그 네이게이션 - 이웃 블로그 */
+$('#personal_nav>div>#span_type>span.click:nth-child(2)').on('click', function(event){
+	//작성 예정
+});
+
+/* 개인 블로그 네이게이션 - 블로그 홈 */
+$('#personal_nav>div>#span_type>span.click:nth-child(3)').on('click', function(event){
+	location.href="/blog/main";
+});
+
+/* 개인 블로그 네이게이션 - 로그인 */
+$('#personal_nav>div>#blog_sign').on('click', function(event){
+	if($('#personal_nav>div>#blog_sign>span').text()==='로그인'){
+		location.href="/login";
+	}
+	else if($('#personal_nav>div>#blog_sign>span').text()==='로그아웃'){
+		location.href="/logout";
+	}
 });
 
 /* 게시글 목록 열고 닫기 */
@@ -294,4 +320,14 @@ $('#post_list_summary_O>#post_list_toggle').on('click', function(event){
 		$("#post_list_summary_O>table").removeClass("hidden");
 		$("#post_list_summary_O>.post_list_summary_paging").removeClass("hidden");
 	}
+});
+
+/* 개인 블로그 게시글의 프로필 이미지 클릭시 개인 블로그 메인으로 이동 */
+$('.personal_post>.post_profileAndNameAndSigndate>.profile_image').on('click', function(event){
+	location.href="/blog/"+$("#blogUserID").val();
+});
+
+/* 개인 블로그 게시글의 유저 닉네임 클릭시 개인 블로그 메인으로 이동 */
+$('.personal_post>.post_profileAndNameAndSigndate>span').on('click', function(event){
+	location.href="/blog/"+$("#blogUserID").val();
 });

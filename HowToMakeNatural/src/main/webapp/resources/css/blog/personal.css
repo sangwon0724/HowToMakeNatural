@@ -6,15 +6,58 @@
 	height: auto;
 	min-height: 100vh;
 	margin: 0 auto;
-	background-color: red;/*임시*/
 }
 /*============================================================================================================*/
 
 /* 블로그 네비게이션 */
-#nav{
+#personal_nav{
 	width : 100%;
 	height: 7vh;
-	background-color: lightgray;/*임시*/
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+#personal_nav>div{
+	width: 30%;
+	height: 100%;
+	height: 7vh;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background-color: lightgreen;/*임시*/
+}
+#personal_nav>div>#span_type{
+	width: 60%;
+	height: 70%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background-color: skyblue;/*임시*/
+}
+#personal_nav>div>#span_type>span.click{
+	cursor: pointer;
+	font-size: 0.8em;
+}
+#personal_nav>div>#span_type>span.click:hover{
+	text-decoration: underline;
+	font-weight: bold;
+}
+#personal_nav>div>#blog_sign{
+	width: 17.5%;
+	height: 55%;
+    border: 1.5px dashed #6c5ce7;
+    background-color: #fff;
+    color: #6c5ce7;
+    cursor: pointer;
+}
+#personal_nav>div>#blog_all_menu{
+	width: 8%;
+	height: 55%;
+    border: 1.5px dashed #6c5ce7;
+    background-color: #fff;
+}
+#personal_nav>div>#blog_all_menu>i{
+    color: #6c5ce7;
 }
 
 /*============================================================================================================*/
@@ -35,7 +78,6 @@
 	width: 100%;
 	height: auto;
 	min-height: 68vh;
-	background-color: green;/*임시*/
 }
 #blog_personal_main.typeA{
 	display: flex;
@@ -49,7 +91,6 @@
 /* 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 (typeA)*/
 #left{
 	width: 20%;
-	background-color: lightgray;/*임시*/
 }
 #profile_panel{
 	width: 95%;
@@ -62,7 +103,6 @@
 	justify-content: space-around;
 	align-items: center;
 	margin: 1vh auto 0 auto;
-	background-color: red;/*임시*/
 }
 #profile_panel>#profile_image{
 	width: 95%;
@@ -130,7 +170,7 @@
 /* 게시글 (jstl로 값 비교해서 스타일 변경) */
 #center{
 	width: 67%;
-	background-color: lightyellow;/*임시*/
+	margin-bottom: 10vw;
 }
 #center.typeA{margin-right: 5vw;}
 #center.typeB{}
@@ -194,6 +234,10 @@
 	border-radius: 50%;
 	background-color: red;/*임시*/
 	margin-right: 1vw;
+	cursor: pointer;
+}
+.personal_post>.post_profileAndNameAndSigndate>span{
+	cursor: pointer;
 }
 .personal_post>.post_content{
 	width: 100%;
@@ -206,6 +250,10 @@
 	height: 7vh;
 	background-color: lightblue;/*임시*/
 }
+.personal_post>.post_goodAndComment>#post_good{}
+.personal_post>.post_goodAndComment>#post_good>span{}
+.personal_post>.post_goodAndComment>#post_good>i{color:red;}
+.personal_post>.post_goodAndComment>#post_comment{}
 /* 게시글 목록 (목록 얼기/닫기 가능 O) */
 #post_list_summary_O{
 	width: 100%;
@@ -213,11 +261,10 @@
 	/*height: 35vh;*/
 	margin: 3vh 0;
 	position: relative;
-	background-color: pink;/*임시*/
 }
 #post_list_summary_O>#post_list_toggle{
 	cursor: pointer;
-	right: 0;
+	right: 1vw;
 	position: absolute;
 }
 #post_list_summary_O>#post_list_toggle:hover{
@@ -228,22 +275,24 @@
 	width: 100%;
 	height: 35vh;
 	margin: 3vh 0;
-	background-color: pink;/*임시*/
 }
 /* 게시글 목록 공통 */
 .post_summary_list{
 	width: 100%;
 	height: 100%;
+	margin-top: 35px;
+	table-layout: fixed;
 }
-.post_summary_list>thead>tr>th,
-.post_summary_list>tbody>tr>.date{
-	color: lightgray;
+.post_summary_list .date{
+	color: gray;
 }
 .post_summary_list>thead{
 	height: 3vh;
 }
 .post_summary_list>tbody>tr{
+	width: 100%;
 	height: 5.4vh;
+	border-bottom: 1px solid #c8d6e5;
 }
 .post_summary_list>thead>tr>th>.title{
 	display: flex;
@@ -252,10 +301,15 @@
 	padding-left: 1vw;
 }
 .post_summary_list>thead>tr>th>.date{
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
+	text-align: right;
 	padding-right: 1vw;
+}
+.post_summary_list>tbody>tr>.title{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 1vw;
+	height: 100%;
 }
 .post_summary_list>tbody>tr>.title>a{
 	text-decoration: none;
@@ -266,9 +320,14 @@
 }
 .post_summary_list>tbody>tr>.title>a:hover{
 	text-decoration: underline;
+	font-weight: bold;
 }
 .post_summary_list>tbody>tr>.title>span{
 	color: red;
+}
+.post_summary_list>tbody>tr>.date{
+	text-align: right;
+	padding-right: 1vw;
 }
 .post_list_summary_paging{
 	width: 100%;
