@@ -1,4 +1,6 @@
 # dependencies
 
 # production
-/target
+/target/
+/bin/
+/test.exe
