@@ -23,6 +23,15 @@ $('#logo>span').on('click', function(event){
 $('#blog_header>section>#login_small>div').on('click',function(){
 	location.href="/login";
 });
+$('#common_header>section>#login_small>div').on('click',function(){
+	if($("#common_header>section>#login_small>div").text()==="로그인"){
+		location.href="/login";
+	}
+	else if($("#common_header>section>#login_small>div").text()==="로그아웃"){
+		location.href="/logout";
+	}
+});
+
 
 //프로필 사진 클릭시 해당 유저의 블로그로 이동
 $('.post_userProfile').on('click', function(event){
@@ -267,6 +276,38 @@ $('#category > .category_name').on('click', function(event){
 			</div>`;
             });//each 종료
             $('#board').html(postList);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+});
+
+//내 글 클릭
+$('#my_menu>#third>div').on('click', function(event){
+	//강조 변경
+	$('#my_menu>#third>div').removeClass('active');
+	$('#my_menu>#third>div#'+$(event.target).attr("id")).addClass('active');
+	
+	var data = {
+		page: 1,
+	    block: 10
+    };
+	
+	//내용 변경 + 주소변경 (임시 주석)
+	$.ajax({
+        url: "/blog/main/Ajax/"+$(event.target).attr("id"),
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var postList="";
+        	
+        	$.each(result.postList, function (index, item) {
+        		postList+=``;
+            });//each 종료
+            //$('#board').html(postList);
         },
         error: function(error){
             alert("오류 발생");

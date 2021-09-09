@@ -32,7 +32,10 @@
 			</div>
 			<div id="blank"></div>
 			<div id="login_small">
-				<div>로그인</div>
+				<div>
+					<c:if test="${empty sessionScope.user.id}">로그인</c:if>
+					<c:if test="${not empty sessionScope.user.id}">로그아웃</c:if>
+				</div>
 			</div>
 			<div id="all_menu">
 				<i class="fas fa-th"></i>

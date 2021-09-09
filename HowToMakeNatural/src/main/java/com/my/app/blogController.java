@@ -93,13 +93,39 @@ public class blogController {
 		System.out.println("Ajax 요청 - 블로그 메인 / 페이지 : " + map.get("page") + " / 게시글 단위 수 : " + map.get("block") + " / 요청 카테고리 : "+ map.get("category") + " / 검색 요청 항목 : " + map.get("object") + " / 검색 요청 문자 : "+map.get("search_text"));
 		
 		List<HashMap<String, Object>> postList;
-		System.out.println("Ajax 요청");
-		//Map<String, Object> map = new HashMap<String, Object>();
-		/*map.put("page", blog.getPage()-1); //MariaDB 특성때문에  - 1
-		map.put("category", blog.getCategory());
-		map.put("object", blog.getObject());
-		map.put("search", blog.getSearch_text());
-		map.put("block", blog.getBlock());*/
+		map.put("page", (Integer)map.get("page")-1); //MariaDB 특성때문에  - 1
+		map.put("category", map.get("category"));
+		map.put("object", map.get("object"));
+		map.put("search", map.get("search_text"));
+		map.put("block", map.get("block"));
+		
+		postList=blogService.selectPost(map); //게시글 10개
+		int count = blogService.selectCount(map); //게시글 총 개수
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("postList", postList);
+		result.put("count", count);
+		
+	    return result;
+	}
+	
+	/* 블로그 메인 글 가져오기 - Ajax */ //임시 작성
+	@ResponseBody
+	@RequestMapping(value = "/blog/main/Ajax/{menu_name}", method = RequestMethod.POST)
+	public Map<String, Object> getMainAjaxForMyMenu(@PathVariable String menu_name, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+		
+		System.out.println("Ajax 요청 - 블로그 메인 / 개인 메뉴 ");
+		
+		switch (menu_name) {
+		case "":
+			
+			break;
+
+		default:
+			break;
+		}
+		
+		List<HashMap<String, Object>> postList;
 		map.put("page", (Integer)map.get("page")-1); //MariaDB 특성때문에  - 1
 		map.put("category", map.get("category"));
 		map.put("object", map.get("object"));
