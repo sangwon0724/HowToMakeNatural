@@ -117,11 +117,14 @@ public class blogController {
 		System.out.println("Ajax 요청 - 블로그 메인 / 개인 메뉴 ");
 		
 		switch (menu_name) {
-		case "":
+		case "my_news":
 			
 			break;
-
-		default:
+		case "my_post":
+			
+			break;
+		case "my_neighbor":
+			
 			break;
 		}
 		
