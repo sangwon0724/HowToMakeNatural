@@ -27,9 +27,16 @@ public class blogService implements blogServiceInterface {
 		return dao.selectCount(map);
 	}
 
+	/* 카테고리 검색 */
 	@Override
-	public blogVO selectOnePost(int no) throws Exception {
-		return dao.selectOnePost(no);
+	public List<HashMap<String, Object>> selectCategory(Map<String, Object> map) throws Exception {
+		return dao.selectCategory(map);
+	}
+	
+	/* 이웃 검색 */
+	@Override
+	public List<HashMap<String, Object>> selectnNeighbor(Map<String, Object> map) throws Exception {
+		return dao.selectnNeighbor(map);
 	}
 
 	@Override

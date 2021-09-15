@@ -151,24 +151,34 @@ public class blogController {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
-		//게시글 긁어오기
-		List<HashMap<String, Object>> postList;
-		
+		//xml 파일에서 사용할 값 설정
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", 0);
-		map.put("category", "");
-		map.put("userID", userID);
-		map.put("block", 5);
+		map.put("page", 0); //게시글 검색 + 이웃 검색
+		map.put("category", ""); //게시글 검색
+		map.put("userID", userID); //게시글 검색 + 카테고리 검색 + 이웃 검색
+		map.put("block", 5); //게시글 검색
 		
-		postList=blogService.selectPost(map); //게시글 10개
+
+		//개인 게시글 긁어오기
+		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 10개
 		int count = blogService.selectCount(map); //게시글 총 개수
 		
 		//해당 블로그의 유저 정보 가져오기
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
 		
-		model.addAttribute("postList", postList);
-		model.addAttribute("count", count);
-		model.addAttribute("userInfo", userInfo);
+
+		//이웃목록 긁어오기
+		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //게시글 10개
+		
+		//이웃목록 긁어오기
+		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
+		
+		model.addAttribute("postList", postList); //게시글
+		model.addAttribute("count", count); //게시글 개수
+		model.addAttribute("userInfo", userInfo); //유저 정보
+		model.addAttribute("categoryList", categoryList); //카테고리 목록
+		model.addAttribute("neighborList", neighborList); //이웃 목록
+		
 	    return "/blog/personal";
 	}
 	

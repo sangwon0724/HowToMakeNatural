@@ -331,7 +331,12 @@ $('#personal_nav>div>#span_type>span.click:nth-child(1)').on('click', function(e
 
 /* 개인 블로그 네이게이션 - 이웃 블로그 */
 $('#personal_nav>div>#span_type>span.click:nth-child(2)').on('click', function(event){
-	//작성 예정
+	if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')===""){
+		location.href="/login";
+	}
+	else if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')!==""){
+		//작성 예정
+	}
 });
 
 /* 개인 블로그 네이게이션 - 블로그 홈 */

@@ -27,13 +27,19 @@ public class blogDAO implements blogDAOInterface {
 		int count=sqlSession.selectOne("blogMapper.selectCount", map);
 		return count;
 	}
-	
 
+	/* 카네고리 검색 */
 	@Override
-	public blogVO selectOnePost(int no) throws Exception {
-		return sqlSession.selectOne("blogMapper.selectOnePost",no);
+	public List<HashMap<String, Object>> selectCategory(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList("blogMapper.selectCategory", map);
 	}
 
+	/* 이웃 검색 */
+	@Override
+	public List<HashMap<String, Object>> selectnNeighbor(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList("blogMapper.selectNeighbor", map);
+	}
+	
 	@Override
 	public void insertPost(blogVO vo) throws Exception {
 		sqlSession.insert("blogMapper.insertPost", vo);

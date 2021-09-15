@@ -83,6 +83,9 @@
 	display: flex;
 	justify-content: space-between;
 }
+#blog_personal_main.typeBS{
+	
+}
 #blog_personal_main>div:not(#bottom){
 	min-height: 68vh;
 }

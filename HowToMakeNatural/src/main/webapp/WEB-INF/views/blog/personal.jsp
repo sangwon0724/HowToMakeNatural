@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -25,7 +26,7 @@
 		<nav id="personal_nav">
 			<div>
 				<div id="span_type">
-					<span class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">내 블로그</span><span> | </span><span class="click">이웃 블로그</span><span> | </span><span class="click">블로그홈</span>
+					<span class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">내 블로그</span><span> | </span><span class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">이웃 블로그</span><span> | </span><span class="click">블로그홈</span>
 				</div>
 				<div id="blog_sign" class="flex_center_center">
 				<c:if test="${empty sessionScope.user.id}"><span>로그인</span></c:if>
@@ -44,26 +45,38 @@
 		</header>
 		<!-- 배경글 종료 -->
 		<!-- 블로그 메인화면 시작 -->
-		<main id="blog_personal_main" class="typeA">
+		
+	<c:choose>
+		<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
+			<main id="blog_personal_main" class="typeA">
+		</c:when>
+		<c:when test="${fn:contains(userInfo.blog_setting_type, 'B')}">
+			<main id="blog_personal_main" class="typeB">
+		</c:when>
+	</c:choose>
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type A. 기본)-->
-			<div id="left" class="typeA">
-				<div id="profile_panel">
-					<div id="profile_image">프로필 이미지</div>
-					<div id="profile_nickname" class="flex_center_center"><span>${userInfo.blog_nickname}</span>&nbsp;<span>(${userInfo.id})</span></div>
-					<div id="profile_text" class="flex_center_center">
-						<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
+			<c:choose>
+				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
+					<div id="left" class="typeA">
+						<div id="profile_panel">
+							<div id="profile_image">프로필 이미지</div>
+							<div id="profile_nickname" class="flex_center_center"><span>${userInfo.blog_nickname}</span>&nbsp;<span>(${userInfo.id})</span></div>
+							<div id="profile_text" class="flex_center_center">
+								<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
+							</div>
+							<div id="personal_buttons" class="flex_center_center"><span>프로필/관리/통계</span></div>
+						</div>
+						<div id="search_panel" class="flex_center_center">
+							<input type="text" id="search_text">
+							<div id="search_button">
+								<i class="fas fa-search"></i>
+							</div>
+						</div>
+						<div id="category_panel">카테고리</div>
+						<div id="neighbor_panel">이웃목록</div>
 					</div>
-					<div id="personal_buttons" class="flex_center_center"><span>프로필/관리/통계</span></div>
-				</div>
-				<div id="search_panel" class="flex_center_center">
-					<input type="text" id="search_text">
-					<div id="search_button">
-						<i class="fas fa-search"></i>
-					</div>
-				</div>
-				<div id="category_panel">카테고리</div>
-				<div id="neighbor_panel">이웃목록</div>
-			</div>
+				</c:when>
+			</c:choose>
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 종료 (type A. 기본)-->
 			
 			<!-- 게시글 패널 (type A. 기본) -->
