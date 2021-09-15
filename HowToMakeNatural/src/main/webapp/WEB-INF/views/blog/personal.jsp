@@ -68,7 +68,18 @@
 							<div id="profile_text" class="flex_center_center">
 								<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
 							</div>
-							<div id="personal_buttons" class="flex_center_center"><span>프로필/관리/통계</span></div>
+							<div id="personal_buttons" class="flex_center_center">
+								<c:if test="${not empty sessionScope.user.id and sessionScope.user.id eq userInfo.id}">
+									<span><i class="fas fa-pen"></i>&nbsp;글쓰기</span>
+									<span><i class="fas fa-cog"></i>&nbsp;관리</span>
+								</c:if>
+								<c:if test="${empty sessionScope.user.id or sessionScope.user.id ne userInfo.id}">
+									<div class="flex_center_center">
+										<span>이웃 추가</span>
+										<i class="fas fa-plus"></i>
+									</div>
+								</c:if>
+							</div>
 						</div>
 						<div id="search_panel" class="flex_center_center">
 							<input type="text" id="search_text">
@@ -173,6 +184,9 @@
 										<i class="fas fa-chevron-down"></i>
 									</div>
 								</footer>
+								<footer class="post_comment_hidden hidden">
+									<div class="comment">댓글</div>
+								</footer>
 							</div>
 					    </c:forEach>
 				    </c:if>
@@ -186,7 +200,7 @@
 							</header>
 							<main class="post_content">${onePost.content}</main>
 							<footer class="post_goodAndComment">
-								<div id="post_good">
+									<div id="post_good" class="flex_center_center">
 									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
 										<i class="fas fa-heart"></i>
 									</c:if>
@@ -194,15 +208,15 @@
 										<i class="far fa-heart"></i>
 									</c:if>
 									<span>좋아요 <span id="goodCount">0</span></span>
-									<i class="fas fa-chevron-down"></i>
-								</div>
-								<div id="post_comment">
-									<span>댓글 <span id="commentCount">0</span></span>|<span></span>
-								</div>
-							</footer>
-							<footer class="post_comment_hidden ">
-							댓글 히든 영역
-							</footer>
+									</div>
+									<div id="post_comment" class="flex_center_center">
+										<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
+										<i class="fas fa-chevron-down"></i>
+									</div>
+								</footer>
+								<footer class="post_comment_hidden hidden">
+									<div class="comment">댓글</div>
+								</footer>
 						</div>
 				    </c:if>
 				</main>

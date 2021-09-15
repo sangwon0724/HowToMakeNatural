@@ -113,19 +113,32 @@
 #profile_panel>#profile_nickname{
 	width: 95%;
 	height: 15%;
-	background-color: pink;/*임시*/
+	font-weight: bold;
 }
 #profile_panel>#profile_text{
 	width: 95%;
 	height: 13%;
 	font-size: 0.9em;
-	background-color: lightblue;/*임시*/
 }
 #profile_panel>#personal_buttons{
 	width: 95%;
 	height: 12%;
 	font-size: 0.9em;
-	background-color: lightgreen;/*임시*/
+}
+#profile_panel>#personal_buttons>span{
+	margin: 0 10px;
+}
+#profile_panel>#personal_buttons>div{
+	width: 80%;
+	height: 80%;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+#profile_panel>#personal_buttons>div>i{
+	color: #55efc4;
+	margin-left: 10px;
 }
 #search_panel{
 	width: 95%;
@@ -159,6 +172,8 @@
 	width: 95%;
 	height: 20vh;
 	margin: 1vh auto 0 auto;
+	padding: 1vw;
+	box-sizing: border-box;
 	background-color: lightblue;/*임시*/
 }
 /* 이웃 목록 */
@@ -312,11 +327,20 @@
 	border-radius: 3px;
 	cursor: pointer;
 }
+.personal_post>.post_goodAndComment>#post_comment.active{
+	border-color: red;
+}
 .personal_post>.post_comment_hidden{
 	width: 100%;
 	height: auto;
 	min-height: 20vh;
 	background-color: orange; /*임시*/ 
+}
+.personal_post>.post_comment_hidden>.comment{
+	width: 78%;
+	height: 10vh;
+	border: 1px solid black;
+	margin: 2vh auto 0 auto;
 }
 /* 게시글 목록 (목록 얼기/닫기 가능 O) */
 #post_list_summary_O{

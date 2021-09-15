@@ -358,6 +358,11 @@ $('#personal_nav>div>#blog_sign').on('click', function(event){
 	}
 });
 
+/* 개인 블로그 네이게이션 - 로그인 */
+$('#background_logo').on('click', function(event){
+	location.href="/blog/" + $("#blogUserID").val();
+});
+
 /* 게시글 목록 열고 닫기 */
 $('#post_list_summary_O>#post_list_toggle').on('click', function(event){
 	if($("#post_list_summary_O>#post_list_toggle").text()==="목록 닫기"){
@@ -405,6 +410,7 @@ $('.personal_post>.post_goodAndComment>#post_comment').on('click', function(even
 		console.log("클로즈");
 		$(".personal_post>.post_goodAndComment>#post_comment").removeClass("active");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").removeClass("fa-chevron-up");
+		$(".personal_post>.post_goodAndComment>#post_comment>i").addClass("fa-chevron-down");
 		$(".personal_post>.post_comment_hidden").addClass("hidden");
 		
 	}
