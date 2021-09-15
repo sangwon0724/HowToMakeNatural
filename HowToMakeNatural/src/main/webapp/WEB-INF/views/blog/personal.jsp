@@ -26,7 +26,11 @@
 		<nav id="personal_nav">
 			<div>
 				<div id="span_type">
-					<span class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">내 블로그</span><span> | </span><span class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">이웃 블로그</span><span> | </span><span class="click">블로그홈</span>
+					<span id="my_blog" class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">내 블로그</span>
+					<span> | </span>
+					<span id="neighbor_blog" class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">이웃 블로그</span>
+					<span> | </span>
+					<span id="blog_home" class="click" >블로그홈</span>
 				</div>
 				<div id="blog_sign" class="flex_center_center">
 				<c:if test="${empty sessionScope.user.id}"><span>로그인</span></c:if>
@@ -72,8 +76,36 @@
 								<i class="fas fa-search"></i>
 							</div>
 						</div>
-						<div id="category_panel">카테고리</div>
-						<div id="neighbor_panel">이웃목록</div>
+						<div id="category_panel">
+							<span>전체</span>
+							<c:if test='${categoryList != null and categoryList != ""}'>
+							</c:if>
+						</div>
+						<div id="neighbor_panel">
+							<header>
+								<span>이웃 목록</span>
+							</header>
+							<main>
+								<c:if test='${neighborList == null or neighborList == ""}'>
+									<span>이웃이 없습니다.</span>
+								</c:if>
+								<c:if test='${neighborList != null and neighborList != ""}'>	
+									<c:forEach items="${neighborList}" var="neighbor" begin="0" end="8">
+										<div neighborID="${neighbor.target}">
+											<main neighborID="${neighbor.target}">
+												이미지 영역
+											</main>
+											<footer>
+												<span>${neighbor.nickname}</span>
+											</footer>
+										</div>
+									</c:forEach>
+								</c:if>
+							</main>
+							<footer>
+								왼쪽 오른쪽 버튼
+							</footer>
+						</div>
 					</div>
 				</c:when>
 			</c:choose>
@@ -127,7 +159,7 @@
 								</header>
 								<main class="post_content">${post.content}</main>
 								<footer class="post_goodAndComment">
-									<div id="post_good">
+									<div id="post_good" class="flex_center_center">
 									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
 										<i class="fas fa-heart"></i>
 									</c:if>
@@ -135,12 +167,11 @@
 										<i class="far fa-heart"></i>
 									</c:if>
 									<span>좋아요 <span id="goodCount">0</span></span>
-								</div>
-								<div id="post_comment">
-									<span>댓글 <span id="commentCount">0</span></span>|
-									<i class="fas fa-chevron-up"></i>
-									<i class="fas fa-chevron-down"></i>
-								</div>
+									</div>
+									<div id="post_comment" class="flex_center_center">
+										<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
+										<i class="fas fa-chevron-down"></i>
+									</div>
 								</footer>
 							</div>
 					    </c:forEach>
@@ -163,10 +194,14 @@
 										<i class="far fa-heart"></i>
 									</c:if>
 									<span>좋아요 <span id="goodCount">0</span></span>
+									<i class="fas fa-chevron-down"></i>
 								</div>
 								<div id="post_comment">
 									<span>댓글 <span id="commentCount">0</span></span>|<span></span>
 								</div>
+							</footer>
+							<footer class="post_comment_hidden ">
+							댓글 히든 영역
 							</footer>
 						</div>
 				    </c:if>

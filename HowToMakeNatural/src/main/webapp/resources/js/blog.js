@@ -320,27 +320,31 @@ $('#my_menu>#third>div').on('click', function(event){
 
 
 /* 개인 블로그 네이게이션 - 내 블로그 */
-$('#personal_nav>div>#span_type>span.click:nth-child(1)').on('click', function(event){
-	if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')===""){
+$('#personal_nav>div>#span_type>span#my_blog').on('click', function(event){
+	var myID=$("#personal_nav>div>#span_type>span#my_blog").attr('myID');
+	
+	if(myID===""){
 		location.href="/login";
 	}
-	else if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')!==""){
-		location.href="/blog/"+$('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID');
+	else if(myID!==""){
+		location.href="/blog/"+myID;
 	}
 });
 
 /* 개인 블로그 네이게이션 - 이웃 블로그 */
-$('#personal_nav>div>#span_type>span.click:nth-child(2)').on('click', function(event){
-	if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')===""){
+$('#personal_nav>div>#span_type>span#neighbor_blog').on('click', function(event){
+	var myID=$("#personal_nav>div>#span_type>span#my_blog").attr('myID');
+	
+	if(myID===""){
 		location.href="/login";
 	}
-	else if($('#personal_nav>div>#span_type>span.click:nth-child(1)').attr('myID')!==""){
+	else if(myID!==""){
 		//작성 예정
 	}
 });
 
 /* 개인 블로그 네이게이션 - 블로그 홈 */
-$('#personal_nav>div>#span_type>span.click:nth-child(3)').on('click', function(event){
+$('#personal_nav>div>#span_type>span#blog_home').on('click', function(event){
 	location.href="/blog/main";
 });
 
@@ -376,4 +380,32 @@ $('.personal_post>.post_profileAndNameAndSigndate>.profile_image').on('click', f
 /* 개인 블로그 게시글의 유저 닉네임 클릭시 개인 블로그 메인으로 이동 */
 $('.personal_post>.post_profileAndNameAndSigndate>span').on('click', function(event){
 	location.href="/blog/"+$("#blogUserID").val();
+});
+
+/* 이웃 목록에서 이웃의 프로필 클릭 시 해당 이웃의 블로그로 이동 */
+$('#neighbor_panel>main>div>main').on('click', function(event){
+	location.href="/blog/"+$(event.target).attr("neighborID");
+});
+
+/* 게시글의 댓글 영역 활성/비활성 */
+$('.personal_post>.post_goodAndComment>#post_comment').on('click', function(event){
+	//댓글 버튼을 클릭하여 히든 영역이 활성화 된 경우
+	//1. 댓글 버튼에 active 클래스를 toggle
+	//2. 버튼의 모양 변경
+	//3. 댓글 히든 영역 활성화
+	
+	if($(".personal_post>.post_goodAndComment>#post_comment").hasClass("active") !== true){
+		console.log("오픈");
+		$(".personal_post>.post_goodAndComment>#post_comment").addClass("active");
+		$(".personal_post>.post_goodAndComment>#post_comment>i").removeClass("fa-chevron-down");
+		$(".personal_post>.post_goodAndComment>#post_comment>i").addClass("fa-chevron-up");
+		$(".personal_post>.post_comment_hidden").removeClass("hidden");
+	}
+	else if($(".personal_post>.post_goodAndComment>#post_comment").hasClass("active") === true){
+		console.log("클로즈");
+		$(".personal_post>.post_goodAndComment>#post_comment").removeClass("active");
+		$(".personal_post>.post_goodAndComment>#post_comment>i").removeClass("fa-chevron-up");
+		$(".personal_post>.post_comment_hidden").addClass("hidden");
+		
+	}
 });

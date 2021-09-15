@@ -95,7 +95,7 @@
     
     <!--  카테고리 목록 검색  -->
     <select id="selectCategory" parameterType="hashmap" resultType="hashmap">
-    	select category_name from blog_category where userID = #{userID} order by category_order_no, no
+    	select category_name, count from blog_category where userID = #{userID} and useYN = "Y" order by category_order_no, no
     </select>
     
     <!-- 이웃목록 검색 -->
