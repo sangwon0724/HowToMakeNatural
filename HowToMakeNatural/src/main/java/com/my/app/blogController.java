@@ -166,7 +166,6 @@ public class blogController {
 		//해당 블로그의 유저 정보 가져오기
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
 		
-
 		//이웃목록 긁어오기
 		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //게시글 10개
 		
@@ -188,28 +187,35 @@ public class blogController {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		
-		//게시글 목록
-		List<HashMap<String, Object>> postList;
-		
+		//xml 파일에서 사용할 값 설정
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", 0);  //MariaDB 특성
 		map.put("category", "");
 		map.put("userID", userID);
 		map.put("block", 5);
 		
-		postList=blogService.selectPost(map); //게시글 목록
+		//게시글 목록을 위한 전체 검색
+		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 목록
 		
 		//해당 블로그의 유저 정보 가져오기
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
 		
-		model.addAttribute("postList", postList);
-		model.addAttribute("userInfo", userInfo);
-		model.addAttribute("nowPostNo", no);
+		//이웃목록 긁어오기
+		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //게시글 10개
+		
+		//이웃목록 긁어오기
+		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
+		
+		model.addAttribute("postList", postList); //게시글 목록 등록
+		model.addAttribute("userInfo", userInfo); //블로그 유조애 대한 정보 등록
+		model.addAttribute("nowPostNo", no); //현재 게시글의 번호를 등록
+		model.addAttribute("categoryList", categoryList); //카테고리 목록
+		model.addAttribute("neighborList", neighborList); //이웃 목록
 		
 
-		map.put("no", no);
+		map.put("no", no); //단일 게시글 검색용
 		postList=blogService.selectPost(map); //단일 게시물 검색
-		model.addAttribute("onePost", postList.get(0));
+		model.addAttribute("onePost", postList.get(0)); //단일 게시물에 대한 정보 등록
 		
 	    return "/blog/personal";
 	}
