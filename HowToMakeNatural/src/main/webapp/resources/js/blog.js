@@ -392,6 +392,88 @@ $('#neighbor_panel>main>div>main').on('click', function(event){
 	location.href="/blog/"+$(event.target).attr("neighborID");
 });
 
+/* 이웃목록의 페이지 변경 */
+$('#neighbor_panel>footer>div:not(.disabled)').on('click', function(event){
+	var total_page = $('#neighbor_page_total').val(); //총 페이지 수
+	var current_page = $('#neighbor_page_current').val(); //현재 페이지
+	var change_page; //변경될 페이지
+	
+	if($(event.target).attr('id')==="neighbor_page_left"){
+		if(current_page >= 2){
+			change_page= current_page - 1;
+			$('#neighbor_page_current').val(change_page); //페이지 값 변경
+			
+			//1페이지에 대한 조건문
+			if(change_page === 1){
+				$('#neighbor_panel>footer>div#neighbor_page_left').addClass('disabled');
+			}
+			else if(change_page !== 1){
+				$('#neighbor_panel>footer>div#neighbor_page_left').removeClass('disabled');
+			}
+		}
+	}
+	else if ($(event.target).attr('id')==="neighbor_page_right"){
+		if(current_page -1 < total_page){
+			change_page= current_page + 1;
+			$('#neighbor_page_current').val(change_page); //페이지 값 변경
+			
+			//마지막 페이지에 대한 조건문
+			if(change_page === total_page){
+				$('#neighbor_panel>footer>div#neighbor_page_right').addClass('disabled');
+			}
+			else if (change_page !== total_page){
+				$('#neighbor_panel>footer>div#neighbor_page_right').removeClass('disabled');
+			}
+		}
+	}
+	
+	//MariaDB에 대해서 limit에 사용할 값 설정
+	change_page-=1; //MariaDB 특성 - 0부터 시작
+	change_page*=9; //한 페이지당 9명씩 표출
+	
+	//Ajax로 전달할 값 설정
+
+	var data = {
+		page: change_page,
+	    userID : $('#blogUserID').val()
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/perosnal/Ajax/my_neighbor",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var neighborList="";
+        	//수정 예정
+        	$.each(result.neighborList, function (index, item) {
+        		postList+=
+               `<div class="main_post">
+                   <div class="post_content">
+					<div class="post_profileAndName">
+						<div class="post_userProfile" userID="${item.userID}"></div>
+						<a href="/blog/${item.userID}">${item.userNickName}</a>
+					</div>
+					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
+					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${item.content}</a></div>
+					<div class="post_goodAndComment">
+						<span>좋아요 0</span>
+						<span>댓글 0</span>
+					</div>
+				</div>
+				<div class="post_image"></div>
+			</div>`;
+            });//each 종료
+            $('#neighbor_panel>main').html(neighborList);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+});
+
 /* 게시글의 댓글 영역 활성/비활성 */
 $('.personal_post>.post_goodAndComment>#post_comment').on('click', function(event){
 	//댓글 버튼을 클릭하여 히든 영역이 활성화 된 경우

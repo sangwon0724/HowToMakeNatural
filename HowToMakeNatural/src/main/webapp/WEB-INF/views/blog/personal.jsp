@@ -143,7 +143,7 @@
 								<div id="neighbor_page_left" class="flex_center_center disabled">
 									<i class="fas fa-chevron-left" aria-hidden="true"></i>
 								</div>
-								<div page="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>">
+								<div id="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>">
 									<i class="fas fa-chevron-right" aria-hidden="true"></i>
 								</div>
 							</footer>
