@@ -223,7 +223,20 @@
 #neighbor_panel>footer{
 	width: 100%;
 	height: 10%;
-	background-color: yellow;/*임시*/
+}
+#neighbor_panel>footer>div
+{
+	width : 11%;
+	height: 70%;
+	border: 1px solid black;
+	margin: 0 5%;
+	cursor: pointer;
+}
+#neighbor_panel>footer>div.disabled
+{
+	border: 1px solid #dfe6e9;
+	color: #dfe6e9;
+	cursor: auto;
 }
 
 /*============================================================================================================*/

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -18,8 +19,33 @@
 </head>
 <body>
 	<!-- 히든 값 영역 시작 -->
-	<input type="hidden" id="blogUserID" value="${userInfo.id}">
-	<input type="hidden" id="nowPostNo" value="${nowPostNo}">
+		<!-- 현재 위치한 블로그 주인의 아이디 -->
+		<input type="hidden" id="blogUserID" value="${userInfo.id}">
+		<!-- 현재 게시글 번호 -->
+		<input type="hidden" id="nowPostNo" value="${nowPostNo}">
+		
+		<c:if test='${neighborList != null and neighborList != ""}'>
+			<c:forEach items="${neighborList}" var="neighbor" begin="0" end="0">
+				<c:set var="neighbor_count" value="${neighbor.count}"/>
+			</c:forEach>
+		</c:if>
+		<!-- 이웃 목록에 불러들일 전체 이웃의 수 -->
+		<input type="hidden" id="neighbor_count" value="${neighbor_count}">
+		<!-- 이웃 목록의 총 페이지 수 -->
+		<c:if test="${neighbor_count%9 != 0}">
+			<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9+(1-neighbor_count/9%1)%1}" integerOnly="true"/>
+		</c:if>
+		<c:if test="${neighbor_count%9 == 0}">
+			<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9}" integerOnly="true"/>
+		</c:if>
+		<input type="hidden" id="neighbor_page_total" value="${neighbor_page_total}">
+		<!-- 이웃 목록의 현재 페이지 -->
+		<input type="hidden" id="neighbor_page_current" value="1">
+		
+		<!-- 게시글의 총 개수 -->
+		<!-- 게시글 목록의 총 페이지 수 -->
+		<!-- 게시글 목록(위쪽)의 현재 페이지 -->
+		<!-- 게시글 목록(아래쪽)의 현재 페이지 -->
 	<!-- 히든 값 영역 종료 -->
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
@@ -113,8 +139,13 @@
 									</c:forEach>
 								</c:if>
 							</main>
-							<footer>
-								왼쪽 오른쪽 버튼
+							<footer class="flex_center_center">
+								<div id="neighbor_page_left" class="flex_center_center disabled">
+									<i class="fas fa-chevron-left" aria-hidden="true"></i>
+								</div>
+								<div page="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>">
+									<i class="fas fa-chevron-right" aria-hidden="true"></i>
+								</div>
 							</footer>
 						</div>
 					</div>

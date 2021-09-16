@@ -100,6 +100,6 @@
     
     <!-- 이웃목록 검색 -->
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
-    	select target, nickname from blog_neighbor where id = #{userID} order by no limit ${page*9},9
+    	select count(target) OVER(PARTITION BY 1) count, target, nickname from blog_neighbor where id = #{userID} order by no limit ${page*9},9
     </select>
 </mapper>
