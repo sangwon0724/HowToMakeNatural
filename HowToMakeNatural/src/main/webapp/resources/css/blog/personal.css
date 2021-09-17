@@ -53,6 +53,7 @@
 	height: 55%;
     border: 1.5px dashed #6c5ce7;
     background-color: #fff;
+    cursor: pointer;
 }
 #personal_nav>div>#blog_all_menu>i{
     color: #6c5ce7;
