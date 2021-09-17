@@ -404,7 +404,6 @@ $('#neighbor_panel>footer>div').on('click', function(event){
 		if(current_page >= 2){
 			change_page = current_page - 1;
 			$('#neighbor_page_current').val(change_page); //페이지 값 변경
-			
 		}
 	}
 	else if ($(target).attr('id')==="neighbor_page_right" && $(target).hasClass('disabled') !== true){
@@ -433,11 +432,8 @@ $('#neighbor_panel>footer>div').on('click', function(event){
 		}
 		
 		//MariaDB에 대해서 limit에 사용할 값 설정
-		console.log(change_page);
 		change_page-=1; //MariaDB 특성 - 0부터 시작
-		console.log(change_page);
 		change_page*=9; //한 페이지당 9명씩 표출, SQL에 추가
-		console.log(change_page);
 		
 		//Ajax로 전달할 값 설정
 		var data = {
@@ -452,7 +448,6 @@ $('#neighbor_panel>footer>div').on('click', function(event){
 	        contentType: "application/json",
 	        success: function(result){
 	        	var neighborList="";
-	        	console.log(result.length);
 	        	$.each(result.neighborList, function (index, item) {
 	        		neighborList+=
 	               `<div neighborID="${item.target}">
