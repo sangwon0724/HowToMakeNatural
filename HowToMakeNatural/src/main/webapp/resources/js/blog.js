@@ -393,85 +393,85 @@ $('#neighbor_panel>main>div>main').on('click', function(event){
 });
 
 /* 이웃목록의 페이지 변경 */
-$('#neighbor_panel>footer>div:not(.disabled)').on('click', function(event){
-	var total_page = $('#neighbor_page_total').val(); //총 페이지 수
-	var current_page = $('#neighbor_page_current').val(); //현재 페이지
-	var change_page; //변경될 페이지
+$('#neighbor_panel>footer>div').on('click', function(event){
+	var total_page = parseInt($('#neighbor_page_total').val()); //총 페이지 수
+	var current_page =  parseInt($('#neighbor_page_current').val()); //현재 페이지
+	var change_page=0; //변경될 페이지
 	
-	if($(event.target).attr('id')==="neighbor_page_left"){
+	var target = $(event.target); //타겟 저장
+	
+	if($(target).attr('id')==="neighbor_page_left" && $(target).hasClass('disabled') !== true){
 		if(current_page >= 2){
-			change_page= current_page - 1;
+			change_page = current_page - 1;
 			$('#neighbor_page_current').val(change_page); //페이지 값 변경
 			
-			//1페이지에 대한 조건문
-			if(change_page === 1){
-				$('#neighbor_panel>footer>div#neighbor_page_left').addClass('disabled');
-			}
-			else if(change_page !== 1){
-				$('#neighbor_panel>footer>div#neighbor_page_left').removeClass('disabled');
-			}
 		}
 	}
-	else if ($(event.target).attr('id')==="neighbor_page_right"){
+	else if ($(target).attr('id')==="neighbor_page_right" && $(target).hasClass('disabled') !== true){
 		if(current_page -1 < total_page){
-			change_page= current_page + 1;
+			change_page = current_page + 1;
 			$('#neighbor_page_current').val(change_page); //페이지 값 변경
-			
-			//마지막 페이지에 대한 조건문
-			if(change_page === total_page){
-				$('#neighbor_panel>footer>div#neighbor_page_right').addClass('disabled');
-			}
-			else if (change_page !== total_page){
-				$('#neighbor_panel>footer>div#neighbor_page_right').removeClass('disabled');
-			}
 		}
 	}
 	
-	//MariaDB에 대해서 limit에 사용할 값 설정
-	change_page-=1; //MariaDB 특성 - 0부터 시작
-	change_page*=9; //한 페이지당 9명씩 표출
-	
-	//Ajax로 전달할 값 설정
-
-	var data = {
-		page: change_page,
-	    userID : $('#blogUserID').val()
-    };
-	
-	//게시글 변경
-	$.ajax({
-        url: "/blog/perosnal/Ajax/my_neighbor",
-        type: "POST",
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        success: function(result){
-        	var neighborList="";
-        	//수정 예정
-        	$.each(result.neighborList, function (index, item) {
-        		postList+=
-               `<div class="main_post">
-                   <div class="post_content">
-					<div class="post_profileAndName">
-						<div class="post_userProfile" userID="${item.userID}"></div>
-						<a href="/blog/${item.userID}">${item.userNickName}</a>
-					</div>
-					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
-					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${item.content}</a></div>
-					<div class="post_goodAndComment">
-						<span>좋아요 0</span>
-						<span>댓글 0</span>
-					</div>
-				</div>
-				<div class="post_image"></div>
-			</div>`;
-            });//each 종료
-            $('#neighbor_panel>main').html(neighborList);
-        },
-        error: function(error){
-            alert("오류 발생");
-            console.log(error);
-        }
-    });
+	//오류방지
+	if(change_page !== 0){
+		//1페이지에 대한 조건문
+		if(change_page === 1){
+			$('#neighbor_panel>footer>div#neighbor_page_left').addClass('disabled');
+		}
+		else if(change_page !== 1){
+			$('#neighbor_panel>footer>div#neighbor_page_left').removeClass('disabled');
+		}
+		
+		//마지막 페이지에 대한 조건문
+		if(change_page === total_page){
+			$('#neighbor_panel>footer>div#neighbor_page_right').addClass('disabled');
+		}
+		else if (change_page !== total_page){
+			$('#neighbor_panel>footer>div#neighbor_page_right').removeClass('disabled');
+		}
+		
+		//MariaDB에 대해서 limit에 사용할 값 설정
+		console.log(change_page);
+		change_page-=1; //MariaDB 특성 - 0부터 시작
+		console.log(change_page);
+		change_page*=9; //한 페이지당 9명씩 표출, SQL에 추가
+		console.log(change_page);
+		
+		//Ajax로 전달할 값 설정
+		var data = {
+			page: parseInt(change_page),
+		    userID : $('#blogUserID').val()
+	    };
+		//게시글 변경
+		$.ajax({
+	        url: "/blog/perosnal/Ajax/my_neighbor",
+	        type: "POST",
+	        data: JSON.stringify(data),
+	        contentType: "application/json",
+	        success: function(result){
+	        	var neighborList="";
+	        	console.log(result.length);
+	        	$.each(result.neighborList, function (index, item) {
+	        		neighborList+=
+	               `<div neighborID="${item.target}">
+						<main neighborID="${item.target}">
+							이미지 영역
+						</main>
+						<footer>
+							<span>${item.nickname}</span>
+						</footer>
+					</div>`;
+	            });//each 종료
+	            $('#neighbor_panel>main').html(neighborList);
+	        },
+	        error: function(error){
+	            alert("오류 발생");
+	            console.log(error);
+	        }
+	    });
+	}
 });
 
 /* 게시글의 댓글 영역 활성/비활성 */
