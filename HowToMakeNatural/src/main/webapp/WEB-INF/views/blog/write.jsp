@@ -12,9 +12,11 @@
 <title>게시글 작성</title>
 </head>
 <body>
-
-
-
+	1. 제목
+	2. 내용
+	3. 카테고리
+	4. 태그
+	5. 전송버튼 (ajax 사용 => 성공 => 블로그 메인으로 이동)
 	<!-- Scripts -->
 	<script src="<c:url value="/resources/js/blog.js"/>"></script>
 </body>
