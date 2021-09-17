@@ -206,12 +206,12 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 개인 블로그 메인 글 가져오기 - Ajax */ //임시 작성
+	/* 개인 블로그 메인 글 가져오기 - Ajax */ //작성중
 	@ResponseBody
 	@RequestMapping(value = "/blog/perosnal/Ajax/{menu_name}", method = RequestMethod.POST)
 	public Map<String, Object> getMainAjaxForMyMenu(@PathVariable String menu_name, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
-		System.out.println("Ajax 요청 - 블로그 메인 / 개인 메뉴 : " + menu_name);
+		System.out.println("Ajax 요청 - 개인 블로그  / 개인 메뉴 : " + menu_name);
 		
 		List<HashMap<String, Object>> neighborList;
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
@@ -228,6 +228,70 @@ public class blogController {
 			result.put("neighborList", neighborList);
 			break;
 		}
+		
+	    return result;
+	}
+	
+	/* 개인 블로그 - 게시글 작성 */
+	@RequestMapping(value = "/blog/{userID}/write", method = RequestMethod.GET)
+	public String getPersonalPostWrite(@PathVariable String userID, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 게시글 작성 (get)- 유저 아이디 : " + userID);
+		
+	    return "/blog/write";
+	}
+	
+	/* 개인 블로그 - 게시글 작성 ajax */
+	@ResponseBody
+	@RequestMapping(value = "/blog/{userID}/write/ajax", method = RequestMethod.POST)
+	public Map<String, Object> postPersonalPostWrite(@PathVariable String userID, @RequestBody HashMap<String, Object> map, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 게시글 작성 (post)- 유저 아이디 : " + userID);
+		
+		//게시글 insert
+		
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+
+	/* 개인 블로그 - 게시글 수정 */
+	@RequestMapping(value = "/blog/{userID}/{no}/update", method = RequestMethod.GET)
+	public String getPersonalPostUpdate(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 게시글 수정 (get)- 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
+		
+		//게시글 정보 가져오기
+		
+		//model에 등록하기
+		
+	    return "/blog/personal";
+	}
+	
+	/* 개인 블로그 - 게시글 수정 ajax */
+	@RequestMapping(value = "/blog/{userID}/{no}/update", method = RequestMethod.POST)
+	public Map<String, Object> postPersonalPostUpdate(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 게시글 수정 (post)- 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
+		
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+
+	/* 개인 블로그 - 게시글 삭제 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/{userID}/{no}/delete", method = RequestMethod.POST)
+	public Map<String, Object> getPersonalPostDelete(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 게시글 삭제 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
+		
+		//삭제 처리
+		
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		result.put("message", "success"); //성공 메세지 전달
 		
 	    return result;
 	}

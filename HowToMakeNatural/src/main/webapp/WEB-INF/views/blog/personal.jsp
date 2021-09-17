@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <!-- 공통 적용 파일 시작 -->
 <c:import url="../include/common.jsp"></c:import>
-<!-- 공통 적용 파일 -->
+<!-- 공통 적용 파일 종료-->
 <link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet"
 	type="text/css">
 <title>
