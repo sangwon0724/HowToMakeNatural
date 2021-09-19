@@ -15,7 +15,7 @@
 	<header id="common_header">
 		<section>
 			<div id="logo">
-				<span>Totalian</span>
+				<span>Natural Blog</span>
 			</div>
 			<div id="search">
 				<div id="search_box">
