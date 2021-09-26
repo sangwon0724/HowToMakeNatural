@@ -99,6 +99,15 @@
 				focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
 				lang: "ko-KR",					// 한글 설정
 				placeholder: '최대 2048자까지 쓸 수 있습니다',	//placeholder 설정
+				toolbar: [ /* 폰트선택 툴바 사용하려면 주석해제 */ // ['fontname', ['fontname']],
+					['fontsize', ['fontsize']],
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['color', ['color']],
+					['table', ['table']],
+					['para', ['paragraph']],
+					['insert', ['link', 'picture']],
+					['view', []]
+				],
 				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
 					onImageUpload : function(files) {
 						uploadImageFile(files[0],this);				
@@ -115,6 +124,7 @@
 				}
 			});
 			$('.note-editor').width($("#write_form").width()* 0.95); //summernote 가로 규격 변경 (단위 : 백분율)
+			$(".note-group-image-url").remove(); //Image URL 등록 input 삭제
 		});
 		
 		/* 이미지 업로드 */

@@ -86,7 +86,7 @@
 								<a href="/blog/${post.userID}">${post.userNickName}</a>
 							</div>
 							<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
-							<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content}</a></div>
+							<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</a></div>
 							<div class="post_goodAndComment">
 								<span>좋아요 0</span>
 								<span>댓글 0</span>

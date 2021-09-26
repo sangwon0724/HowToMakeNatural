@@ -323,7 +323,9 @@
 	width: 100%;
 	height: auto;
 	min-height: 20vh;
-	background-color: gray;/*임시*/
+}
+.personal_post>.post_content>p{
+	margin-bottom: 10px;
 }
 .personal_post>.post_goodAndComment{
 	width: 100%;
@@ -331,7 +333,6 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	background-color: lightblue;/*임시*/
 }
 .personal_post>.post_goodAndComment>#post_good{
 	width: 12%;
