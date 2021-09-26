@@ -3,19 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <c:set var="URL" value="${pageContext.request.requestURL}" />
-<c:if test = "${fn:contains(URL, 'write')}">
-	<style type="text/css">
-		body {
-			  margin: 0;
-			  padding: 0;
-			  border: 0;
-			  font-size: 100%;
-			  font: inherit;
-			  vertical-align: baseline;
-			  background-color: #dfe6e9;
-		}
-	</style>
-</c:if>
 <c:if test = "${!fn:contains(URL, 'write')}">
 	<link href="<c:url value="/resources/css/reset.css" />" rel="stylesheet" type="text/css">
 </c:if>

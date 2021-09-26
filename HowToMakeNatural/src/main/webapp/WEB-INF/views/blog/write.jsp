@@ -9,11 +9,82 @@
 	<!-- 공통 적용 파일 종료-->
 
 	<!-- include summernote css/js -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 		
 	<link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet" type="text/css">
+	
+	<style type="text/css">
+		body {
+			  margin: 0;
+			  padding: 0;
+			  border: 0;
+			  font-size: 100%;
+			  font: inherit;
+			  vertical-align: baseline;
+			  background-color: #A29BFE;
+		}
+		
+		/* The container must be positioned relative: */
+		.custom-select {
+		  position: relative;
+		  font-family: Arial;
+		}
+		
+		.custom-select select {
+		  display: none; /*hide original SELECT element: */
+		}
+		
+		.select-selected {
+		  background-color: #A29BFE;
+		}
+		
+		/* Style the arrow inside the select element: */
+		.select-selected:after {
+		  position: absolute;
+		  content: "";
+		  top: 14px;
+		  right: 10px;
+		  width: 0;
+		  height: 0;
+		  border: 6px solid transparent;
+		  border-color: #fff transparent transparent transparent;
+		}
+		
+		/* Point the arrow upwards when the select box is open (active): */
+		.select-selected.select-arrow-active:after {
+		  border-color: transparent transparent #fff transparent;
+		  top: 7px;
+		}
+		
+		/* style the items (options), including the selected item: */
+		.select-items div,.select-selected {
+		  color: #ffffff;
+		  padding: 8px 16px;
+		  border: 1px solid transparent;
+		  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+		  cursor: pointer;
+		}
+		
+		/* Style items (options): */
+		.select-items {
+		  position: absolute;
+		  background-color: #A29BFE;
+		  top: 100%;
+		  left: 0;
+		  right: 0;
+		  z-index: 99;
+		}
+		
+		/* Hide the items when the select box is closed: */
+		.select-hide {
+		  display: none;
+		}
+		
+		.select-items div:hover, .same-as-selected {
+		  background-color: rgba(0, 0, 0, 0.1);
+		}
+	</style>
 <title>게시글 작성</title>
 
 <script type="text/javascript">
@@ -85,27 +156,28 @@
 	</script>
 </head>
 <body>
-	<form method="post" name="write_form" id="write_form" enctype="multipart/form-data" accept-charset="utf-8">
+	<form method="post" id="write_form" enctype="multipart/form-data" accept-charset="utf-8" onSubmit="return false;">
 	    <input type="text" id="title" placeholder="제목을 입력해주세요.">
 	    <div class="custom-select" style="width:200px;">
-  <select>
-    <option value="0">Select car:</option>
-    <option value="1">Audi</option>
-    <option value="2">BMW</option>
-    <option value="3">Citroen</option>
-    <option value="4">Ford</option>
-    <option value="5">Honda</option>
-    <option value="6">Jaguar</option>
-    <option value="7">Land Rover</option>
-    <option value="8">Mercedes</option>
-    <option value="9">Mini</option>
-    <option value="10">Nissan</option>
-    <option value="11">Toyota</option>
-    <option value="12">Volvo</option>
-  </select>
-</div>
+		  <select>
+		    <option value="0">Select car:</option>
+		    <option value="1">Audi</option>
+		    <option value="2">BMW</option>
+		    <option value="3">Citroen</option>
+		    <option value="4">Ford</option>
+		    <option value="5">Honda</option>
+		    <option value="6">Jaguar</option>
+		    <option value="7">Land Rover</option>
+		    <option value="8">Mercedes</option>
+		    <option value="9">Mini</option>
+		    <option value="10">Nissan</option>
+		    <option value="11">Toyota</option>
+		    <option value="12">Volvo</option>
+		  </select>
+		</div>
 	    <input type="text" id="tag" placeholder="#을 붙여 태그를 입력해주세요. (※ 주의 : 태그를 구분할때 #만 붙여야 합니다.) 예시) #일상#여행">
-	 	<div id="summernote"></div>
+	 	<div id="summernote" name="text"></div>
+	 	<button onclick="write_submit()" >입력</button>
  	</form>
 	
 	

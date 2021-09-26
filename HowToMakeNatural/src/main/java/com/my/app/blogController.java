@@ -232,24 +232,26 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 개인 블로그 - 게시글 작성 */
+	/* 개인 블로그 - 게시글 작성  */
 	@RequestMapping(value = "/blog/{userID}/write", method = RequestMethod.GET)
 	public String getPersonalPostWrite(@PathVariable String userID, Model model) throws Exception {
 		
-		System.out.println("개인 블로그 게시글 작성 (get)- 유저 아이디 : " + userID);
+		System.out.println("개인 블로그 게시글 작성 - 유저 아이디 : " + userID);
 		
 	    return "/blog/write";
 	}
 	
-	/* 개인 블로그 - 게시글 작성 ajax */
+	/* 개인 블로그 - 게시글 작성 - ajax */
 	@ResponseBody
-	@RequestMapping(value = "/blog/{userID}/write/ajax", method = RequestMethod.POST)
-	public Map<String, Object> postPersonalPostWrite(@PathVariable String userID, @RequestBody HashMap<String, Object> map, Model model) throws Exception {
+	@RequestMapping(value = "/blog/{userID}/write/ajax", method = RequestMethod.POST, produces = "application/json; charset=utf8")
+	public Map<String, Object> ajaxPersonalPostWrite(@PathVariable String userID, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
-		System.out.println("개인 블로그 게시글 작성 (post)- 유저 아이디 : " + userID);
+		System.out.println("개인 블로그 게시글 작성  ajax- 유저 아이디 : " + userID);
+		
+		System.out.println("전송 데이터 : \n" + map);
 		
 		//게시글 insert
-		
+
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		result.put("message", "success"); //성공 메세지 전달
 		

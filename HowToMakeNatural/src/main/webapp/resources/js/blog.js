@@ -499,24 +499,61 @@ $('.personal_post>.post_goodAndComment>#post_comment').on('click', function(even
 
 /* 게시글 추가 */
 function write_submit(){
-	var title = write_form.title.value;
-	var text = write_form.summernote.value;
-	if (name=="")
+	var title = $("#title").val();
+	var tag = $("#tag").val();
+	var category = $("#category option:selected").val();
+	var content = $('#summernote').summernote('code');
+	
+	if (title === "")
 	{
 		alert("게시글의 제목을 입력해주세요");
-		write_form.name.focus();
+		$("#title").focus();
 		return;
 	}
-	if (name!="" && text=="")
+	if (title !== "" && content === "<p><br></p>")
 	{
-		alert("게시글의  내용을 입력해주세요");
-		write_form.text.focus();
+		alert("게시글의 내용을 입력해주세요");
 		return;
 	}
-	if (name!="" && text!="")
+	
+	var data = {
+		title : title,
+		tag : tag,
+		category : category,
+		content : content
+	};
+
+	$.ajax({
+        url: "/blog/11/write/ajax",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	alert("성공");
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+	/*var title = $("#title").val();
+	var content = $("#summernote").val();
+	if (title === "")
+	{
+		alert("게시글의 제목을 입력해주세요");
+		$("#title").focus();
+		return;
+	}
+	else if (title !== "" && content === "")
+	{
+		//alert("게시글의  내용을 입력해주세요");
+		//$(".note-editable").focus();
+		//return;
+	}
+	else if (title!="")
 	{
 		write_form.submit();
-	}
+	}*/
 }
 
 /* 게시글 수정 ajax */
