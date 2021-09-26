@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.my.dao.blogDAOInterface;
-import com.my.vo.blogVO;
 
 @Service
 public class blogService implements blogServiceInterface {
@@ -40,17 +39,17 @@ public class blogService implements blogServiceInterface {
 	}
 
 	@Override
-	public void insertPost(blogVO vo) throws Exception {
-		dao.insertPost(vo);
+	public void insertPost(Map<String, Object> map) throws Exception {
+		dao.insertPost(map);
 	}
 
 	@Override
-	public void updatePost(blogVO vo) throws Exception {
-		dao.updatePost(vo);
+	public void updatePost(Map<String, Object> map) throws Exception {
+		dao.updatePost(map);
 	}
 
 	@Override
-	public void deletePost(blogVO vo) throws Exception {
-		dao.deletePost(vo);
+	public void deletePost(Map<String, Object> map) throws Exception {
+		dao.deletePost(map);
 	}
 }

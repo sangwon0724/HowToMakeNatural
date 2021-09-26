@@ -53,10 +53,10 @@
  			</if>
       		order by no desc
 			<if test='block == null or block == ""'>
-				limit ${page*10},5
+				limit ${start},5
 			</if>
 			<if test='block != null and block != ""'>
-				limit ${page*10},${block}
+				limit ${start},${block}
 			</if>
     </select>
     
@@ -80,7 +80,7 @@
     
     <!-- 게시글 추가 -->
     <insert id="insertPost" parameterType="hashmap">
-    	insert into blog_post(no, text, category, writerID, signdate) values (#{name}, #{text}, #{category}, #{writerID}, NOW())
+    	insert into blog_post(title, content, category, tag, signdate, userID, userNickName) values (#{name}, #{text}, #{category}, #{writerID}, NOW())
     </insert>
     
     <!-- 게시글 수정 -->
@@ -100,6 +100,6 @@
     
     <!-- 이웃목록 검색 -->
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
-    	select count(target) OVER(PARTITION BY 1) count, target, nickname from blog_neighbor where id = #{userID} order by no limit ${page},9
+    	select count(target) OVER(PARTITION BY 1) count, target, nickname from blog_neighbor where id = #{userID} order by no limit ${start},9
     </select>
 </mapper>

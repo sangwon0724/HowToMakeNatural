@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
 import com.my.service.blogServiceInterface;
-import com.my.vo.blogVO;
 import com.my.service.userServiceInterface;
 import com.my.vo.userVO;
 
@@ -81,7 +80,7 @@ public class blogController {
 		List<HashMap<String, Object>> postList;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", 0);
+		map.put("start", 0);
 		map.put("category", "");
 		map.put("block", 10);
 		
@@ -99,14 +98,9 @@ public class blogController {
 	@RequestMapping(value = "/blog/main/Ajax", method = RequestMethod.POST)
 	public Map<String, Object> getMainPostListAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
-		System.out.println("Ajax 요청 - 블로그 메인 / 페이지 : " + map.get("page") + " / 게시글 단위 수 : " + map.get("block") + " / 요청 카테고리 : "+ map.get("category") + " / 검색 요청 항목 : " + map.get("object") + " / 검색 요청 문자 : "+map.get("search_text"));
+		System.out.println("Ajax 요청 - 블로그 메인  / 게시글 단위 수 : " + map.get("block") + " / 요청 카테고리 : "+ map.get("category") + " / 검색 요청 항목 : " + map.get("object") + " / 검색 요청 문자 : "+map.get("search"));
 		
 		List<HashMap<String, Object>> postList;
-		map.put("page", (Integer)map.get("page")-1); //MariaDB 특성때문에  - 1
-		map.put("category", map.get("category"));
-		map.put("object", map.get("object"));
-		map.put("search", map.get("search_text"));
-		map.put("block", map.get("block"));
 		
 		postList=blogService.selectPost(map); //게시글 10개
 		int count = blogService.selectCount(map); //게시글 총 개수
@@ -126,7 +120,7 @@ public class blogController {
 		
 		//xml 파일에서 사용할 값 설정
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", 0); //게시글 검색 + 이웃 검색
+		map.put("start", 0); //게시글 검색 + 이웃 검색
 		map.put("category", ""); //게시글 검색
 		map.put("userID", userID); //게시글 검색 + 카테고리 검색 + 이웃 검색
 		map.put("block", 5); //게시글 검색
@@ -162,7 +156,7 @@ public class blogController {
 		
 		//xml 파일에서 사용할 값 설정
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", 0);  //MariaDB 특성
+		map.put("start", 0);  //MariaDB 특성
 		map.put("category", "");
 		map.put("userID", userID);
 		map.put("block", 5);
@@ -196,16 +190,11 @@ public class blogController {
 	/* 개인 블로그 게시글 목록 가져오기 - Ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/${userID}/Ajax", method = RequestMethod.POST)
-	public Map<String, Object> getPersonalPostListAjax(@PathVariable String userID, blogVO blog,  Model model) throws Exception {
+	public Map<String, Object> getPersonalPostListAjax(@PathVariable String userID, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("게시글 목록을 위한 Ajax 요청 - 개인 블로그 - 유저 아이디 : " + userID);
 		
 		List<HashMap<String, Object>> postList;
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("page", blog.getPage()-1); //MariaDB 특성때문에  - 1
-		map.put("category", blog.getCategory());
-		map.put("block", blog.getBlock());
 		
 		postList=blogService.selectPost(map); //게시글 5개
 		

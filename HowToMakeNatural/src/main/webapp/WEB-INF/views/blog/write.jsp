@@ -160,6 +160,7 @@
 	<!-- 히든 값 영역 시작 -->
 		<!-- 현재 위치한 블로그 주인의 아이디 -->
 		<input type="hidden" id="myID" value="${sessionScope.user.id}">
+		<input type="hidden" id="myNickName" value="${sessionScope.user.blog_nickname}">
 	<!-- 히든 값 영역 종료-->
 	
 	<form method="post" id="write_form" enctype="multipart/form-data" accept-charset="utf-8" onSubmit="return false;">

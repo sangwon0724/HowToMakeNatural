@@ -48,21 +48,21 @@ public class userController {
 	}
 	
 	//login-post
-		@RequestMapping(value = "/login", method = RequestMethod.POST)
-		public String postLogin(userVO vo, HttpServletRequest request) throws Exception {
-			System.out.println("start login - method : post");
-					
-			//userVO result=userService.selectLogin(vo);
-			HttpSession session = request.getSession();
-			
-			//임시
-			if(vo != null) {
-				session.setAttribute("user", vo);
-			}
-
-			//로그인 전의 페이지 주소로 이동
-			return "redirect:"+(String) session.getAttribute("redirectURI");
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String postLogin(userVO vo, HttpServletRequest request) throws Exception {
+		System.out.println("start login - method : post");
+				
+		//userVO result=userService.selectLogin(vo);
+		HttpSession session = request.getSession();
+		
+		//임시
+		if(vo != null) {
+			session.setAttribute("user", vo);
 		}
+
+		//로그인 전의 페이지 주소로 이동
+		return "redirect:"+(String) session.getAttribute("redirectURI");
+	}
 	
 	//logout
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

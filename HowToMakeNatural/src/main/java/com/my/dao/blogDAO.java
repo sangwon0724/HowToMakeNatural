@@ -8,8 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.my.vo.blogVO;
-
 @Repository
 public class blogDAO implements blogDAOInterface {
 	@Autowired
@@ -41,17 +39,17 @@ public class blogDAO implements blogDAOInterface {
 	}
 	
 	@Override
-	public void insertPost(blogVO vo) throws Exception {
-		sqlSession.insert("blogMapper.insertPost", vo);
+	public void insertPost(Map<String, Object> map) throws Exception {
+		sqlSession.insert("blogMapper.insertPost", map);
 	}
 
 	@Override
-	public void updatePost(blogVO vo) throws Exception {
-		sqlSession.update("blogMapper.updatePost", vo);
+	public void updatePost(Map<String, Object> map) throws Exception {
+		sqlSession.update("blogMapper.updatePost", map);
 	}
 
 	@Override
-	public void deletePost(blogVO vo) throws Exception {
-		sqlSession.delete("blogMapper.deletePost", vo);
+	public void deletePost(Map<String, Object> map) throws Exception {
+		sqlSession.delete("blogMapper.deletePost", map);
 	}
 }

@@ -23,10 +23,10 @@ $('#blog_header>section>#login_small>div').on('click',function(){
 	location.href="/login";
 });
 $('#common_header>section>#login_small>div').on('click',function(){
-	if($("#common_header>section>#login_small>div").text()==="로그인"){
+	if($("#common_header>section>#login_small>div").text().match("로그인")){
 		location.href="/login";
 	}
-	else if($("#common_header>section>#login_small>div").text()==="로그아웃"){
+	else if($("#common_header>section>#login_small>div").text().match("로그아웃")){
 		location.href="/logout";
 	}
 });
@@ -75,10 +75,10 @@ $('#common_header>section>#search>#search_box>#search_button').on('click', funct
 	}
 	
 	var data = {
-	  page: 1,
+	  start: 0,
 	  block: 10,
       object: $('#search_object').val(),
-      search_text : $('#search_text').val()
+      search : $('#search_text').val()
 	};
 	
 	//게시글 변경
@@ -131,7 +131,7 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
 	$('#blog_main_category>section>div:first-child').addClass('active');
 	
 	var data = {
-		page: 1,
+		start: 0,
 	    block: 10,
         category: ""
     };
@@ -193,10 +193,10 @@ $('#search_category > .search_category_name').on('click', function(event){
 	}
 	
 	var data = {
-	  page: 1,
+	  start: 0,
 	  block: 10,
       object: $(event.target).attr("category"),
-      search_text : $('#search_text').val()
+      search : $('#search_text').val()
 	};
 	
 	//게시글 변경
@@ -242,7 +242,7 @@ $('#category > .category_name').on('click', function(event){
 	$(event.target).addClass('active');
 	
 	var data = {
-		page: 1,
+		start: 0,
 	    block: 10,
         category: $(event.target).attr('category')
     };
@@ -283,14 +283,14 @@ $('#category > .category_name').on('click', function(event){
     });
 });
 
-//내 글 클릭
+//내 글 클릭 //임시/ 만들 예정
 $('#my_menu>#third>div').on('click', function(event){
 	//강조 변경
 	$('#my_menu>#third>div').removeClass('active');
 	$('#my_menu>#third>div#'+$(event.target).attr("id")).addClass('active');
 	
 	var data = {
-		page: 1,
+		start: 0,
 	    block: 10
     };
 	
@@ -436,7 +436,7 @@ $('#neighbor_panel>footer>div').on('click', function(event){
 		
 		//Ajax로 전달할 값 설정
 		var data = {
-			page: parseInt(change_page),
+			start: parseInt(change_page),
 		    userID : $('#blogUserID').val()
 	    };
 		//게시글 변경
@@ -492,6 +492,75 @@ $('.personal_post>.post_goodAndComment>#post_comment').on('click', function(even
 	}
 });
 
+/* 게시글 리스트 페이징 */
+$('페이징 링크').on('click', function(event){
+	var total_page = parseInt($('#게시글 총페이지').val()); //총 페이지 수
+	var current_page =  parseInt($('#게시글 현재 페이지').val()); //현재 페이지
+	var change_page=0; //변경될 페이지
+	
+	var target = $(event.target); //타겟 저장
+	
+	if($(target).attr('id')==="왼쪽" && $(target).hasClass('disabled') !== true){
+		if(current_page >= 2){
+			change_page = current_page - 1;
+			$('#neighbor_page_current').val(change_page); //페이지 값 변경
+		}
+	}
+	else if ($(target).attr('id')==="오른쪽" && $(target).hasClass('disabled') !== true){
+		if(current_page -1 < total_page){
+			change_page = current_page + 1;
+			$('#neighbor_page_current').val(change_page); //페이지 값 변경
+		}
+	}
+	
+	//오류방지
+	if(change_page !== 0){
+		//1페이지에 대한 조건문
+		if(change_page === 1){
+			$('#왼쪽').addClass('disabled');
+		}
+		else if(change_page !== 1){
+			$('왼쪽').removeClass('disabled');
+		}
+		
+		//마지막 페이지에 대한 조건문
+		if(change_page === total_page){
+			$('#오른쪽').addClass('disabled');
+		}
+		else if (change_page !== total_page){
+			$('오른쪽').removeClass('disabled');
+		}
+		
+		//MariaDB에 대해서 limit에 사용할 값 설정
+		change_page-=1; //MariaDB 특성 - 0부터 시작
+		change_page*=5; //한 페이지당 5개씩 표출, SQL에 추가
+		
+		//Ajax로 전달할 값 설정
+		var data = {
+			start: parseInt(change_page),
+		    userID : $('#blogUserID').val()
+	    };
+		//게시글 변경
+		$.ajax({
+	        url: "/blog/"+$("#myID").val()+"/Ajax",
+	        type: "POST",
+	        data: JSON.stringify(data),
+	        contentType: "application/json",
+	        success: function(result){
+	        	var postList="";
+	        	$.each(result.postList, function (index, item) {
+	        		postList+=
+	               `내용`;
+	            });//each 종료
+	            $('#게시글 목록').html(postList);
+	        },
+	        error: function(error){
+	            alert("오류 발생");
+	            console.log(error);
+	        }
+	    });
+	}
+});
 
 /*============================================================================================================*/
 
@@ -520,7 +589,9 @@ function write_submit(){
 		title : title,
 		tag : tag,
 		category : category,
-		content : content
+		content : content,
+		userID : $("#myID").val(),
+		userNickName : $("#myNickname").val() 
 	};
 
 	$.ajax({
