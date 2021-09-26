@@ -96,7 +96,7 @@
 							</div>
 							<div id="personal_buttons" class="flex_center_center">
 								<c:if test="${not empty sessionScope.user.id and sessionScope.user.id eq userInfo.id}">
-									<span><i class="fas fa-pen"></i>&nbsp;글쓰기</span>
+									<span onclick="location.href='/blog/${sessionScope.user.id}/write'"><i class="fas fa-pen"></i>&nbsp;글쓰기</span>
 									<span><i class="fas fa-cog"></i>&nbsp;관리</span>
 								</c:if>
 								<c:if test="${empty sessionScope.user.id or sessionScope.user.id ne userInfo.id}">

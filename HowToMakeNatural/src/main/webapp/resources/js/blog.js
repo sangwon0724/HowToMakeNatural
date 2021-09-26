@@ -497,7 +497,27 @@ $('.personal_post>.post_goodAndComment>#post_comment').on('click', function(even
 
 /* 블로그 작성 + 수정 + 삭제 부분 */
 
-/* 게시글 추가 ajax */
+/* 게시글 추가 */
+function write_submit(){
+	var title = write_form.title.value;
+	var text = write_form.summernote.value;
+	if (name=="")
+	{
+		alert("게시글의 제목을 입력해주세요");
+		write_form.name.focus();
+		return;
+	}
+	if (name!="" && text=="")
+	{
+		alert("게시글의  내용을 입력해주세요");
+		write_form.text.focus();
+		return;
+	}
+	if (name!="" && text!="")
+	{
+		write_form.submit();
+	}
+}
 
 /* 게시글 수정 ajax */
 

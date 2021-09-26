@@ -128,6 +128,7 @@
 }
 #profile_panel>#personal_buttons>span{
 	margin: 0 10px;
+	cursor: pointer;
 }
 #profile_panel>#personal_buttons>div{
 	width: 80%;
@@ -452,4 +453,36 @@
 	width: 100%;
 	height: 20vh;
 	background-color: lightpurple;/*임시*/
+}
+/*============================================================================================================*/
+
+/* 게시글 작성 */
+
+#write_form{
+	width: 75vw;
+	height: auto;
+	min-height: 100vh;
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	background-color: white;
+}
+
+#write_form>#title{
+	width: 60vw;
+	height: 8vh;
+	margin-top: 5vh;
+	border: none;
+	border-bottom: 1px solid #b2bec3;
+	font-size: 22px;
+}
+
+#write_form>#title:focus{
+	outline: none;
+}
+
+#write_form>#category{
+	height: 5vh;
+	margin-top: 5vh;
+	font-size: 22px;
 }
