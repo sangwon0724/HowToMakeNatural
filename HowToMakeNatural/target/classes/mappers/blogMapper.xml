@@ -80,7 +80,8 @@
     
     <!-- 게시글 추가 -->
     <insert id="insertPost" parameterType="hashmap">
-    	insert into blog_post(title, content, category, tag, signdate, userID, userNickName) values (#{name}, #{text}, #{category}, #{writerID}, NOW())
+    	insert into blog_post(title, content, category, tag, signdate, userID, userNickName)
+    	values (#{title}, #{content}, #{category}, #{tag}, NOW(), #{userID}, #{userNickName})
     </insert>
     
     <!-- 게시글 수정 -->
