@@ -7,7 +7,7 @@
 	<!-- 공통 적용 파일 시작 -->
 	<c:import url="../include/common.jsp"></c:import>
 	<!-- 공통 적용 파일 종료-->
-
+	
 	<!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -91,14 +91,42 @@
 <title>게시글 작성</title>
 
 <script type="text/javascript">
+		$(document).ready(function() {
+			$('#summernote').summernote({
+				height: 300,                 // 에디터 높이
+				minHeight: null,             // 최소 높이
+				maxHeight: null,             // 최대 높이
+				focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+				lang: "ko-KR",					// 한글 설정
+				placeholder: '최대 2048자까지 쓸 수 있습니다',	//placeholder 설정
+				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+					onImageUpload : function(files) {
+						uploadImageFile(files[0],this);				
+					},
+					onPaste: function (e) {
+						var clipboardData = e.originalEvent.clipboardData;
+						if (clipboardData && clipboardData.items && clipboardData.items.length) {
+							var item = clipboardData.items[0];
+							if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+								e.preventDefault();
+							}
+						}
+					}
+				}
+			});
+			$('.note-editor').width($("#write_form").width()* 0.95); //summernote 가로 규격 변경 (단위 : 백분율)
+		});
+		
+		/* 이미지 업로드 */
 		function uploadImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
+			var url = "/blog/"+$("#myID").val()+"/write/image";
 			
 			$.ajax({
 				data : data,
 				type : "POST",
-				url : "./image",	
+				url : url,	
 				dataType:'json',
 			    async: true,
 				processData: false,		
@@ -125,36 +153,15 @@
 				}
 			
 			});
-			}
-			
-		$(document).ready(function() {
-			$('#summernote').summernote({
-				height: 300,                 // 에디터 높이
-				minHeight: null,             // 최소 높이
-				maxHeight: null,             // 최대 높이
-				focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-				lang: "ko-KR",					// 한글 설정
-				placeholder: '최대 2048자까지 쓸 수 있습니다',	//placeholder 설정
-				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
-					onImageUpload : function(files) {
-						uploadImageFile(files[0],this);				
-					},
-					onPaste: function (e) {
-						var clipboardData = e.originalEvent.clipboardData;
-						if (clipboardData && clipboardData.items && clipboardData.items.length) {
-							var item = clipboardData.items[0];
-							if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-								e.preventDefault();
-							}
-						}
-					}
-				}
-			});
-			$('.note-editor').width($("#write_form").width()* 0.95); //summernote 가로 규격 변경 (단위 : 백분율)
-		});
+		}
 	</script>
 </head>
 <body>
+	<!-- 히든 값 영역 시작 -->
+		<!-- 현재 위치한 블로그 주인의 아이디 -->
+		<input type="hidden" id="myID" value="${sessionScope.user.id}">
+	<!-- 히든 값 영역 종료-->
+	
 	<form method="post" id="write_form" enctype="multipart/form-data" accept-charset="utf-8" onSubmit="return false;">
 	    <input type="text" id="title" placeholder="제목을 입력해주세요.">
 	    <div class="write_line">
