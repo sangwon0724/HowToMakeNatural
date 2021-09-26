@@ -243,7 +243,7 @@ public class blogController {
 	
 	/* 개인 블로그 - 게시글 작성 - ajax */
 	@ResponseBody
-	@RequestMapping(value = "/blog/{userID}/write/ajax", method = RequestMethod.POST, produces = "application/json; charset=utf8")
+	@RequestMapping(value = "/blog/{userID}/write/ajax", method = RequestMethod.POST)
 	public Map<String, Object> ajaxPersonalPostWrite(@PathVariable String userID, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 게시글 작성  ajax- 유저 아이디 : " + userID);
@@ -272,8 +272,8 @@ public class blogController {
 	}
 	
 	/* 개인 블로그 - 게시글 수정 ajax */
-	@RequestMapping(value = "/blog/{userID}/{no}/update", method = RequestMethod.POST)
-	public Map<String, Object> postPersonalPostUpdate(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+	@RequestMapping(value = "/blog/{userID}/{no}/update/ajax", method = RequestMethod.POST)
+	public Map<String, Object> postPersonalPostUpdate(@PathVariable String userID, @PathVariable int no, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 게시글 수정 (post)- 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		

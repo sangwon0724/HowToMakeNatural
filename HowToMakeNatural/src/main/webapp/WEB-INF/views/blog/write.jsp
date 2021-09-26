@@ -84,14 +84,13 @@
 		.select-items div:hover, .same-as-selected {
 		  background-color: rgba(0, 0, 0, 0.1);
 		}
+		
+		/* summernote 중앙 정렬 */
+		.note-editor{margin: 0 auto;}
 	</style>
 <title>게시글 작성</title>
 
 <script type="text/javascript">
-		$(document).ready(function() {
-	  		$('#summernote').summernote();
-		});
-	
 		function uploadImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
@@ -150,34 +149,24 @@
 						}
 					}
 				}
-		});
-		
+			});
+			$('.note-editor').width($("#write_form").width()* 0.95); //summernote 가로 규격 변경 (단위 : 백분율)
 		});
 	</script>
 </head>
 <body>
 	<form method="post" id="write_form" enctype="multipart/form-data" accept-charset="utf-8" onSubmit="return false;">
 	    <input type="text" id="title" placeholder="제목을 입력해주세요.">
-	    <div class="custom-select" style="width:200px;">
-		  <select>
-		    <option value="0">Select car:</option>
-		    <option value="1">Audi</option>
-		    <option value="2">BMW</option>
-		    <option value="3">Citroen</option>
-		    <option value="4">Ford</option>
-		    <option value="5">Honda</option>
-		    <option value="6">Jaguar</option>
-		    <option value="7">Land Rover</option>
-		    <option value="8">Mercedes</option>
-		    <option value="9">Mini</option>
-		    <option value="10">Nissan</option>
-		    <option value="11">Toyota</option>
-		    <option value="12">Volvo</option>
-		  </select>
-		</div>
-	    <input type="text" id="tag" placeholder="#을 붙여 태그를 입력해주세요. (※ 주의 : 태그를 구분할때 #만 붙여야 합니다.) 예시) #일상#여행">
+	    <div class="write_line">
+		    <input type="text" id="tag" alt="sex" placeholder="#을 붙여 태그를 입력해주세요. 예시) #일상#여행">
+		    <div class="custom-select" style="width:200px;">
+			  <select id="category">
+			    <option value="">전체</option>
+			  </select>
+			</div>
+	    </div>
 	 	<div id="summernote" name="text"></div>
-	 	<button onclick="write_submit()" >입력</button>
+	 	<button id="submit" onclick="write_submit()" >입력</button>
  	</form>
 	
 	

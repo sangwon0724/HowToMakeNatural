@@ -536,24 +536,6 @@ function write_submit(){
             console.log(error);
         }
     });
-	/*var title = $("#title").val();
-	var content = $("#summernote").val();
-	if (title === "")
-	{
-		alert("게시글의 제목을 입력해주세요");
-		$("#title").focus();
-		return;
-	}
-	else if (title !== "" && content === "")
-	{
-		//alert("게시글의  내용을 입력해주세요");
-		//$(".note-editable").focus();
-		//return;
-	}
-	else if (title!="")
-	{
-		write_form.submit();
-	}*/
 }
 
 /* 게시글 수정 ajax */

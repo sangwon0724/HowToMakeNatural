@@ -20,6 +20,22 @@ html {overflow-x : hidden;}
 	align-items: center;
 }
 
+/* 주석 중앙 정렬 */
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+:-ms-input-placeholder {  
+   text-align: center; 
+}
 /*============================================================================================================*/
 
 /* 아이콘 + 로고 + 검색창 */
