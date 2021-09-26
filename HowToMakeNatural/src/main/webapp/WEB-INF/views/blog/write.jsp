@@ -174,7 +174,7 @@
 			</div>
 	    </div>
 	 	<div id="summernote" name="text"></div>
-	 	<button id="submit" onclick="write_submit()" >입력</button>
+	 	<button id="submit" onclick="write_submit()" >작성</button>
  	</form>
 	
 	

@@ -591,7 +591,7 @@ function write_submit(){
 		category : category,
 		content : content,
 		userID : $("#myID").val(),
-		userNickName : $("#myNickname").val() 
+		userNickName : $("#myNickName").val()
 	};
 
 	$.ajax({
@@ -600,7 +600,8 @@ function write_submit(){
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	alert("성공");
+        	alert("게시글이 정상적으로 등록되었습니다.");
+        	location.href="/blog/"+$("#myID").val();
         },
         error: function(error){
             alert("오류 발생");

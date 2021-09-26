@@ -249,6 +249,7 @@ public class blogController {
 		System.out.println("전송 데이터 : \n" + map);
 		
 		//게시글 insert
+		blogService.insertPost(map);
 
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		result.put("message", "success"); //성공 메세지 전달

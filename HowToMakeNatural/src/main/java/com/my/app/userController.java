@@ -57,7 +57,7 @@ public class userController {
 		
 		//임시
 		if(vo != null) {
-			session.setAttribute("user", vo);
+			session.setAttribute("user", userService.selectUserInfoForBlog(vo.getId()));
 		}
 
 		//로그인 전의 페이지 주소로 이동

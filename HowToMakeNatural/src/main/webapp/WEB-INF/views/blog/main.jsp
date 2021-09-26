@@ -128,7 +128,7 @@
 				<div id="first">
 					<div id="my_info">
 						<div class="post_userProfile" userID="${sessionScope.user.id}"></div>
-						<span id="my_nickname">${sessionScope.user.id}</span>
+						<span id="my_nickname">${sessionScope.user.blog_nickname}</span>
 					</div>
 					<div id="my_logout">
 						<div id="logout">로그아웃</div>
