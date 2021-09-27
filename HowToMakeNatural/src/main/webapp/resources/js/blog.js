@@ -595,7 +595,7 @@ function write_submit(){
 	};
 
 	$.ajax({
-        url: "/blog/11/write/ajax",
+        url: "/blog/"+$("#myID").val()+"/write/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -610,6 +610,32 @@ function write_submit(){
     });
 }
 
-/* 게시글 수정 ajax */
+/* 게시글 수정 관련 모달 */
+$("#go_update>.modal-content_forButton>.modal_content>.button_yesOrNo>#yes").on('click',function(){
+	location.href= "/blog/" + $("#myID").val() + "/" + $("#button_updateAndDelete>#update").attr('no') + "/update";
+});
+$("#go_update>.modal-content_forButton>.modal_content>.button_yesOrNo>#no").on('click',function(){
+	$("#go_update").css('display','none');
+});
 
-/* 게시글 삭제 ajax */
+/* 게시글 삭제 관련 모달 */
+$("#go_delete>.modal-content_forButton>.modal_content>.button_yesOrNo>#yes").on('click',function(){
+	var no= $("#button_updateAndDelete>#update").attr('no');
+	
+	$.ajax({
+        url: "/blog/"+$("#myID").val()+"/"+no+"/delete",
+        type: "POST",
+        contentType: "application/json",
+        success: function(result){
+        	alert("게시글이 정상적으로 삭제되었습니다.");
+        	location.href="/blog/"+$("#myID").val();
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+});
+$("#go_delete>.modal-content_forButton>.modal_content>.button_yesOrNo>#no").on('click',function(){
+	$("#go_delete").css('display','none');
+});

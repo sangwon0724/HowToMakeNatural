@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- 공통 적용 파일 시작 -->
-<c:import url="../include/common.jsp"></c:import>
+<c:import url="../include/header.jsp"></c:import>
 <!-- 공통 적용 파일 종료-->
 <link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet"
 	type="text/css">
@@ -19,6 +19,12 @@
 </head>
 <body>
 	<!-- 히든 값 영역 시작 -->
+		<c:if test="${not empty sessionScope.user.id}">
+		<!-- 현재 유저의 아이디 -->
+		<input type="hidden" id="myID" value="${sessionScope.user.id}">
+		<input type="hidden" id="myNickName" value="${sessionScope.user.blog_nickname}">
+		</c:if>
+		
 		<!-- 현재 위치한 블로그 주인의 아이디 -->
 		<input type="hidden" id="blogUserID" value="${userInfo.id}">
 		<!-- 현재 게시글 번호 -->
@@ -193,8 +199,21 @@
 					<c:if test='${onePost == null or onePost == ""}'>
 						<c:forEach items="${postList}" var="post" begin="0" end="0">
 							<div class="personal_post">
-								<header class="post_category"><span>${post.category}</span></header>
-								<header class="post_title">${post.title}</header>
+								<header class="post_category">
+									<span>
+										<c:if test="${post.category eq '' or post.category == null}">전체</c:if>
+										<c:if test="${post.category ne '' and post.category != null}">${post.category}</c:if>
+									</span>
+								</header>
+								<header class="post_title">
+									<span>${post.title}</span>
+									<c:if test="${sessionScope.user.id eq userInfo.id}">
+									<div id="button_updateAndDelete">
+										<button id="update" no="${post.no}" onclick="open_modal('go_update')">수정하기</button>
+										<button id="delete" no="${post.no}" onclick="open_modal('go_delete')">삭제하기</button>
+									</div>
+									</c:if>
+								</header>
 								<header class="post_profileAndNameAndSigndate">
 									<div class="profile_image"><%-- 프로필 이미지 --%></div>
 									<span>${userInfo.blog_nickname}</span>
@@ -223,8 +242,21 @@
 				    </c:if>
 					<c:if test='${onePost != null and onePost != ""}'>
 						<div class="personal_post">
-							<header class="post_category"><span>${onePost.category}</span></header>
-							<header class="post_title"><span>${onePost.title}</span></header>
+							<header class="post_category">
+								<span>
+									<c:if test="${onePost.category eq '' or onePost.category == null}">전체</c:if>
+									<c:if test="${onePost.category ne '' and onePost.category != null}">${post.category}</c:if>
+								</span>
+							</header>
+							<header class="post_title">
+								<span>${onePost.title}</span>
+								<c:if test="${sessionScope.user.id eq userInfo.id}">
+								<div id="button_updateAndDelete">
+									<button id="update" no="${post.no}" onclick="open_modal('go_update')">수정하기</button>
+									<button id="delete" no="${post.no}" onclick="open_modal('go_delete')">삭제하기</button>
+								</div>
+								</c:if>
+							</header>
 							<header class="post_profileAndNameAndSigndate">
 								<div class="profile_image"></div>
 								<span>${userInfo.blog_nickname}</span>
@@ -306,7 +338,43 @@
 		<!-- 블로그 메인화면 종료 -->
 	</div>
 	
+	
+	
+	<!-- 모달 영역 시작 -->
+	<c:if test="${sessionScope.user.id eq userInfo.id}">
+	<div id="go_update" class="modal">
+	    <div class="modal-content_forButton">
+	      <span class="close">&times;</span>
+	      <div class="modal_content">
+	      	<span>해당 게시글을 수정하시겠습니까?</span>
+			<div class="button_yesOrNo">
+				<button id="yes">예</button>
+				<button id="no">아니오</button>
+			</div>
+	      </div>
+	    </div>
+	</div>
+	
+	<div id="go_delete" class="modal">
+	    <div class="modal-content_forButton">
+	      <span class="close">&times;</span>
+	      <div class="modal_content">
+	      	<span>해당 게시글을 삭제하시겠습니까?</span>
+			<div class="button_yesOrNo">
+				<button id="yes">예</button>
+				<button id="no">아니오</button>
+			</div>
+	      </div>
+	    </div>
+	</div>
+	</c:if>
+	<!-- 모달 영역 종료 -->
+	
 	<!-- Scripts -->
 	<script src="<c:url value="/resources/js/blog.js"/>"></script>
+	
+	<!-- 공통 적용 파일 시작 -->
+			<c:import url="../include/footer.jsp"></c:import>
+	<!-- 공통 적용 파일 -->
 </body>
 </html>

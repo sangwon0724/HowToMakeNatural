@@ -5,7 +5,7 @@
 <html>
 <head>
 	<!-- 공통 적용 파일 시작 -->
-	<c:import url="../include/common.jsp"></c:import>
+	<c:import url="../include/header.jsp"></c:import>
 	<!-- 공통 적용 파일 종료-->
 	
 	<!-- include summernote css/js -->
@@ -168,7 +168,7 @@
 </head>
 <body>
 	<!-- 히든 값 영역 시작 -->
-		<!-- 현재 위치한 블로그 주인의 아이디 -->
+		<!-- 현재 유저의 아이디 -->
 		<input type="hidden" id="myID" value="${sessionScope.user.id}">
 		<input type="hidden" id="myNickName" value="${sessionScope.user.blog_nickname}">
 	<!-- 히든 값 영역 종료-->
