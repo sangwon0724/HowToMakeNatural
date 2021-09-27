@@ -572,6 +572,20 @@ function write_submit(text){
 	var tag = $("#tag").val();
 	var category = $("#category option:selected").val();
 	var content = $('#summernote').summernote('code');
+	var url="";
+	var no=0;
+	
+	if(text === "등록"){
+		url = "/blog/"+$("#myID").val()+"/write/ajax";
+	}
+	else if(text === "수정"){
+		url = "/blog/"+$("#myID").val()+"/"+$("#no").val()+"/update/ajax";
+		no = $("#no").val();
+	}
+	
+	if(category === null || category === undefined){
+		category = "";
+	}
 	
 	if (title === "")
 	{
@@ -591,11 +605,12 @@ function write_submit(text){
 		category : category,
 		content : content,
 		userID : $("#myID").val(),
-		userNickName : $("#myNickName").val()
+		userNickName : $("#myNickName").val(),
+		no: no
 	};
 
 	$.ajax({
-        url: "/blog/"+$("#myID").val()+"/write/ajax",
+        url: url,
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",

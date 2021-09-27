@@ -171,12 +171,15 @@
 		<!-- 현재 유저의 아이디 -->
 		<input type="hidden" id="myID" value="${sessionScope.user.id}">
 		<input type="hidden" id="myNickName" value="${sessionScope.user.blog_nickname}">
+		<c:if test="${mode eq 'update'}">
+		<input type="hidden" id="no" value="${data.no}">
+		</c:if>
 	<!-- 히든 값 영역 종료-->
 	
 	<form method="post" id="write_form" enctype="multipart/form-data" accept-charset="utf-8" onSubmit="return false;">
 	    <input type="text" id="title" placeholder="제목을 입력해주세요.">
 	    <div class="write_line">
-		    <input type="text" id="tag" alt="sex" placeholder="#을 붙여 태그를 입력해주세요. 예시) #일상#여행">
+		    <input type="text" id="tag" placeholder="#을 붙여 태그를 입력해주세요. 예시) #일상#여행">
 		    <div class="custom-select" style="width:200px;">
 			  <select id="category">
 			    <option value="">전체</option>

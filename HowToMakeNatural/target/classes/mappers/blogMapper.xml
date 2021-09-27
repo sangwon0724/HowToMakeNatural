@@ -86,7 +86,7 @@
     
     <!-- 게시글 수정 -->
     <update id="updatePost" parameterType="hashmap">
-    	update blog_post set title=#{title}, #{content}, category=#{category}, tag=#{tag}, updatedate=NOW() where no=#{no}
+    	update blog_post set title=#{title}, content=#{content}, category=#{category}, tag=#{tag}, updatedate=NOW() where no=#{no}
     </update>
     
     <!-- 게시글 삭제 -->

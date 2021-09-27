@@ -284,10 +284,13 @@ public class blogController {
 	}
 	
 	/* 개인 블로그 - 게시글 수정 ajax */
+	@ResponseBody
 	@RequestMapping(value = "/blog/{userID}/{no}/update/ajax", method = RequestMethod.POST)
 	public Map<String, Object> postPersonalPostUpdate(@PathVariable String userID, @PathVariable int no, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 게시글 수정 (post)- 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
+		
+		blogService.updatePost(map);
 		
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		result.put("message", "success"); //성공 메세지 전달
