@@ -167,7 +167,7 @@ public class blogController {
 		//해당 블로그의 유저 정보 가져오기
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
 		
-		//이웃목록 긁어오기
+		//카테고리목록 긁어오기
 		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //게시글 10개
 		
 		//이웃목록 긁어오기
@@ -264,10 +264,22 @@ public class blogController {
 		System.out.println("개인 블로그 게시글 수정 (get)- 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		
 		//게시글 정보 가져오기
+		//xml 파일에서 사용할 값 설정
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", 0);  //MariaDB 특성
+		map.put("category", "");
+		map.put("userID", userID);
+		map.put("block", 5);
+		map.put("no", no); //단일 게시글 검색용
 		
+		//단일 게시글 검색
+		List<HashMap<String, Object>> postList=blogService.selectPost(map);
+				
 		//model에 등록하기
+		model.addAttribute("data", postList.get(0)); //단일 게시물에 대한 정보 등록
+		model.addAttribute("mode", "update");
 		
-	    return "/blog/personal";
+	    return "/blog/write";
 	}
 	
 	/* 개인 블로그 - 게시글 수정 ajax */

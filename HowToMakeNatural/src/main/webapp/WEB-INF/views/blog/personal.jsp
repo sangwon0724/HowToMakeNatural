@@ -347,7 +347,7 @@
 	      <span class="close">&times;</span>
 	      <div class="modal_content">
 	      	<span>해당 게시글을 수정하시겠습니까?</span>
-			<div class="button_yesOrNo">
+			<div id="button_yesOrNo">
 				<button id="yes">예</button>
 				<button id="no">아니오</button>
 			</div>
@@ -360,7 +360,7 @@
 	      <span class="close">&times;</span>
 	      <div class="modal_content">
 	      	<span>해당 게시글을 삭제하시겠습니까?</span>
-			<div class="button_yesOrNo">
+			<div id="button_yesOrNo">
 				<button id="yes">예</button>
 				<button id="no">아니오</button>
 			</div>

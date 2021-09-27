@@ -611,15 +611,15 @@ function write_submit(){
 }
 
 /* 게시글 수정 관련 모달 */
-$("#go_update>.modal-content_forButton>.modal_content>.button_yesOrNo>#yes").on('click',function(){
+$("#go_update>.modal-content_forButton>.modal_content>#button_yesOrNo>#yes").on('click',function(){
 	location.href= "/blog/" + $("#myID").val() + "/" + $("#button_updateAndDelete>#update").attr('no') + "/update";
 });
-$("#go_update>.modal-content_forButton>.modal_content>.button_yesOrNo>#no").on('click',function(){
+$("#go_update>.modal-content_forButton>.modal_content>#button_yesOrNo>#no").on('click',function(){
 	$("#go_update").css('display','none');
 });
 
 /* 게시글 삭제 관련 모달 */
-$("#go_delete>.modal-content_forButton>.modal_content>.button_yesOrNo>#yes").on('click',function(){
+$("#go_delete>.modal-content_forButton>.modal_content>#button_yesOrNo>#yes").on('click',function(){
 	var no= $("#button_updateAndDelete>#update").attr('no');
 	
 	$.ajax({
@@ -636,6 +636,6 @@ $("#go_delete>.modal-content_forButton>.modal_content>.button_yesOrNo>#yes").on(
         }
     });
 });
-$("#go_delete>.modal-content_forButton>.modal_content>.button_yesOrNo>#no").on('click',function(){
+$("#go_delete>.modal-content_forButton>.modal_content>#button_yesOrNo>#no").on('click',function(){
 	$("#go_delete").css('display','none');
 });

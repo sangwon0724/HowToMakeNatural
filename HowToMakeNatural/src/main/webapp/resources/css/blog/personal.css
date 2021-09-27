@@ -311,12 +311,12 @@
 .personal_post>.post_title>#button_updateAndDelete>button{
 	width: 40%;
 	height: 60%;
-	 background:#a29bfe;
-     color:white;
-     border-style:none;
-     font:bold15px arial,sans-serif;
-     text-shadow:none;
-     cursor: pointer;
+    background:#a29bfe;
+    color:white;
+    border-style:none;
+    font:bold15px arial,sans-serif;
+    text-shadow:none;
+    cursor: pointer;
 }
 .personal_post>.post_profileAndNameAndSigndate{
 	width: 100%;
@@ -466,11 +466,38 @@
 	background-color: lightgreen; /* 임시 */
 }
 /* 모달 영역 */
-#go_update>.modal-content_forButton>.modal_content, #go_delete>.modal-content_forButton>.modal_content{
+#go_update>.modal-content_forButton>.modal_content,
+#go_delete>.modal-content_forButton>.modal_content{
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
+}
+#go_update>.modal-content_forButton>.modal_content>span,
+#go_delete>.modal-content_forButton>.modal_content>span{
+	font-weight: bold;
+	font-size: 1.5em;
+}
+#go_update>.modal-content_forButton>.modal_content>#button_yesOrNo,
+#go_delete>.modal-content_forButton>.modal_content>#button_yesOrNo{
+	width: 80%;
+	height: 25%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#go_update>.modal-content_forButton>.modal_content>#button_yesOrNo>button,
+#go_delete>.modal-content_forButton>.modal_content>#button_yesOrNo>button{
+	width: 35%;
+	height: 70%;
+    background:#a29bfe;
+    color:white;
+    border-style:none;
+    font:bold15px arial,sans-serif;
+    text-shadow:none;
+    cursor: pointer;
 }
 
 /*============================================================================================================*/
