@@ -252,8 +252,8 @@
 								<span>${onePost.title}</span>
 								<c:if test="${sessionScope.user.id eq userInfo.id}">
 								<div id="button_updateAndDelete">
-									<button id="update" no="${post.no}" onclick="open_modal('go_update')">수정하기</button>
-									<button id="delete" no="${post.no}" onclick="open_modal('go_delete')">삭제하기</button>
+									<button id="update" no="${onePost.no}" onclick="open_modal('go_update')">수정하기</button>
+									<button id="delete" no="${onePost.no}" onclick="open_modal('go_delete')">삭제하기</button>
 								</div>
 								</c:if>
 							</header>

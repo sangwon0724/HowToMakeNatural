@@ -34,8 +34,6 @@ import com.my.vo.userVO;
 @Controller
 public class blogController {
 	//==========할 일 목록==========
-	//5. update 기능 추가  (수정 시 주소 : "/blog/유저아이디/게시글번호/update" => 수정 후 주소 : "/blog/유저아이디/게시글번호")
-	//6. delete 기능 추가 (삭제 전 주소 : "/blog/유저아이디/게시글번호/delete" => 삭제 후 주소 : "/blog/유저아이디/")
 	//7. 페이징 기능 추가
 	//7-1. 메인 화면
 	//7-2. 개인 블로그
@@ -48,6 +46,7 @@ public class blogController {
 	//14. 검색 기능 추가 - 개인 블로그
 	//14-1. 개인 블로그 (단어검색)
 	//14-2. 개인 블로그 (태그 클릭)
+	//16. view 관련해서 태그 추가
 	
 	//==========완료 목록==========
 	//1. 블로그 메인 기본 틀 완성
@@ -56,6 +55,8 @@ public class blogController {
 	//2. 개인 블로그 화면 추가 (주소 : "/blog/유저아이디")
 	//3. view 기능 추가 (주소 : "/blog/유저아이디/게시글번호")
 	//4. write 기능 추가 (작성 전 주소 : "/blog/유저아이디/write" => 작성 후 주소 : "/blog/유저아이디")
+	//5. update 기능 추가  (수정 시 주소 : "/blog/유저아이디/게시글번호/update" => 수정 후 주소 : "/blog/유저아이디/게시글번호")
+	//6. delete 기능 추가 (삭제 전 주소 : "/blog/유저아이디/게시글번호/delete" => 삭제 후 주소 : "/blog/유저아이디/")
 	//8-2. 개인 블로그
 	//10. 검색 기능 추가 - 메인 (Ajax로 board 영역만 변경)
 	//15. 개인 블로그 - 게시글 리스트 가져오기
@@ -300,10 +301,13 @@ public class blogController {
 	public Map<String, Object> getPersonalPostDelete(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 게시글 삭제 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
 		//삭제 처리
+		result.put("no", no);
+		blogService.deletePost(result);
 		
-		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		result.put("message", "success"); //성공 메세지 전달
 		
 	    return result;

@@ -567,7 +567,7 @@ $('페이징 링크').on('click', function(event){
 /* 블로그 작성 + 수정 + 삭제 부분 */
 
 /* 게시글 추가 */
-function write_submit(){
+function write_submit(text){
 	var title = $("#title").val();
 	var tag = $("#tag").val();
 	var category = $("#category option:selected").val();
@@ -600,7 +600,7 @@ function write_submit(){
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	alert("게시글이 정상적으로 등록되었습니다.");
+        	alert("게시글이 정상적으로 " + text + "되었습니다.");
         	location.href="/blog/"+$("#myID").val();
         },
         error: function(error){
@@ -620,11 +620,12 @@ $("#go_update>.modal-content_forButton>.modal_content>#button_yesOrNo>#no").on('
 
 /* 게시글 삭제 관련 모달 */
 $("#go_delete>.modal-content_forButton>.modal_content>#button_yesOrNo>#yes").on('click',function(){
-	var no= $("#button_updateAndDelete>#update").attr('no');
+	var no= $("#button_updateAndDelete>#delete").attr('no');
 	
 	$.ajax({
         url: "/blog/"+$("#myID").val()+"/"+no+"/delete",
         type: "POST",
+        data: {},
         contentType: "application/json",
         success: function(result){
         	alert("게시글이 정상적으로 삭제되었습니다.");
