@@ -49,9 +49,17 @@
 		<input type="hidden" id="neighbor_page_current" value="1">
 		
 		<!-- 게시글의 총 개수 -->
+		<input type="hidden" id="post_count" value="${onePost.count}">
 		<!-- 게시글 목록의 총 페이지 수 -->
-		<!-- 게시글 목록(위쪽)의 현재 페이지 -->
-		<!-- 게시글 목록(아래쪽)의 현재 페이지 -->
+		<fmt:parseNumber var="post_page_total" value="${onePost.count/5+(1-onePost.count/5%1)%1}" integerOnly="true"/>
+		<input type="hidden" id="post_page_total" value="${post_page_total}">
+		<!-- 게시글 목록(위쪽)의 현재 페이지 및 블록-->
+		<input type="hidden" id="post_page_top" value="1">
+		<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9+(1-neighbor_count/9%1)%1}" integerOnly="true"/>
+		<input type="hidden" id="post_block_top" value="1">
+		<!-- 게시글 목록(아래쪽)의 현재 페이지 및 블록 -->
+		<input type="hidden" id="post_page_bottom" value="1">
+		<input type="hidden" id="post_block_bottom" value="1">
 	<!-- 히든 값 영역 종료 -->
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
@@ -120,7 +128,9 @@
 							</div>
 						</div>
 						<div id="category_panel">
-							<span>전체</span>
+							<span<c:if test='${category_now == null or category_now == ""}'> class="active"</c:if>>전체</span>
+							<span>임시1</span>
+							<span>임시2</span>
 							<c:if test='${categoryList != null and categoryList != ""}'>
 							</c:if>
 						</div>
@@ -191,7 +201,13 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<footer class="post_list_summary_paging">게시글 목록용 페이징</footer>
+					<footer class="post_list_summary_paging flex_center_center">
+						<c:forEach items="${postList}" var="index" begin="1" end="10">
+							<c:if test="${index le onePost.count/5+(1-onePost.count/5%1)%1}">
+							
+							</c:if>
+						</c:forEach>
+					</footer>
 				</header>
 				<!-- 게시글 목록 종료 (목록 열기/닫기 가능 O) -->
 				<!-- 게시글이 보이는 화면 시작 -->

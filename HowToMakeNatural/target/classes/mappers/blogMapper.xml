@@ -13,7 +13,7 @@
     <!-- B-1. 카테고리 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <!-- B-2. 검색 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <select id="selectPost" parameterType="hashmap" resultType="hashmap">
-      		SELECT * FROM blog_post
+      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, signdate, userID, userNickName FROM blog_post
       		<if test='userID != null and userID != ""'>
 				where userID=#{userID}
 				<if test='category != null and category != ""'>
@@ -58,24 +58,6 @@
 			<if test='block != null and block != ""'>
 				limit ${start},${block}
 			</if>
-    </select>
-    
-    <!-- 블로그 게시글의 개수 가져오기 -->
-    <!-- 아이디 값 존재 O => 해당 유저의 블로그에서 글 개수 가져오기 -->
-    <!-- 아이디 값 존재 X => 블로그 메인에서 글 개수 가져오기 -->
-    <select id="selectCount" parameterType="hashmap" resultType="java.lang.Integer" >
-      		SELECT COUNT(*) FROM blog_post
-      		<if test='userID != null and userID != ""'>
-				where userID=#{userID}
-				<if test='category != null and category != ""'>
-					and category='%${category}%' or tag like '%${category}%'
- 				</if>
- 			</if>
-      		<if test='userID == null or userID == ""'>
-				<if test='category != null and category != ""'>
-					where category like '%${category}%' or tag like '%${category}%'
- 				</if>
- 			</if>
     </select>
     
     <!-- 게시글 추가 -->

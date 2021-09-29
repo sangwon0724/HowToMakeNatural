@@ -20,12 +20,6 @@ public class blogService implements blogServiceInterface {
 		return dao.selectPost(map);
 	}
 	
-	/* 게시글 개수 가져요기 */
-	@Override
-	public int selectCount(Map<String, Object> map) throws Exception {
-		return dao.selectCount(map);
-	}
-
 	/* 카테고리 검색 */
 	@Override
 	public List<HashMap<String, Object>> selectCategory(Map<String, Object> map) throws Exception {

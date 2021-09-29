@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.JsonObject;
 import com.my.service.blogServiceInterface;
 import com.my.service.userServiceInterface;
+import com.my.util.paging;
 import com.my.vo.userVO;
 
 @Controller
@@ -72,6 +73,9 @@ public class blogController {
 	@Inject
 	private userServiceInterface userService;
 	
+	//페이징용
+	private paging paging;
+	
 	/* 블로그 메인 */
 	@RequestMapping(value = "/blog/main", method = RequestMethod.GET)
 	public String getMainPostList(Model model) throws Exception {
@@ -86,10 +90,8 @@ public class blogController {
 		map.put("block", 10);
 		
 		postList=blogService.selectPost(map); //게시글 10개
-		int count = blogService.selectCount(map); //게시글 총 개수
 		
 		model.addAttribute("postList", postList);
-		model.addAttribute("count", count);
 		
 	    return "/blog/main";
 	}
@@ -104,11 +106,9 @@ public class blogController {
 		List<HashMap<String, Object>> postList;
 		
 		postList=blogService.selectPost(map); //게시글 10개
-		int count = blogService.selectCount(map); //게시글 총 개수
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("postList", postList);
-		result.put("count", count);
 		
 	    return result;
 	}
@@ -129,7 +129,6 @@ public class blogController {
 
 		//개인 게시글 긁어오기
 		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 10개
-		int count = blogService.selectCount(map); //게시글 총 개수
 		
 		//해당 블로그의 유저 정보 가져오기
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
@@ -140,12 +139,19 @@ public class blogController {
 		//이웃목록 긁어오기
 		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
 		
+		//단일 게시글 정보
+		HashMap<String, Object> onePost=postList.get(0);
+		
 		model.addAttribute("postList", postList); //게시글
-		model.addAttribute("count", count); //게시글 개수
 		model.addAttribute("userInfo", userInfo); //유저 정보
 		model.addAttribute("categoryList", categoryList); //카테고리 목록
 		model.addAttribute("neighborList", neighborList); //이웃 목록
 		model.addAttribute("onePost", postList.get(0)); //단일 게시물에 대한 정보 등록
+		
+		//페이징 정보
+		int post_count = (int) onePost.get("count"); //게시글의 총 개수
+		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", post_count); //페이징 설정
+		model.addAttribute("paging", pagingSetting); //게시글
 		
 	    return "/blog/personal";
 	}

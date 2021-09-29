@@ -176,7 +176,19 @@
 	margin: 1vh auto 0 auto;
 	padding: 1vw;
 	box-sizing: border-box;
-	background-color: lightblue;/*임시*/
+	display: flex;
+	flex-direction: column;
+}
+#category_panel>span{
+	cursor: pointer;
+	margin-bottom: 10px; 
+}
+#category_panel>span.active{
+	font-weight: bold;
+	font-size: 1.05em;
+}
+#category_panel>span:hover{
+	text-decoration: underline;
 }
 /* 이웃 목록 */
 #neighbor_panel{
@@ -462,8 +474,16 @@
 }
 .post_list_summary_paging{
 	width: 100%;
-	height: 5vh;
+	height: 7vh;
 	background-color: lightgreen; /* 임시 */
+}
+#post_list_summary_O>.post_list_summary_paging{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#post_list_summary_X>.post_list_summary_paging{
+	
 }
 /* 모달 영역 */
 #go_update>.modal-content_forButton>.modal_content,
