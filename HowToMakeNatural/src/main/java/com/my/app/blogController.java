@@ -145,6 +145,7 @@ public class blogController {
 		model.addAttribute("userInfo", userInfo); //유저 정보
 		model.addAttribute("categoryList", categoryList); //카테고리 목록
 		model.addAttribute("neighborList", neighborList); //이웃 목록
+		model.addAttribute("onePost", postList.get(0)); //단일 게시물에 대한 정보 등록
 		
 	    return "/blog/personal";
 	}

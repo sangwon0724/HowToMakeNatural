@@ -196,50 +196,6 @@
 				<!-- 게시글 목록 종료 (목록 열기/닫기 가능 O) -->
 				<!-- 게시글이 보이는 화면 시작 -->
 				<main id="post_panel">
-					<c:if test='${onePost == null or onePost == ""}'>
-						<c:forEach items="${postList}" var="post" begin="0" end="0">
-							<div class="personal_post">
-								<header class="post_category">
-									<span>
-										<c:if test="${post.category eq '' or post.category == null}">전체</c:if>
-										<c:if test="${post.category ne '' and post.category != null}">${post.category}</c:if>
-									</span>
-								</header>
-								<header class="post_title">
-									<span>${post.title}</span>
-									<c:if test="${sessionScope.user.id eq userInfo.id}">
-									<div id="button_updateAndDelete">
-										<button id="update" no="${post.no}" onclick="open_modal('go_update')">수정하기</button>
-										<button id="delete" no="${post.no}" onclick="open_modal('go_delete')">삭제하기</button>
-									</div>
-									</c:if>
-								</header>
-								<header class="post_profileAndNameAndSigndate">
-									<div class="profile_image"><%-- 프로필 이미지 --%></div>
-									<span>${userInfo.blog_nickname}</span>
-								</header>
-								<main class="post_content">${post.content}</main>
-								<footer class="post_goodAndComment">
-									<div id="post_good" class="flex_center_center">
-									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
-										<i class="fas fa-heart"></i>
-									</c:if>
-									<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
-										<i class="far fa-heart"></i>
-									</c:if>
-									<span>좋아요 <span id="goodCount">0</span></span>
-									</div>
-									<div id="post_comment" class="flex_center_center">
-										<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
-										<i class="fas fa-chevron-down"></i>
-									</div>
-								</footer>
-								<footer class="post_comment_hidden hidden">
-									<div class="comment">댓글</div>
-								</footer>
-							</div>
-					    </c:forEach>
-				    </c:if>
 					<c:if test='${onePost != null and onePost != ""}'>
 						<div class="personal_post">
 							<header class="post_category">
