@@ -475,15 +475,48 @@
 .post_list_summary_paging{
 	width: 100%;
 	height: 7vh;
-	background-color: lightgreen; /* 임시 */
+	margin-top: 3vh;
 }
-#post_list_summary_O>.post_list_summary_paging{
+#post_list_summary_O>.post_list_summary_paging>div{
+	width: 30px;
+	height: 30px;
+	border: 1px solid black;
+	cursor: pointer;
+	margin: 0 7px;
+}
+#post_list_summary_O>.post_list_summary_paging>div.active{
+	border: 1px solid red;
+	color: red;
+	cursor: auto;
+}
+#post_list_summary_X>.post_list_summary_paging>div{
+	width: 57px;
+	height: 30px;
+	border: 1px solid #eeeeee;
+	color: #eeeeee;
+	margin: 0 30px;
+	padding: 0 3px;
+	box-sizing: border-box;
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
 }
-#post_list_summary_X>.post_list_summary_paging{
-	
+#post_list_summary_X>.post_list_summary_paging>div.active{
+	width: 57px;
+	height: 30px;
+	border: 1px solid black;
+	color: black;
+	cursor: pointer;
+	margin: 0 30px;
+	padding: 0 3px;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#post_list_summary_X>.post_list_summary_paging>div.active:hover{
+	border: 1px solid red;
+	color: red;
 }
 /* 모달 영역 */
 #go_update>.modal-content_forButton>.modal_content,

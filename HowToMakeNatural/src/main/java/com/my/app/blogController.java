@@ -188,8 +188,12 @@ public class blogController {
 		
 
 		map.put("no", no); //단일 게시글 검색용
-		postList=blogService.selectPost(map); //단일 게시물 검색
-		model.addAttribute("onePost", postList.get(0)); //단일 게시물에 대한 정보 등록
+		HashMap<String, Object> onePost=blogService.selectPost(map).get(0); //단일 게시물 검색
+		model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
+		
+		//페이징 정보
+		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0)); //페이징 설정
+		model.addAttribute("paging", pagingSetting); //게시글
 		
 	    return "/blog/personal";
 	}

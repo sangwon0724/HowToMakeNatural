@@ -15,7 +15,8 @@
     <select id="selectPost" parameterType="hashmap" resultType="hashmap">
 		SELECT b.* FROM (
 			SELECT a.*,@orderNo := @orderNo+1 AS orderNo FROM (
-	      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, signdate, userID, userNickName FROM blog_post
+	      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, signdate, userID, blog_nickname userNickName
+	      		FROM blog_post b, user u
 	      		<if test='userID != null and userID != ""'>
 					where userID=#{userID}
 					<if test='category != null and category != ""'>
@@ -32,25 +33,25 @@
 					<if test='no != null and no != ""'>
 						and no = ${no}
 	 				</if>
-	 				and useYN ='Y'
+	 				and useYN ='Y' AND b.userID = u.id
 	 			</if>
 	      		<if test='userID == null or userID == ""'>
 					<if test='category != null and category != ""'>
-						where category like '%${category}%' or tag like '%${category}%' and useYN ='Y'
+						where category like '%${category}%' or tag like '%${category}%' and useYN ='Y' AND b.userID = u.id
 	 				</if>
 					<if test='object != null and object != ""'>
 						<if test='object =="post"'>
-							where title like '%${search}%' or content like '%${search}%' and useYN ='Y'
+							where title like '%${search}%' or content like '%${search}%' and useYN ='Y' AND b.userID = u.id
 		 				</if>
 						<if test='object =="theme"'>
-							where category like '%${search}%' or tag like '%${search}%' and useYN ='Y'
+							where category like '%${search}%' or tag like '%${search}%' and useYN ='Y' AND b.userID = u.id
 		 				</if>
 						<if test='object =="writer"'>
-							where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y'
+							where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y' AND b.userID = u.id
 		 				</if>
 	 				</if>
 					<if test='(category == null or category == "") and (object == null or object == "")'>
-						where useYN ='Y'
+						where useYN ='Y' AND b.userID = u.id
 	 				</if>
 	 			</if>
 	      		order by no desc

@@ -287,8 +287,8 @@
 						</tbody>
 					</table>
 					<footer class="post_list_summary_paging flex_center_center">
-						<div<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}"> class="active"</c:if>><i class="fas fa-angle-left"></i>&nbsp;이전</div>
-						<div<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}"> class="active"</c:if>>다음&nbsp;<i class="fas fa-angle-right"></i></div>
+						<div<c:if test="${paging.page_total gt 1 and paging.page_current gt 1}"> class="active"</c:if>><i class="fas fa-angle-left"></i>&nbsp;이전</div>
+						<div<c:if test="${paging.page_total gt 1 and paging.page_current lt paging.page_total}"> class="active"</c:if>>다음&nbsp;<i class="fas fa-angle-right"></i></div>
 					</footer>
 				</footer>
 				<!-- 게시글 패널 종료 (목록 열기/닫기 가능 X) -->
