@@ -49,10 +49,10 @@
 		<input type="hidden" id="neighbor_page_current" value="1">
 		
 		<!-- 게시글의 총 개수 -->
-		<input type="hidden" id="post_count" value="${onePost.count}">
+		<input type="hidden" id="post_count" value="${paging.count}">
 		<!-- 게시글 목록의 총 페이지 수 -->
 		<fmt:parseNumber var="post_page_total" value="${onePost.count/5+(1-onePost.count/5%1)%1}" integerOnly="true"/>
-		<input type="hidden" id="post_page_total" value="${post_page_total}">
+		<input type="hidden" id="post_page_total" value="${paging.page_total}">
 		<!-- 게시글 목록(위쪽)의 현재 페이지 및 블록-->
 		<input type="hidden" id="post_page_top" value="1">
 		<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9+(1-neighbor_count/9%1)%1}" integerOnly="true"/>
@@ -202,10 +202,7 @@
 						</tbody>
 					</table>
 					<footer class="post_list_summary_paging flex_center_center">
-						<c:forEach items="${postList}" var="index" begin="1" end="10">
-							<c:if test="${index le onePost.count/5+(1-onePost.count/5%1)%1}">
-							
-							</c:if>
+						<c:forEach items="${postList}" var="index" begin="1" end="10">페이징 테스트 임시
 						</c:forEach>
 					</footer>
 				</header>

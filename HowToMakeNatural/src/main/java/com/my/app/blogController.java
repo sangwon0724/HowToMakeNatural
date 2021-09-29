@@ -74,7 +74,7 @@ public class blogController {
 	private userServiceInterface userService;
 	
 	//페이징용
-	private paging paging;
+	private paging paging = new paging();
 	
 	/* 블로그 메인 */
 	@RequestMapping(value = "/blog/main", method = RequestMethod.GET)
@@ -149,7 +149,8 @@ public class blogController {
 		model.addAttribute("onePost", postList.get(0)); //단일 게시물에 대한 정보 등록
 		
 		//페이징 정보
-		int post_count = (int) onePost.get("count"); //게시글의 총 개수
+		int post_count = Integer.parseInt(String.valueOf(onePost.get("count"))); //게시글의 총 개수
+		System.out.println("post_count : "+post_count);
 		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", post_count); //페이징 설정
 		model.addAttribute("paging", pagingSetting); //게시글
 		
