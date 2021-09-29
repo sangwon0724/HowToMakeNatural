@@ -1,0 +1,590 @@
+@charset "UTF-8";
+
+/* 전체를 중앙에 위치 */
+#center_panel{
+	width : 82.3vw;
+	height: auto;
+	min-height: 100vh;
+	margin: 0 auto;
+}
+/*============================================================================================================*/
+
+/* 블로그 네비게이션 */
+#personal_nav{
+	width : 100%;
+	height: 7vh;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+#personal_nav>div{
+	width: 30%;
+	height: 100%;
+	height: 7vh;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#personal_nav>div>#span_type{
+	width: 60%;
+	height: 70%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#personal_nav>div>#span_type>span.click{
+	cursor: pointer;
+	font-size: 0.8em;
+}
+#personal_nav>div>#span_type>span.click:hover{
+	text-decoration: underline;
+	font-weight: bold;
+}
+#personal_nav>div>#blog_sign{
+	width: 17.5%;
+	height: 55%;
+    border: 1.5px dashed #6c5ce7;
+    background-color: #fff;
+    color: #6c5ce7;
+    cursor: pointer;
+}
+#personal_nav>div>#blog_all_menu{
+	width: 8%;
+	height: 55%;
+    border: 1.5px dashed #6c5ce7;
+    background-color: #fff;
+    cursor: pointer;
+}
+#personal_nav>div>#blog_all_menu>i{
+    color: #6c5ce7;
+}
+
+/*============================================================================================================*/
+
+/* 블로그 배경글 (=최상단 로고) */
+#background_logo{
+	width : 100%;
+	height: 20vh;
+	margin-bottom: 3vh;
+	cursor: pointer;
+	background-color: lightblue;/*임시*/
+}
+
+/*============================================================================================================*/
+
+/* 블로그 메인 화면 (jstl로 값 비교해서 스타일 변경) */
+#blog_personal_main{
+	width: 100%;
+	height: auto;
+	min-height: 68vh;
+}
+#blog_personal_main.typeA{
+	display: flex;
+	justify-content: space-between;
+}
+#blog_personal_main.typeBS{
+	
+}
+#blog_personal_main>div:not(#bottom){
+	min-height: 68vh;
+}
+/*============================================================================================================*/
+
+/* 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 (typeA)*/
+#left{
+	width: 20%;
+}
+#profile_panel{
+	width: 95%;
+	height: 50vh;
+	margin-top: 1vh;
+	border: 1px solid black;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	margin: 1vh auto 0 auto;
+}
+#profile_panel>#profile_image{
+	width: 95%;
+	height: 55%;
+	background-color: yellow;/*임시*/
+}
+#profile_panel>#profile_nickname{
+	width: 95%;
+	height: 15%;
+	font-weight: bold;
+}
+#profile_panel>#profile_text{
+	width: 95%;
+	height: 13%;
+	font-size: 0.9em;
+}
+#profile_panel>#personal_buttons{
+	width: 95%;
+	height: 12%;
+	font-size: 0.9em;
+}
+#profile_panel>#personal_buttons>span{
+	margin: 0 10px;
+	cursor: pointer;
+}
+#profile_panel>#personal_buttons>div{
+	width: 80%;
+	height: 80%;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+#profile_panel>#personal_buttons>div>i{
+	color: #55efc4;
+	margin-left: 10px;
+}
+#search_panel{
+	width: 95%;
+	height: 4vh;
+	border: 1px solid black;
+	overflow-y: hidden;
+	margin: 1vh auto 0 auto;
+}
+#search_panel>#search_text{
+	width: 80%;
+	height: 100%;
+	text-indent: 10px;
+	background-color: white;
+	border: none;
+}
+#search_panel>#search_text:focus{
+	outline: none;
+}
+#search_panel>#search_button{
+	width: 20%;
+	height: 100%;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	cursor: pointer;
+	background-color: black;
+}
+/* 카테고리 목록 */
+#category_panel{
+	width: 95%;
+	height: 20vh;
+	margin: 1vh auto 0 auto;
+	padding: 1vw;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+#category_panel>span{
+	cursor: pointer;
+	margin-bottom: 10px; 
+}
+#category_panel>span.active{
+	font-weight: bold;
+	font-size: 1.05em;
+}
+#category_panel>span:hover{
+	text-decoration: underline;
+}
+/* 이웃 목록 */
+#neighbor_panel{
+	width: 95%;
+	height: 47vh;
+	display: flex;
+	flex-direction: column;
+	margin: 1vh auto 0 auto;
+	border: 1px solid black;
+}
+#neighbor_panel>header{
+	width: 100%;
+	height: 6%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+#neighbor_panel>main{
+	width: 100%;
+	height: 84%;
+	display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+	/* grid 적용으로 인한 주석 처리 */
+	/*display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-wrap: wrap;*/
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 5px;
+	gap: 5px;
+   	box-sizing: border-box;
+}
+#neighbor_panel>main>div{
+	/* grid 적용으로 인한 주석 처리 */
+	/*width: 30%;
+	height: 28%;*/
+	border: 1px solid black;
+}
+/* 이웃의 프로필 사진 */
+#neighbor_panel>main>div>main{
+	width: 100%;
+	height: 80%;
+	cursor: pointer;
+	background-color: red;/*임시*/
+}
+#neighbor_panel>main>div>footer{
+	width: 100%;
+	height: 20%;
+}
+#neighbor_panel>footer{
+	width: 100%;
+	height: 10%;
+}
+#neighbor_panel>footer>div
+{
+	width : 11%;
+	height: 70%;
+	border: 1px solid black;
+	margin: 0 5%;
+	cursor: pointer;
+}
+#neighbor_panel>footer>div.disabled
+{
+	border: 1px solid #dfe6e9;
+	color: #dfe6e9;
+	cursor: auto;
+}
+
+/*============================================================================================================*/
+
+/* 게시글 (jstl로 값 비교해서 스타일 변경) */
+#center{
+	width: 67%;
+	margin-bottom: 10vw;
+}
+#center.typeA{margin-right: 5vw;}
+#center.typeB{}
+/* 게시글이 보이는 화면 */
+#post_panel{
+	width: 100%;
+	height: auto;
+	min-height: 20vh;
+	margin: 13vh 0;
+}
+/* 게시글 */
+.personal_post{
+	width : 100%;
+	height: auto;
+	min-height: 30vh;
+	display : flex;
+	flex-direction: column;
+	justify-content : center;
+	border-bottom: 1px solid #dfe4ea;
+	margin-top: 1vh;
+}
+.personal_post>.post_category{
+	width: 100%;
+	height: 7vh;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.personal_post>.post_category>span{
+	color: gray;
+	cursor: pointer;
+}
+.personal_post>.post_category>span:hover{
+	text-decoration: underline;
+}
+.personal_post>.post_title{
+	width: 100%;
+	height: 11vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.personal_post>.post_title>span{
+	font-weight: bold;
+	font-size: 2em;
+}
+.personal_post>.post_title>#button_updateAndDelete{
+	width: 25%;
+	height: 70%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.personal_post>.post_title>#button_updateAndDelete>button{
+	width: 40%;
+	height: 60%;
+    background:#a29bfe;
+    color:white;
+    border-style:none;
+    font:bold 15px arial,sans-serif;
+    text-shadow:none;
+    cursor: pointer;
+}
+.personal_post>.post_profileAndNameAndSigndate{
+	width: 100%;
+	height: 9vh;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	border-bottom: 1px solid #dfe4ea;
+	margin-bottom: 2vh;
+}
+.personal_post>.post_profileAndNameAndSigndate>.profile_image{
+	width: 3vw;
+	height: 3vw;
+	border-radius: 50%;
+	margin-right: 1vw;
+	cursor: pointer;
+	background-color: red; /* 임시 */
+}
+.personal_post>.post_profileAndNameAndSigndate>span{
+	cursor: pointer;
+}
+.personal_post>.post_content{
+	width: 100%;
+	height: auto;
+	min-height: 20vh;
+}
+.personal_post>.post_content>p{
+	margin-bottom: 10px;
+}
+.personal_post>.post_goodAndComment{
+	width: 100%;
+	height: 7vh;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.personal_post>.post_goodAndComment>#post_good{
+	width: 12%;
+	height: 60%;
+	border: 1px solid black;
+	border-radius: 3px;
+	margin: 0 10px;
+	cursor: pointer;
+}
+.personal_post>.post_goodAndComment>#post_good>span{margin-left: 3px;}
+.personal_post>.post_goodAndComment>#post_good>i{color:red;}
+.personal_post>.post_goodAndComment>#post_comment{
+	width: 12%;
+	height: 60%;
+	border: 1px solid black;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.personal_post>.post_goodAndComment>#post_comment.active{
+	border-color: red;
+}
+.personal_post>.post_comment_hidden{
+	width: 100%;
+	height: auto;
+	min-height: 20vh;
+	background-color: orange; /*임시*/ 
+}
+.personal_post>.post_comment_hidden>.comment{
+	width: 78%;
+	height: 10vh;
+	border: 1px solid black;
+	margin: 2vh auto 0 auto;
+}
+/* 게시글 목록 (목록 얼기/닫기 가능 O) */
+#post_list_summary_O{
+	width: 100%;
+	min-height: 7vh;
+	/*height: 35vh;*/
+	margin: 3vh 0;
+	position: relative;
+}
+#post_list_summary_O>#post_list_toggle{
+	cursor: pointer;
+	right: 1vw;
+	position: absolute;
+}
+#post_list_summary_O>#post_list_toggle:hover{
+	text-decoration: underline;
+}
+/* 게시글 목록 (목록 얼기/닫기 가능 X) */
+#post_list_summary_X{
+	width: 100%;
+	height: 35vh;
+	margin: 3vh 0;
+}
+/* 게시글 목록 공통 */
+.post_summary_list{
+	width: 100%;
+	height: 100%;
+	margin-top: 35px;
+	table-layout: fixed;
+}
+.post_summary_list .date{
+	color: gray;
+}
+.post_summary_list>thead{
+	height: 3vh;
+}
+.post_summary_list>tbody>tr{
+	width: 100%;
+	height: 5.4vh;
+	border-bottom: 1px solid #c8d6e5;
+}
+.post_summary_list>thead>tr>th>.title{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 1vw;
+}
+.post_summary_list>thead>tr>th>.date{
+	text-align: right;
+	padding-right: 1vw;
+}
+.post_summary_list>tbody>tr>.title{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 1vw;
+	height: 100%;
+}
+.post_summary_list>tbody>tr>.title>a{
+	text-decoration: none;
+	color: black;
+}
+.post_summary_list>tbody>tr>.title>a.active{
+	font-weight: bold;
+}
+.post_summary_list>tbody>tr>.title>a:hover{
+	text-decoration: underline;
+	font-weight: bold;
+}
+.post_summary_list>tbody>tr>.title>span{
+	color: red;
+}
+.post_summary_list>tbody>tr>.date{
+	text-align: right;
+	padding-right: 1vw;
+}
+.post_list_summary_paging{
+	width: 100%;
+	height: 7vh;
+	background-color: lightgreen; /* 임시 */
+}
+#post_list_summary_O>.post_list_summary_paging{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#post_list_summary_X>.post_list_summary_paging{
+	
+}
+/* 모달 영역 */
+#go_update>.modal-content_forButton>.modal_content,
+#go_delete>.modal-content_forButton>.modal_content{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+#go_update>.modal-content_forButton>.modal_content>span,
+#go_delete>.modal-content_forButton>.modal_content>span{
+	font-weight: bold;
+	font-size: 1.5em;
+}
+#go_update>.modal-content_forButton>.modal_content>#button_yesOrNo,
+#go_delete>.modal-content_forButton>.modal_content>#button_yesOrNo{
+	width: 80%;
+	height: 25%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#go_update>.modal-content_forButton>.modal_content>#button_yesOrNo>button,
+#go_delete>.modal-content_forButton>.modal_content>#button_yesOrNo>button{
+	width: 35%;
+	height: 70%;
+    background:#a29bfe;
+    color:white;
+    border-style:none;
+    font:bold 15px arial,sans-serif;
+    text-shadow:none;
+    cursor: pointer;
+}
+
+/*============================================================================================================*/
+
+/* 프로필 + 카테고리 + 이웃목록 + 위젯  (typeB)*/
+#bottom{
+	width: 100%;
+	height: 20vh;
+	background-color: lightpurple;/*임시*/
+}
+/*============================================================================================================*/
+
+/* 게시글 작성 */
+
+#write_form{
+	width: 75vw;
+	height: auto;
+	min-height: 100vh;
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	background-color: white;
+}
+
+#write_form>#title{
+	width: 60vw;
+	height: 8vh;
+	margin-top: 5vh;
+	margin-bottom: 3vh;
+	border: none;
+	border-bottom: 1px solid #b2bec3;
+	font-size: 22px;
+}
+
+#write_form>#title:focus{
+	outline: none;
+}
+
+#write_form>.write_line{
+	width: 100%;
+	height: 8vh;
+	padding: 0 5%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-bottom: 3vh;
+}
+#write_form>.write_line>#tag{
+	width: 30vw;
+	height: 5vh;
+	font-size: 15px;
+}
+
+#write_form>#summernote{
+	margin-top: 5vh;
+}
+
+#write_form>#submit{
+     width:200px;
+     height:50px;
+	 background:#a29bfe;
+     color:white;
+     border-style:none;
+     font:bold 15px arial,sans-serif;
+     text-shadow:none;
+	 margin-top: 5vh;
+	 margin-bottom: 5vh;
+	 cursor: pointer;
+}

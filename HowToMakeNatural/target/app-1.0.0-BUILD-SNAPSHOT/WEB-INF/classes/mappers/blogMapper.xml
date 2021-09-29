@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blogMapper">
+	<!-- 블로그 메인 페이지의 글 가져오기 -->
+    <!-- A. 아이디 값 존재 O => 해당 유저의 블로그에 대한 글  가져오기 -->
+    <!-- A-1. 카테고리 값 존재 O => 해당 유저의 블로그에서 해당 카테고리에 대한 글  가져오기 (태그 값과 별개) -->
+    <!-- A-2. 태그 값 존재 O => 해당 유저의 블로그에서 해당 태그에 대한 글  가져오기 (카테고리 값과 별개)-->
+    <!-- A-3. 검색 값 존재 O => 해당 유저의 블로그에서 해당 값에 대하여 제목과 내용으로 검색하여 글 가져오기-->
+    <!-- B. 아이디 값 존재 X => 블로그 메인에 대한 글 가져오기 -->
+    <!-- B-1. 카테고리 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
+    <!-- B-2. 검색 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
+    <select id="selectPost" parameterType="hashmap" resultType="hashmap">
+		SELECT b.* FROM (
+			SELECT a.*,@orderNo := @orderNo+1 AS orderNo FROM (
+	      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, signdate, userID, userNickName FROM blog_post
+	      		<if test='userID != null and userID != ""'>
+					where userID=#{userID}
+					<if test='category != null and category != ""'>
+						and category='%${category}%'
+	 				</if>
+					<if test='tag != null and tag != ""'>
+						and tag like '%${tag}%'
+	 				</if>
+					<if test='object != null and object != ""'>
+						<if test='object =="post"'>
+							and (title like '%${search}%' or content like '%${search}%')
+		 				</if>
+	 				</if>
+					<if test='no != null and no != ""'>
+						and no = ${no}
+	 				</if>
+	 				and useYN ='Y'
+	 			</if>
+	      		<if test='userID == null or userID == ""'>
+					<if test='category != null and category != ""'>
+						where category like '%${category}%' or tag like '%${category}%' and useYN ='Y'
+	 				</if>
+					<if test='object != null and object != ""'>
+						<if test='object =="post"'>
+							where title like '%${search}%' or content like '%${search}%' and useYN ='Y'
+		 				</if>
+						<if test='object =="theme"'>
+							where category like '%${search}%' or tag like '%${search}%' and useYN ='Y'
+		 				</if>
+						<if test='object =="writer"'>
+							where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y'
+		 				</if>
+	 				</if>
+					<if test='(category == null or category == "") and (object == null or object == "")'>
+						where useYN ='Y'
+	 				</if>
+	 			</if>
+	      		order by no desc
+				) a, (SELECT @orderNo:=0) temp
+			) b
+			<if test='block == null or block == ""'>
+				limit ${start},5
+			</if>
+			<if test='block != null and block != ""'>
+				limit ${start},${block}
+			</if>
+    </select>
+    
+    <!-- 게시글 추가 -->
+    <insert id="insertPost" parameterType="hashmap">
+    	insert into blog_post(title, content, category, tag, signdate, userID, userNickName)
+    	values (#{title}, #{content}, #{category}, #{tag}, NOW(), #{userID}, #{userNickName})
+    </insert>
+    
+    <!-- 게시글 수정 -->
+    <update id="updatePost" parameterType="hashmap">
+    	update blog_post set title=#{title}, content=#{content}, category=#{category}, tag=#{tag}, updatedate=NOW() where no=#{no}
+    </update>
+    
+    <!-- 게시글 삭제 -->
+    <delete id="deletePost" parameterType="hashmap">
+    	update blog_post set useYN ='N' where no=#{no}
+    </delete>
+    
+    <!--  카테고리 목록 검색  -->
+    <select id="selectCategory" parameterType="hashmap" resultType="hashmap">
+    	select category_name, count from blog_category where userID = #{userID} and useYN = "Y" order by category_order_no, no
+    </select>
+    
+    <!-- 이웃목록 검색 -->
+    <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
+    	select count(target) OVER(PARTITION BY 1) count, target, nickname from blog_neighbor where id = #{userID} order by no limit ${start},9
+    </select>
+</mapper>

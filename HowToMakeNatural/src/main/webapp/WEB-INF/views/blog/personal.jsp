@@ -52,12 +52,12 @@
 		<input type="hidden" id="post_count" value="${paging.count}">
 		<!-- 게시글 목록의 총 페이지 수 -->
 		<input type="hidden" id="post_page_total" value="${paging.page_total}">
-		<!-- 게시글 목록(위쪽)의 현재 페이지 및 블록-->
-		<input type="hidden" id="post_page_top" value="1">
-		<input type="hidden" id="post_block_top" value="1">
-		<!-- 게시글 목록(아래쪽)의 현재 페이지 및 블록 -->
-		<input type="hidden" id="post_page_bottom" value="1">
-		<input type="hidden" id="post_block_bottom" value="1">
+		<!-- 게시글 목록의 현재 블록 (위쪽만 필요) -->
+		<input type="hidden" id="post_block_current" value="${paging.block_current}">
+		<!-- 게시글 목록(위쪽)의 현재 페이지-->
+		<input type="hidden" id="post_page_top" value="${paging.page_current}">
+		<!-- 게시글 목록(아래쪽)의 현재 페이지 -->
+		<input type="hidden" id="post_page_bottom" value="${paging.page_current}">
 	<!-- 히든 값 영역 종료 -->
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
@@ -200,8 +200,17 @@
 						</tbody>
 					</table>
 					<footer class="post_list_summary_paging flex_center_center">
-						<c:forEach items="${postList}" var="index" begin="1" end="10">페이징 테스트 임시
+						<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
+								<div class="flex_center_center" style="margin-right: 20px;"><i class="fas fa-angle-left"></i></div>
+						</c:if>
+						<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
+							<c:if test="${status.current le paging.page_total}">
+								<div class="flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>"><span>${status.current}</span></div>
+							</c:if>
 						</c:forEach>
+						<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
+								<div class="flex_center_center" style="margin-left: 20px;"><i class="fas fa-angle-right"></i></div>
+						</c:if>
 					</footer>
 				</header>
 				<!-- 게시글 목록 종료 (목록 열기/닫기 가능 O) -->
@@ -277,7 +286,10 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<footer class="post_list_summary_paging">게시글 목록용 페이징</footer>
+					<footer class="post_list_summary_paging flex_center_center">
+						<div<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}"> class="active"</c:if>><i class="fas fa-angle-left"></i>&nbsp;이전</div>
+						<div<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}"> class="active"</c:if>>다음&nbsp;<i class="fas fa-angle-right"></i></div>
+					</footer>
 				</footer>
 				<!-- 게시글 패널 종료 (목록 열기/닫기 가능 X) -->
 			</div>
