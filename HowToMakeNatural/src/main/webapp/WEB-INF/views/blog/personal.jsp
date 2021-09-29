@@ -51,11 +51,9 @@
 		<!-- 게시글의 총 개수 -->
 		<input type="hidden" id="post_count" value="${paging.count}">
 		<!-- 게시글 목록의 총 페이지 수 -->
-		<fmt:parseNumber var="post_page_total" value="${onePost.count/5+(1-onePost.count/5%1)%1}" integerOnly="true"/>
 		<input type="hidden" id="post_page_total" value="${paging.page_total}">
 		<!-- 게시글 목록(위쪽)의 현재 페이지 및 블록-->
 		<input type="hidden" id="post_page_top" value="1">
-		<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9+(1-neighbor_count/9%1)%1}" integerOnly="true"/>
 		<input type="hidden" id="post_block_top" value="1">
 		<!-- 게시글 목록(아래쪽)의 현재 페이지 및 블록 -->
 		<input type="hidden" id="post_page_bottom" value="1">

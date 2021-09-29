@@ -146,12 +146,10 @@ public class blogController {
 		model.addAttribute("userInfo", userInfo); //유저 정보
 		model.addAttribute("categoryList", categoryList); //카테고리 목록
 		model.addAttribute("neighborList", neighborList); //이웃 목록
-		model.addAttribute("onePost", postList.get(0)); //단일 게시물에 대한 정보 등록
+		model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
 		
 		//페이징 정보
-		int post_count = Integer.parseInt(String.valueOf(onePost.get("count"))); //게시글의 총 개수
-		System.out.println("post_count : "+post_count);
-		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", post_count); //페이징 설정
+		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", onePost); //페이징 설정
 		model.addAttribute("paging", pagingSetting); //게시글
 		
 	    return "/blog/personal";
