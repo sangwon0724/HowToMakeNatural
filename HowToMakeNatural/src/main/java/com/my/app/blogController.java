@@ -200,10 +200,10 @@ public class blogController {
 	
 	/* 개인 블로그 게시글 목록 가져오기 - Ajax */
 	@ResponseBody
-	@RequestMapping(value = "/blog/${userID}/Ajax", method = RequestMethod.POST)
-	public Map<String, Object> getPersonalPostListAjax(@PathVariable String userID, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	@RequestMapping(value = "/blog/paging/Ajax", method = RequestMethod.POST)
+	public Map<String, Object> getPersonalPostListAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
-		System.out.println("게시글 목록을 위한 Ajax 요청 - 개인 블로그 - 유저 아이디 : " + userID);
+		System.out.println("게시글 목록을 위한  Ajax 요청 - 개인 블로그 - 유저 아이디 : " + map.get("userID"));
 		
 		List<HashMap<String, Object>> postList;
 		

@@ -493,56 +493,37 @@ $('.personal_post>.post_goodAndComment>#post_comment').on('click', function(even
 });
 
 /* 게시글 리스트 페이징 */
-$('페이징 링크').on('click', function(event){
-	var total_page = parseInt($('#게시글 총페이지').val()); //총 페이지 수
-	var current_page =  parseInt($('#게시글 현재 페이지').val()); //현재 페이지
-	var change_page=0; //변경될 페이지
+$('#post_list_summary_O>.post_list_summary_paging>div:not(.active)').on('click', function(event){
+	var change_page = parseInt($(event.target).attr("page")); //변경될 페이지
+	var mode = "";
+	var start=change_page;
+	var blogUserID = $('#blogUserID').val();
 	
-	var target = $(event.target); //타겟 저장
-	
-	if($(target).attr('id')==="왼쪽" && $(target).hasClass('disabled') !== true){
-		if(current_page >= 2){
-			change_page = current_page - 1;
-			$('#neighbor_page_current').val(change_page); //페이지 값 변경
-		}
+	if($(event.target).hasClass('post_list_paging_left')){
+		mode = "left";
 	}
-	else if ($(target).attr('id')==="오른쪽" && $(target).hasClass('disabled') !== true){
-		if(current_page -1 < total_page){
-			change_page = current_page + 1;
-			$('#neighbor_page_current').val(change_page); //페이지 값 변경
-		}
+	else if ($(event.target).hasClass('post_list_paging_right')){
+		mode = "right";
 	}
-	
-	//오류방지
-	if(change_page !== 0){
-		//1페이지에 대한 조건문
-		if(change_page === 1){
-			$('#왼쪽').addClass('disabled');
-		}
-		else if(change_page !== 1){
-			$('왼쪽').removeClass('disabled');
-		}
-		
-		//마지막 페이지에 대한 조건문
-		if(change_page === total_page){
-			$('#오른쪽').addClass('disabled');
-		}
-		else if (change_page !== total_page){
-			$('오른쪽').removeClass('disabled');
-		}
+	else if ($(event.target).hasClass('post_list_paging_number')){
+		mode = "number";
+	}
+	console.log(change_page);
+	//숫자 버튼 클릭
+	if(mode === "number"){
 		
 		//MariaDB에 대해서 limit에 사용할 값 설정
-		change_page-=1; //MariaDB 특성 - 0부터 시작
-		change_page*=5; //한 페이지당 5개씩 표출, SQL에 추가
+		start-=1; //MariaDB 특성 - 0부터 시작
+		start*=5; //한 페이지당 5개씩 표출, SQL에 추가
 		
 		//Ajax로 전달할 값 설정
 		var data = {
-			start: parseInt(change_page),
-		    userID : $('#blogUserID').val()
+			start: parseInt(start),
+		    userID : blogUserID
 	    };
 		//게시글 변경
 		$.ajax({
-	        url: "/blog/"+$("#myID").val()+"/Ajax",
+	        url: "/blog/"+blogUserID+"/Ajax",
 	        type: "POST",
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
@@ -550,9 +531,19 @@ $('페이징 링크').on('click', function(event){
 	        	var postList="";
 	        	$.each(result.postList, function (index, item) {
 	        		postList+=
-	               `내용`;
+	               `<tr><td class="title"><a href="/blog/${blogUserID}/${item.no}"`;
+	        		
+	        		if(item.no === $('#nowPostNo').val()){postList+=` class="active"`;}
+	        		
+	        		postList+=
+	        			`>${item.title}</a>&nbsp;<span>(댓글수)</span>
+					</td>
+					<td class="date">
+						<span>${item.signdate}</span>
+					</td>
+				</tr>`;
 	            });//each 종료
-	            $('#게시글 목록').html(postList);
+	            $('#post_list_summary_O>.post_summary_list>tbody').html(postList);
 	        },
 	        error: function(error){
 	            alert("오류 발생");
