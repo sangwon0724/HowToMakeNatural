@@ -14,6 +14,16 @@ $('#logo>span').on('click', function(event){
 	location.href="/";
 });
 
+//로그인
+function login(){
+	location.href="/login";
+}
+
+//로그아웃
+function logout(){
+	location.href="/logout";
+}
+
 /*============================================================================================================*/
 
 /* 블로그 메인 부분 */
@@ -45,9 +55,12 @@ $('#my_nickname').on('click', function(event){
 });
 
 //내 블로그 클릭시 내 블로그로 이동
-$('#my_blog').on('click', function(event){
+function my_blog(id){
+	location.href="/blog/" + id;
+}
+/*$('#my_blog').on('click', function(event){
 	location.href="/blog/"+$("#my_ID").val();
-});
+});*/
 
 //글 쓰기 클릭시 내 블로그의 글쓰기 화면으로 이동
 $('#write_new_post').on('click', function(event){

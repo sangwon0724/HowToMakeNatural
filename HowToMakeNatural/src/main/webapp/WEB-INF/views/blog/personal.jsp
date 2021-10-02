@@ -64,13 +64,19 @@
 		<nav id="personal_nav">
 			<div>
 				<div id="span_type">
-					<span id="my_blog" class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">내 블로그</span>
+					<span id="my_blog" class="click"
+						<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
+						<c:if test="${not empty sessionScope.user.id}"> onclick="my_blog('${sessionScope.user.id}')"</c:if>
+					>내 블로그</span>
 					<span> | </span>
 					<span id="neighbor_blog" class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">이웃 블로그</span>
 					<span> | </span>
 					<span id="blog_home" class="click" >블로그홈</span>
 				</div>
-				<div id="blog_sign" class="flex_center_center">
+				<div id="blog_sign" class="flex_center_center"
+					<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
+					<c:if test="${not empty sessionScope.user.id}"> onclick="logout()"</c:if>
+				>
 				<c:if test="${empty sessionScope.user.id}"><span>로그인</span></c:if>
 				<c:if test="${not empty sessionScope.user.id}"><span>로그아웃</span></c:if>
 				</div>
