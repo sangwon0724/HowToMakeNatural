@@ -239,8 +239,8 @@
 								<span>${onePost.title}</span>
 								<c:if test="${sessionScope.user.id eq userInfo.id}">
 								<div id="button_updateAndDelete">
-									<button id="update" no="${onePost.no}" onclick="open_modal('go_update')">수정하기</button>
-									<button id="delete" no="${onePost.no}" onclick="open_modal('go_delete')">삭제하기</button>
+									<button id="update" onclick="open_modal('go_update')">수정하기</button>
+									<button id="delete" onclick="open_modal('go_delete')">삭제하기</button>
 								</div>
 								</c:if>
 							</header>
@@ -259,7 +259,7 @@
 									</c:if>
 									<span>좋아요 <span id="goodCount">0</span></span>
 									</div>
-									<div id="post_comment" class="flex_center_center">
+									<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
 										<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
 										<i class="fas fa-chevron-down"></i>
 									</div>
@@ -338,8 +338,8 @@
 	      <div class="modal_content">
 	      	<span>해당 게시글을 수정하시겠습니까?</span>
 			<div id="button_yesOrNo">
-				<button id="yes">예</button>
-				<button id="no">아니오</button>
+				<button onclick="post_update_yes('${sessionScope.user.id}',${onePost.no})">예</button>
+				<button onclick="post_update_no()">아니오</button>
 			</div>
 	      </div>
 	    </div>
@@ -351,8 +351,8 @@
 	      <div class="modal_content">
 	      	<span>해당 게시글을 삭제하시겠습니까?</span>
 			<div id="button_yesOrNo">
-				<button id="yes">예</button>
-				<button id="no">아니오</button>
+				<button onclick="post_delete_yes('${sessionScope.user.id}',${onePost.no})">예</button>
+				<button onclick="post_delete_no()">아니오</button>
 			</div>
 	      </div>
 	    </div>
