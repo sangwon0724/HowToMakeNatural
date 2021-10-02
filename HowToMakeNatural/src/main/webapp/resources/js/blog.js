@@ -1,4 +1,5 @@
 /* 공통 부분 - 차후에 분리 */
+
 //로그인
 $('#login').on('click',function(){
 	location.href="/login";
@@ -22,6 +23,15 @@ function login(){
 //로그아웃
 function logout(){
 	location.href="/logout";
+}
+
+/*============================================================================================================*/
+
+/* 블로그 공통 */
+
+//내 블로그 클릭시 내 블로그로 이동
+function go_user_blog(id){
+	location.href="/blog/" + id;
 }
 
 /*============================================================================================================*/
@@ -53,14 +63,6 @@ $('#my_nickname').on('click', function(event){
 	//location.href="/blog/"+$(event.target).attr("userID");
 	location.href="/blog/"+$("#my_ID").val();
 });
-
-//내 블로그 클릭시 내 블로그로 이동
-function my_blog(id){
-	location.href="/blog/" + id;
-}
-/*$('#my_blog').on('click', function(event){
-	location.href="/blog/"+$("#my_ID").val();
-});*/
 
 //글 쓰기 클릭시 내 블로그의 글쓰기 화면으로 이동
 $('#write_new_post').on('click', function(event){
@@ -331,81 +333,208 @@ $('#my_menu>#third>div').on('click', function(event){
 /*============================================================================================================*/
 
 
-/* 개인 블로그 네이게이션 - 내 블로그 */
-$('#personal_nav>div>#span_type>span#my_blog').on('click', function(event){
-	var myID=$("#personal_nav>div>#span_type>span#my_blog").attr('myID');
-	
-	if(myID===""){
-		location.href="/login";
-	}
-	else if(myID!==""){
-		location.href="/blog/"+myID;
-	}
-});
+/* 개인 블로그 */
 
 /* 개인 블로그 네이게이션 - 이웃 블로그 */
-$('#personal_nav>div>#span_type>span#neighbor_blog').on('click', function(event){
-	var myID=$("#personal_nav>div>#span_type>span#my_blog").attr('myID');
-	
-	if(myID===""){
-		location.href="/login";
-	}
-	else if(myID!==""){
-		//작성 예정
-	}
-});
+function neighbor_blog(){
+	//작성 예정
+	alert("이웃 블로그 목록 열기 기능 제작 예정");
+}
 
 /* 개인 블로그 네이게이션 - 블로그 홈 */
-$('#personal_nav>div>#span_type>span#blog_home').on('click', function(event){
+function blog_home(){
 	location.href="/blog/main";
-});
-
-/* 개인 블로그 네이게이션 - 로그인 */
-$('#personal_nav>div>#blog_sign').on('click', function(event){
-	if($('#personal_nav>div>#blog_sign>span').text()==='로그인'){
-		location.href="/login";
-	}
-	else if($('#personal_nav>div>#blog_sign>span').text()==='로그아웃'){
-		location.href="/logout";
-	}
-});
-
-/* 개인 블로그 네이게이션 - 로그인 */
-$('#background_logo').on('click', function(event){
-	location.href="/blog/" + $("#blogUserID").val();
-});
+}
 
 /* 게시글 목록 열고 닫기 */
-$('#post_list_summary_O>#post_list_toggle').on('click', function(event){
-	if($("#post_list_summary_O>#post_list_toggle").text()==="목록 닫기"){
+function blog_post_list_toggle(){
+	if($(event.target).text()==="목록 닫기"){
 		$("#post_list_summary_O>#post_list_toggle").text("목록 열기");
 		$("#post_list_summary_O>table").addClass("hidden");
+		$("#post_list_summary_O>footer").removeClass("flex_center_center");
+		$("#post_list_summary_O>footer").addClass("hidden");
 		$("#post_list_summary_O>.post_list_summary_paging").addClass("hidden");
 	}
-	else if($("#post_list_summary_O>#post_list_toggle").text()==="목록 열기"){
+	else if($(event.target).text()==="목록 열기"){
 		$("#post_list_summary_O>#post_list_toggle").text("목록 닫기");
 		$("#post_list_summary_O>table").removeClass("hidden");
+		$("#post_list_summary_O>footer").addClass("flex_center_center");
+		$("#post_list_summary_O>footer").removeClass("hidden");
 		$("#post_list_summary_O>.post_list_summary_paging").removeClass("hidden");
 	}
-});
-
-/* 개인 블로그 게시글의 프로필 이미지 클릭시 개인 블로그 메인으로 이동 */
-$('.personal_post>.post_profileAndNameAndSigndate>.profile_image').on('click', function(event){
-	location.href="/blog/"+$("#blogUserID").val();
-});
-
-/* 개인 블로그 게시글의 유저 닉네임 클릭시 개인 블로그 메인으로 이동 */
-$('.personal_post>.post_profileAndNameAndSigndate>span').on('click', function(event){
-	location.href="/blog/"+$("#blogUserID").val();
-});
+}
 
 /* 이웃 목록에서 이웃의 프로필 클릭 시 해당 이웃의 블로그로 이동 */
-$('#neighbor_panel>main>div>main').on('click', function(event){
+/*$('#neighbor_panel>main>div>main').on('click', function(event){
 	location.href="/blog/"+$(event.target).attr("neighborID");
-});
+});*/
 
 /* 이웃목록의 페이지 변경 */
-$('#neighbor_panel>footer>div').on('click', function(event){
+function paging_neighbor(){
+	var total_page = parseInt($('#neighbor_page_total').val()); //총 페이지 수
+	var current_page =  parseInt($('#neighbor_page_current').val()); //현재 페이지
+	var change_page=0; //변경될 페이지
+	
+	var target = $(event.target); //타겟 저장
+	
+	if($(target).attr('id')==="neighbor_page_left" && $(target).hasClass('disabled') !== true && current_page >= 2){
+		//왼쪽 클릭, 활성화, 현재 페이지가 2 이상
+		change_page = current_page - 1;
+		$('#neighbor_page_current').val(change_page); //페이지 값 변경
+	}
+	else if ($(target).attr('id')==="neighbor_page_right" && $(target).hasClass('disabled') !== true && current_page -1 < total_page){
+		//오른쪽 클릭, 활성화, (현재 페이지-1)이 총합 페이지 보다 적을 때 
+		change_page = current_page + 1;
+		$('#neighbor_page_current').val(change_page); //페이지 값 변경
+	}
+	
+	//오류방지
+	if(change_page !== 0){
+		//1페이지에 대한 조건문
+		if(change_page === 1){
+			$('#neighbor_panel>footer>div#neighbor_page_left').addClass('disabled');
+		}
+		else if(change_page !== 1){
+			$('#neighbor_panel>footer>div#neighbor_page_left').removeClass('disabled');
+		}
+		
+		//마지막 페이지에 대한 조건문
+		if(change_page === total_page){
+			$('#neighbor_panel>footer>div#neighbor_page_right').addClass('disabled');
+		}
+		else if (change_page !== total_page){
+			$('#neighbor_panel>footer>div#neighbor_page_right').removeClass('disabled');
+		}
+		
+		//MariaDB에 대해서 limit에 사용할 값 설정
+		change_page-=1; //MariaDB 특성 - 0부터 시작
+		change_page*=9; //한 페이지당 9명씩 표출, SQL에 추가
+		
+		//Ajax로 전달할 값 설정
+		var data = {
+			start: parseInt(change_page),
+		    userID : $('#blogUserID').val()
+	    };
+		//게시글 변경
+		$.ajax({
+	        url: "/blog/perosnal/Ajax/my_neighbor",
+	        type: "POST",
+	        data: JSON.stringify(data),
+	        contentType: "application/json",
+	        success: function(result){
+	        	var neighborList="";
+	        	$.each(result.neighborList, function (index, item) {
+	        		neighborList+=
+	               `<div neighborID="${item.target}">
+						<main neighborID="${item.target}">
+							이미지 영역
+						</main>
+						<footer>
+							<span>${item.nickname}</span>
+						</footer>
+					</div>`;
+	            });//each 종료
+	            $('#neighbor_panel>main').html(neighborList);
+	        },
+	        error: function(error){
+	            alert("오류 발생");
+	            console.log(error);
+	        }
+	    });
+	}
+}
+//이웃목록 - 좌측 페이징 버튼
+function paging_neighbor_left(total_page, userID){
+	var page = parseInt($(event.target).attr("page")); //클릭한 버튼이 가지고 있는 페이지 속성값
+	
+	//제약 조건 설정
+	if($(event.target).hasClass('disabled') !== true && page >= 1){
+		//MariaDB에 대해서 limit에 사용할 값 설정
+		var start = page;
+		start-=1; //MariaDB 특성 - 0부터 시작
+		start*=9; //한 페이지당 9명씩 표출, SQL에 추가
+		
+		//ajax로 화면 수정
+		paging_neighbor_ajax(start, userID);
+		
+		//페이징 버튼의 css 수정
+		if(page === 1){
+			$('#neighbor_panel>footer>div#neighbor_page_left').addClass('disabled');
+		}
+		else if(page !== 1){
+			$('#neighbor_panel>footer>div#neighbor_page_left').removeClass('disabled');
+		}
+		$('#neighbor_panel>footer>div#neighbor_page_right').removeClass('disabled');
+		
+		//페이징 버튼의 page 속성값 수정
+		$('#neighbor_panel>footer>div#neighbor_page_left').attr('page',page-1);
+		$('#neighbor_panel>footer>div#neighbor_page_right').attr('page',page+1);
+	}
+}
+//이웃목록 - 우측 페이징 버튼
+function paging_neighbor_right(total_page, userID){
+	var page = parseInt($(event.target).attr("page")); //클릭한 버튼이 가지고 있는 페이지 속성값
+	
+	//제약 조건 설정
+	if($(event.target).hasClass('disabled') !== true && page <= total_page){
+		//MariaDB에 대해서 limit에 사용할 값 설정
+		var start = page;
+		start-=1; //MariaDB 특성 - 0부터 시작
+		start*=9; //한 페이지당 9명씩 표출, SQL에 추가
+		
+		//ajax로 화면 수정
+		paging_neighbor_ajax(start, userID);
+		
+		//페이징 버튼의 css 수정
+		
+		//마지막 페이지에 대한 조건문
+		if(page === total_page){
+			$('#neighbor_panel>footer>div#neighbor_page_right').addClass('disabled');
+		}
+		else if (page !== total_page){
+			$('#neighbor_panel>footer>div#neighbor_page_right').removeClass('disabled');
+		}
+		$('#neighbor_panel>footer>div#neighbor_page_left').removeClass('disabled');
+		
+		//페이징 버튼의 page 속성값 수정
+		$('#neighbor_panel>footer>div#neighbor_page_left').attr('page',page-1);
+		$('#neighbor_panel>footer>div#neighbor_page_right').attr('page',page+1);
+	}
+}
+function paging_neighbor_ajax(start, userID){
+	//Ajax로 전달할 값 설정
+	var data = {
+		start: start,
+	    userID : userID
+    };
+	//게시글 변경
+	$.ajax({
+        url: "/blog/perosnal/Ajax/my_neighbor",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var neighborList="";
+        	$.each(result.neighborList, function (index, item) {
+        		neighborList+=
+               `<div neighborID="${item.target}">
+					<main neighborID="${item.target}">
+						이미지 영역
+					</main>
+					<footer>
+						<span>${item.nickname}</span>
+					</footer>
+				</div>`;
+            });//each 종료
+            $('#neighbor_panel>main').html(neighborList);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+/*$('#neighbor_panel>footer>div').on('click', function(event){
 	var total_page = parseInt($('#neighbor_page_total').val()); //총 페이지 수
 	var current_page =  parseInt($('#neighbor_page_current').val()); //현재 페이지
 	var change_page=0; //변경될 페이지
@@ -479,7 +608,7 @@ $('#neighbor_panel>footer>div').on('click', function(event){
 	        }
 	    });
 	}
-});
+});*/
 
 /* 게시글의 댓글 영역 활성/비활성 */
 $('.personal_post>.post_goodAndComment>#post_comment').on('click', function(event){

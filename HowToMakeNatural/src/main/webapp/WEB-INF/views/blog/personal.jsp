@@ -66,12 +66,15 @@
 				<div id="span_type">
 					<span id="my_blog" class="click"
 						<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
-						<c:if test="${not empty sessionScope.user.id}"> onclick="my_blog('${sessionScope.user.id}')"</c:if>
+						<c:if test="${not empty sessionScope.user.id}"> onclick="go_user_blog('${sessionScope.user.id}')"</c:if>
 					>내 블로그</span>
 					<span> | </span>
-					<span id="neighbor_blog" class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">이웃 블로그</span>
+					<span id="neighbor_blog" class="click"
+						<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
+						<c:if test="${not empty sessionScope.user.id}"> onclick="neighbor_blog()"</c:if>
+					>이웃 블로그</span>
 					<span> | </span>
-					<span id="blog_home" class="click" >블로그홈</span>
+					<span id="blog_home" class="click" onclick="blog_home()">블로그홈</span>
 				</div>
 				<div id="blog_sign" class="flex_center_center"
 					<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
@@ -85,7 +88,9 @@
 		</nav>
 		<!-- 네비게이션 종료 -->
 		<!-- 배경글 시작 -->
-		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>>
+		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>
+		onclick="go_user_blog('${userInfo.id}')"
+		>
 			<span>
 				<c:if test='${userInfo.blog_logo_text != null && userInfo.blog_logo_text != ""}'>${userInfo.blog_logo_text}</c:if>
 				<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그입니다.</c:if>
@@ -149,7 +154,7 @@
 								<c:if test='${neighborList != null and neighborList != ""}'>	
 									<c:forEach items="${neighborList}" var="neighbor" begin="0" end="8">
 										<div neighborID="${neighbor.target}">
-											<main neighborID="${neighbor.target}">
+											<main onclick="go_user_blog('${neighbor.target}')">
 												이미지 영역
 											</main>
 											<footer>
@@ -160,10 +165,10 @@
 								</c:if>
 							</main>
 							<footer class="flex_center_center">
-								<div id="neighbor_page_left" class="flex_center_center disabled">
+								<div id="neighbor_page_left" class="flex_center_center disabled" onclick="paging_neighbor_left(${neighbor_page_total},'${userInfo.id}')" page="0">
 									<i class="fas fa-chevron-left" aria-hidden="true"></i>
 								</div>
-								<div id="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>">
+								<div id="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>" onclick="paging_neighbor_right(${neighbor_page_total},'${userInfo.id}')" page="2">
 									<i class="fas fa-chevron-right" aria-hidden="true"></i>
 								</div>
 							</footer>
@@ -180,7 +185,7 @@
 				<!-- 검색창 종료  (type B. 기본X) -->
 				<!-- 게시글 목록 시작 (목록 열기/닫기 가능 O) -->
 				<header id="post_list_summary_O">
-					<div id="post_list_toggle">목록 닫기</div>
+					<div id="post_list_toggle" onclick="blog_post_list_toggle()">목록 닫기</div>
 					<table cellspacing="0" cellpadding="0" class="post_summary_list">
 						<colgroup>
 							<col width = "75%">
@@ -240,8 +245,8 @@
 								</c:if>
 							</header>
 							<header class="post_profileAndNameAndSigndate">
-								<div class="profile_image"></div>
-								<span>${userInfo.blog_nickname}</span>
+								<div class="profile_image" onclick="go_user_blog('${userInfo.id}')"></div>
+								<span onclick="go_user_blog('${userInfo.id}')">${userInfo.blog_nickname}</span>
 							</header>
 							<main class="post_content">${onePost.content}</main>
 							<footer class="post_goodAndComment">
