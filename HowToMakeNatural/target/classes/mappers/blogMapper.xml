@@ -14,9 +14,9 @@
     <!-- B-2. 검색 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <select id="selectPost" parameterType="hashmap" resultType="hashmap">
 		SELECT b.* FROM (
-			SELECT a.*,@orderNo := @orderNo+1 AS orderNo FROM (
-	      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, signdate, userID, blog_nickname userNickName
-	      		FROM blog_post b, user u
+			SELECT a.*,@orderNo := @orderNo+1 AS orderNo,u.blog_nickname  userNickName FROM (
+	      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, signdate, userID
+	      		FROM blog_post
 	      		<if test='userID != null and userID != ""'>
 					where userID=#{userID}
 					<if test='category != null and category != ""'>
@@ -33,29 +33,30 @@
 					<if test='no != null and no != ""'>
 						and no = ${no}
 	 				</if>
-	 				and useYN ='Y' AND b.userID = u.id
+	 				and useYN ='Y'
 	 			</if>
 	      		<if test='userID == null or userID == ""'>
 					<if test='category != null and category != ""'>
-						where category like '%${category}%' or tag like '%${category}%' and useYN ='Y' AND b.userID = u.id
+						where category like '%${category}%' or tag like '%${category}%' and useYN ='Y'
 	 				</if>
 					<if test='object != null and object != ""'>
 						<if test='object =="post"'>
-							where title like '%${search}%' or content like '%${search}%' and useYN ='Y' AND b.userID = u.id
+							where title like '%${search}%' or content like '%${search}%' and useYN ='Y'
 		 				</if>
 						<if test='object =="theme"'>
-							where category like '%${search}%' or tag like '%${search}%' and useYN ='Y' AND b.userID = u.id
+							where category like '%${search}%' or tag like '%${search}%' and useYN ='Y'
 		 				</if>
 						<if test='object =="writer"'>
-							where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y' AND b.userID = u.id
+							where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y'
 		 				</if>
 	 				</if>
 					<if test='(category == null or category == "") and (object == null or object == "")'>
-						where useYN ='Y' AND b.userID = u.id
+						where useYN ='Y'
 	 				</if>
 	 			</if>
+				) a, (SELECT @orderNo:=0) temp, user u
+				WHERE a.userID = u.id
 	      		order by no desc
-				) a, (SELECT @orderNo:=0) temp
 			) b
 			<if test='block == null or block == ""'>
 				limit ${start},5

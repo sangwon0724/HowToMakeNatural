@@ -48,6 +48,7 @@ public class blogController {
 	//14-1. 개인 블로그 (단어검색)
 	//14-2. 개인 블로그 (태그 클릭)
 	//16. view 관련해서 태그 추가
+	//17. url 인터셉터 추가
 	
 	//==========완료 목록==========
 	//1. 블로그 메인 기본 틀 완성
@@ -75,6 +76,8 @@ public class blogController {
 	
 	//페이징용
 	private paging paging = new paging();
+	
+	//============================================= 블로그 메인 영역 시작 =====================================================================
 	
 	/* 블로그 메인 */
 	@RequestMapping(value = "/blog/main", method = RequestMethod.GET)
@@ -112,6 +115,35 @@ public class blogController {
 		
 	    return result;
 	}
+	
+	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
+	@ResponseBody
+	@RequestMapping(value = "/blog/main/menu/Ajax", method = RequestMethod.POST)
+	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+		
+		System.out.println("Ajax 요청 - 개인 블로그  / 개인 메뉴 : " + map.get("menu_name"));
+		
+		List<HashMap<String, Object>> neighborList;
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		switch (map.get("menu_name").toString()) {
+		case "my_news":
+			
+			break;
+		case "my_post":
+			
+			break;
+		case "my_neighbor":
+			neighborList=blogService.selectnNeighbor(map);
+			result.put("neighborList", neighborList);
+			break;
+		}
+		
+	    return result;
+	}
+	
+	//============================================= 블로그 메인 영역 종료 =====================================================================
+	//============================================= 개인 블로그 영역 시작 =====================================================================
 	
 	/* 개인 블로그 - 방문하기 */
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
@@ -215,32 +247,6 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 개인 블로그 메인 글 가져오기 - Ajax */ //작성중
-	@ResponseBody
-	@RequestMapping(value = "/blog/perosnal/Ajax/{menu_name}", method = RequestMethod.POST)
-	public Map<String, Object> getMainAjaxForMyMenu(@PathVariable String menu_name, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
-		
-		System.out.println("Ajax 요청 - 개인 블로그  / 개인 메뉴 : " + menu_name);
-		
-		List<HashMap<String, Object>> neighborList;
-		Map<String, Object> result = new HashMap<String, Object>(); //반환용
-		
-		switch (menu_name) {
-		case "my_news":
-			
-			break;
-		case "my_post":
-			
-			break;
-		case "my_neighbor":
-			neighborList=blogService.selectnNeighbor(map);
-			result.put("neighborList", neighborList);
-			break;
-		}
-		
-	    return result;
-	}
-	
 	/* 개인 블로그 - 게시글 작성  */
 	@RequestMapping(value = "/blog/{userID}/write", method = RequestMethod.GET)
 	public String getPersonalPostWrite(@PathVariable String userID, Model model) throws Exception {
@@ -326,8 +332,6 @@ public class blogController {
 	    return result;
 	}
 	
-
-	
 	@RequestMapping(value="/blog/{userID}/write/image", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, @PathVariable String userID, HttpServletRequest request)  {
@@ -364,4 +368,5 @@ public class blogController {
 		String a = jsonObject.toString();
 		return a;
 	}
+	//============================================= 개인 블로그 영역 종료 =====================================================================
 }

@@ -24,15 +24,18 @@
 						<option value="theme">주제</option>
 						<option value="writer">닉네임/아이디</option>
 					</select>
-					<input type="text" id="search_text">
-					<div id="search_button">
+					<input type="text" id="search_text" onkeyup="main_search_enter()">
+					<div id="search_button" onclick="main_search()">
 						<i class="fas fa-search"></i>
 					</div>
 				</div>
 			</div>
 			<div id="blank"></div>
 			<div id="login_small">
-				<div>
+				<div
+					<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
+					<c:if test="${not empty sessionScope.user.id}"> onclick="logout()"</c:if>
+				>
 					<c:if test="${empty sessionScope.user.id}">로그인</c:if>
 					<c:if test="${not empty sessionScope.user.id}">로그아웃</c:if>
 				</div>
@@ -46,7 +49,7 @@
 <!-- 블로그 홈 + 이웃 새글 (로그인시) 시작 -->
 	<header id="blog_main_category">
 		<section>
-			<div class="active">블로그홈</div>
+			<div class="active" onclick="blog_home_ajax()">블로그홈</div>
 			<!-- 로그인시 보이는 화면 시작 -->
 			<c:if test="${not empty sessionScope.user.id}">
 				<div class="">이웃 새글</div>
@@ -60,20 +63,20 @@
 		<section id="post_area">
 			<!-- 게시글 카테고리 시작 -->
 			<header id="category">
-				<span class="category_name active">전체</span>
-				<span class="category_name" category="IT">IT</span>
-				<span class="category_name" category="미술">미술</span>
-				<span class="category_name" category="드라마">드라마</span>
-				<span class="category_name" category="공연">공연</span>
-				<span class="category_name" category="여행">여행</span>
-				<span class="category_name" category="요리">요리</span>
+				<span class="category_name active" onclick="blog_main_category_click('')">전체</span>
+				<span class="category_name" onclick="blog_main_category_click('IT')" category="IT">IT</span>
+				<span class="category_name" onclick="blog_main_category_click('미술')" category="미술">미술</span>
+				<span class="category_name" onclick="blog_main_category_click('드라마')" category="드라마">드라마</span>
+				<span class="category_name" onclick="blog_main_category_click('공연')" category="공연">공연</span>
+				<span class="category_name" onclick="blog_main_category_click('여행')" category="여행">여행</span>
+				<span class="category_name" onclick="blog_main_category_click('요리')" category="요리">요리</span>
 			</header>
 			<!-- 게시글 카테고리 종료 -->
 			<!-- 검색시 게시글 카테고리 시작 -->
 			<header id="search_category" class="hidden">
-				<span class="search_category_name active" category="post">제목/내용</span>
-				<span class="search_category_name" category="theme">주제</span>
-				<span class="search_category_name" category="writer">닉네임/아이디</span>
+				<span class="search_category_name active" onclick="blog_main_search_category_click('post')">제목/내용</span>
+				<span class="search_category_name" onclick="blog_main_search_category_click('theme')">주제</span>
+				<span class="search_category_name" onclick="blog_main_search_category_click('writer')">닉네임/아이디</span>
 			</header>
 			<!-- 검색시 게시글 카테고리 종료 -->
 			<!-- 게시글 목록 시작 -->
@@ -82,7 +85,7 @@
 					<div class="main_post">
 						<div class="post_content">
 							<div class="post_profileAndName">
-								<div class="post_userProfile" userID="${post.userID}"></div>
+								<div class="post_userProfile" onclick="go_user_blog('${post.userID}')"></div>
 								<a href="/blog/${post.userID}">${post.userNickName}</a>
 							</div>
 							<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
@@ -116,7 +119,7 @@
 			<!-- 로그인을 하지 않았을 경우에 보일 부분 시작 -->
 			<c:if test="${empty sessionScope.user.id}">
 			<div id="sign">
-				<div id="login"><span>Totailian 로그인</span></div>
+				<div id="login"><span>Natural Blog 로그인</span></div>
 				<div id="searchAndSignUp"><span><span id="searchID">아이디 찾기</span> | <span id="searchPW">비밀번호 찾기</span></span><span id="signUp">회원가입</span></div>
 			</div>
 			</c:if>
@@ -127,21 +130,21 @@
 				<input type="hidden" id="my_ID" value="${sessionScope.user.id}">
 				<div id="first">
 					<div id="my_info">
-						<div class="post_userProfile" userID="${sessionScope.user.id}"></div>
-						<span id="my_nickname">${sessionScope.user.blog_nickname}</span>
+						<div class="post_userProfile" onclick="go_user_blog('${sessionScope.user.id}')"></div>
+						<span id="my_nickname" onclick="go_user_blog('${sessionScope.user.id}')">${sessionScope.user.blog_nickname}</span>
 					</div>
 					<div id="my_logout">
 						<div id="logout">로그아웃</div>
 					</div>
 				</div>
 				<div id="second">
-					<div id="my_blog"><span>내 블로그</span></div>
-					<div id="write_new_post"><i class="fas fa-pen"></i>&nbsp;&nbsp;<span>글쓰기</span></div>
+					<div id="my_blog" onclick="go_user_blog('${sessionScope.user.id}')"><span>내 블로그</span></div>
+					<div id="write_new_post" onclick="write_my_new_post('${sessionScope.user.id}')"><i class="fas fa-pen"></i>&nbsp;&nbsp;<span>글쓰기</span></div>
 				</div>
 				<div id="third">
-					<div id="my_news" class="active">새소식</div>
-					<div id="my_post">내 글</div>
-					<div id="my_neighbor">내 이웃</div>
+					<div id="my_news" class="active" onclick="blog_main_my_menu('${sessionScope.user.id}','my_news')">새소식</div>
+					<div id="my_post" onclick="blog_main_my_menu('${sessionScope.user.id}','my_post')">내 글</div>
+					<div id="my_neighbor" onclick="blog_main_my_menu('${sessionScope.user.id}','my_neighbor')">내 이웃</div>
 				</div>
 				<div id="show_info">
 					정보가 보여질 부분

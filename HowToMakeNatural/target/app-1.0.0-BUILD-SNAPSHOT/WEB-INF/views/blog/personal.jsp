@@ -64,13 +64,22 @@
 		<nav id="personal_nav">
 			<div>
 				<div id="span_type">
-					<span id="my_blog" class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">내 블로그</span>
+					<span id="my_blog" class="click"
+						<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
+						<c:if test="${not empty sessionScope.user.id}"> onclick="go_user_blog('${sessionScope.user.id}')"</c:if>
+					>내 블로그</span>
 					<span> | </span>
-					<span id="neighbor_blog" class="click" myID="<c:if test="${not empty sessionScope.user.id}">${sessionScope.user.id}</c:if>">이웃 블로그</span>
+					<span id="neighbor_blog" class="click"
+						<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
+						<c:if test="${not empty sessionScope.user.id}"> onclick="neighbor_blog()"</c:if>
+					>이웃 블로그</span>
 					<span> | </span>
-					<span id="blog_home" class="click" >블로그홈</span>
+					<span id="blog_home" class="click" onclick="blog_home()">블로그홈</span>
 				</div>
-				<div id="blog_sign" class="flex_center_center">
+				<div id="blog_sign" class="flex_center_center"
+					<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
+					<c:if test="${not empty sessionScope.user.id}"> onclick="logout()"</c:if>
+				>
 				<c:if test="${empty sessionScope.user.id}"><span>로그인</span></c:if>
 				<c:if test="${not empty sessionScope.user.id}"><span>로그아웃</span></c:if>
 				</div>
@@ -79,7 +88,9 @@
 		</nav>
 		<!-- 네비게이션 종료 -->
 		<!-- 배경글 시작 -->
-		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>>
+		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>
+		onclick="go_user_blog('${userInfo.id}')"
+		>
 			<span>
 				<c:if test='${userInfo.blog_logo_text != null && userInfo.blog_logo_text != ""}'>${userInfo.blog_logo_text}</c:if>
 				<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그입니다.</c:if>
@@ -143,7 +154,7 @@
 								<c:if test='${neighborList != null and neighborList != ""}'>	
 									<c:forEach items="${neighborList}" var="neighbor" begin="0" end="8">
 										<div neighborID="${neighbor.target}">
-											<main neighborID="${neighbor.target}">
+											<main onclick="go_user_blog('${neighbor.target}')">
 												이미지 영역
 											</main>
 											<footer>
@@ -154,10 +165,10 @@
 								</c:if>
 							</main>
 							<footer class="flex_center_center">
-								<div id="neighbor_page_left" class="flex_center_center disabled">
+								<div id="neighbor_page_left" class="flex_center_center disabled" onclick="paging_neighbor_left(${neighbor_page_total},'${userInfo.id}')" page="0">
 									<i class="fas fa-chevron-left" aria-hidden="true"></i>
 								</div>
-								<div id="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>">
+								<div id="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>" onclick="paging_neighbor_right(${neighbor_page_total},'${userInfo.id}')" page="2">
 									<i class="fas fa-chevron-right" aria-hidden="true"></i>
 								</div>
 							</footer>
@@ -174,7 +185,7 @@
 				<!-- 검색창 종료  (type B. 기본X) -->
 				<!-- 게시글 목록 시작 (목록 열기/닫기 가능 O) -->
 				<header id="post_list_summary_O">
-					<div id="post_list_toggle">목록 닫기</div>
+					<div id="post_list_toggle" onclick="blog_post_list_toggle()">목록 닫기</div>
 					<table cellspacing="0" cellpadding="0" class="post_summary_list">
 						<colgroup>
 							<col width = "75%">
@@ -205,7 +216,7 @@
 						</c:if>
 						<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
 							<c:if test="${status.current le paging.page_total}">
-								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}"><span>${status.current}</span></div>
+								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}')"><span>${status.current}</span></div>
 							</c:if>
 						</c:forEach>
 						<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
@@ -228,14 +239,14 @@
 								<span>${onePost.title}</span>
 								<c:if test="${sessionScope.user.id eq userInfo.id}">
 								<div id="button_updateAndDelete">
-									<button id="update" no="${onePost.no}" onclick="open_modal('go_update')">수정하기</button>
-									<button id="delete" no="${onePost.no}" onclick="open_modal('go_delete')">삭제하기</button>
+									<button id="update" onclick="open_modal('go_update')">수정하기</button>
+									<button id="delete" onclick="open_modal('go_delete')">삭제하기</button>
 								</div>
 								</c:if>
 							</header>
 							<header class="post_profileAndNameAndSigndate">
-								<div class="profile_image"></div>
-								<span>${userInfo.blog_nickname}</span>
+								<div class="profile_image" onclick="go_user_blog('${userInfo.id}')"></div>
+								<span onclick="go_user_blog('${userInfo.id}')">${userInfo.blog_nickname}</span>
 							</header>
 							<main class="post_content">${onePost.content}</main>
 							<footer class="post_goodAndComment">
@@ -248,7 +259,7 @@
 									</c:if>
 									<span>좋아요 <span id="goodCount">0</span></span>
 									</div>
-									<div id="post_comment" class="flex_center_center">
+									<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
 										<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
 										<i class="fas fa-chevron-down"></i>
 									</div>
@@ -327,8 +338,8 @@
 	      <div class="modal_content">
 	      	<span>해당 게시글을 수정하시겠습니까?</span>
 			<div id="button_yesOrNo">
-				<button id="yes">예</button>
-				<button id="no">아니오</button>
+				<button onclick="post_update_yes('${sessionScope.user.id}',${onePost.no})">예</button>
+				<button onclick="post_update_no()">아니오</button>
 			</div>
 	      </div>
 	    </div>
@@ -340,8 +351,8 @@
 	      <div class="modal_content">
 	      	<span>해당 게시글을 삭제하시겠습니까?</span>
 			<div id="button_yesOrNo">
-				<button id="yes">예</button>
-				<button id="no">아니오</button>
+				<button onclick="post_delete_yes('${sessionScope.user.id}',${onePost.no})">예</button>
+				<button onclick="post_delete_no()">아니오</button>
 			</div>
 	      </div>
 	    </div>
