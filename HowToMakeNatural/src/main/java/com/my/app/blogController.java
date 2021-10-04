@@ -163,14 +163,14 @@ public class blogController {
 	
 	/* 개인 블로그 - 게시글 한 개만 보기 */
 	@RequestMapping(value = "/blog/{userID}/{no}", method = RequestMethod.GET)
-	public String getPersonalPostView(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+	public String getPersonalPostView(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, @PathVariable int no, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		
 		//xml 파일에서 사용할 값 설정
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", 0);  //MariaDB 특성
-		map.put("category", "");
+		map.put("category", category);
 		map.put("userID", userID);
 		map.put("block", 5);
 		

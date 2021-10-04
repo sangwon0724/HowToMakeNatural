@@ -122,12 +122,12 @@
 							</div>
 						</div>
 						<div id="category_panel">
-							<span<c:if test='${category_now == null or category_now == ""}'> class="active"</c:if> onclick="go_user_blog('${userInfo.id}')">전체</span>
-							<span onclick="go_user_blog_category('${userInfo.id}','요리')">요리</span>
-							<span onclick="go_user_blog_category('${userInfo.id}','IT')">IT</span>
+							<span<c:if test='${param.category == null or param.category == ""}'> class="active"</c:if> onclick="go_user_blog('${userInfo.id}')">전체</span>
+							<span<c:if test="${param.category eq '요리'}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','요리')">요리</span>
+							<span<c:if test="${param.category eq 'IT'}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','IT')">IT</span>
 							<c:if test='${categoryList != null and categoryList != ""}'>
 								<c:forEach items="${categoryList}" var="item">
-									<span onclick="go_user_blog_category('${userInfo.id}','${item.name}')">${item.name}</span>
+									<span<c:if test="${param.category eq item.name}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','${item.name}')">${item.name}</span>
 								</c:forEach>
 							</c:if>
 						</div>
@@ -283,7 +283,7 @@
 							<c:forEach items="${postList}" var="post" begin="0" end="4">
 							<tr>
 								<td class="title">
-									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
+									<a href="/blog/${userInfo.id}/${post.no}<c:if test="${param.category != null and param.category ne ''}">?category=${param.category}</c:if>" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
 								</td>
 								<td class="date">
 									<span>${post.signdate}</span>
