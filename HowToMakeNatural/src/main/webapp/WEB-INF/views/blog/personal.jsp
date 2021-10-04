@@ -210,17 +210,17 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<footer class="post_list_summary_paging flex_center_center">
+					<footer class="post_list_summary_paging flex_center_center">${paging.page_current }
 						<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
-								<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;"><i class="fas fa-angle-left"></i></div>
+								<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${nowPostNo})"><i class="fas fa-angle-left"></i></div>
 						</c:if>
 						<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
 							<c:if test="${status.current le paging.page_total}">
-								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}')"><span>${status.current}</span></div>
+								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}',${nowPostNo})"><span>${status.current}</span></div>
 							</c:if>
 						</c:forEach>
 						<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
-								<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;"><i class="fas fa-angle-right"></i></div>
+								<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${nowPostNo})"><i class="fas fa-angle-right"></i></div>
 						</c:if>
 					</footer>
 				</header>
@@ -249,6 +249,13 @@
 								<span onclick="go_user_blog('${userInfo.id}')">${userInfo.blog_nickname}</span>
 							</header>
 							<main class="post_content">${onePost.content}</main>
+							<footer class="post_tag">
+								<c:if test="${onePost.tag != null and onePost.tag != ''}">
+									<c:forEach items="${fn:split(onePost.tag,'#')}" var="item">
+										<div class="tag flex_center_center"><span><i>#</i>${item}</span></div>
+									</c:forEach>
+								</c:if>
+							</footer>
 							<footer class="post_goodAndComment">
 									<div id="post_good" class="flex_center_center">
 									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>

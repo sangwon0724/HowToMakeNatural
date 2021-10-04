@@ -466,12 +466,16 @@ function paging_neighbor_ajax(start, userID){
 function comment_area_toggle(){
 	console.log($(event.target));
 	if($(event.target).hasClass("active") !== true){
+		//댓글창 드러내기
+		$(".personal_post>.post_comment_hidden").addClass("comment_open");
 		$(".personal_post>.post_goodAndComment>#post_comment").addClass("active");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").removeClass("fa-chevron-down");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").addClass("fa-chevron-up");
 		$(".personal_post>.post_comment_hidden").removeClass("hidden");
 	}
 	else if($(event.target).hasClass("active") === true){
+		//댓글창 숨기기
+		$(".personal_post>.post_comment_hidden").removeClass("comment_open");
 		$(".personal_post>.post_goodAndComment>#post_comment").removeClass("active");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").removeClass("fa-chevron-up");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").addClass("fa-chevron-down");
@@ -480,20 +484,17 @@ function comment_area_toggle(){
 }
 
 /* 게시글 리스트 페이징 */
-function personal_paging_top(page,blogUserID){
-	var mode = "";
+function personal_paging_top(page,blogUserID,nowPostNo){
 	var start=page; //변경될 값
 
-	$('#post_list_summary_O>.post_list_summary_paging>div.active').removeClass('active'); //활성화 css 삭제, 공통
-	
 	//1. 이전 목록
 	//2. 다음 목록
 	//3. 숫자
 	if($(event.target).hasClass('post_list_paging_left')){
-		mode = "left";
+		//이전 목록으로 가는 코드 작성
 	}
 	else if ($(event.target).hasClass('post_list_paging_right')){
-		mode = "right";
+		//다음 목록으로 가는 코드 작성
 	}
 	else if ($(event.target).hasClass('post_list_paging_number')){
 		//MariaDB에 대해서 limit에 사용할 값 설정
@@ -512,12 +513,15 @@ function personal_paging_top(page,blogUserID){
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
 	        success: function(result){
+	        	$('#post_list_summary_O>.post_list_summary_paging>div.active').removeClass('active'); //활성화 css 삭제, 공통
+	        	
+	        	
 	        	var postList="";
 	        	$.each(result.postList, function (index, item) {
 	        		postList+=
 	               `<tr><td class="title"><a href="/blog/${blogUserID}/${item.no}"`;
 	        		
-	        		if(item.no === $('#nowPostNo').val()){postList+=` class="active"`;}
+	        		if(parseInt(item.no) === nowPostNo){postList+=` class="active"`;}
 	        		
 	        		postList+=
 	        			`>${item.title}</a>&nbsp;<span>(댓글수)</span>

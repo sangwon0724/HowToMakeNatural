@@ -13,8 +13,8 @@
     <!-- B-1. 카테고리 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <!-- B-2. 검색 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <select id="selectPost" parameterType="hashmap" resultType="hashmap">
-		SELECT b.* FROM (
-			SELECT a.*,@orderNo := @orderNo+1 AS orderNo,u.blog_nickname  userNickName FROM (
+		SELECT b.*,@orderNo := @orderNo+1 AS orderNo FROM (
+			SELECT a.*,u.blog_nickname  userNickName FROM (
 	      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, signdate, userID
 	      		FROM blog_post
 	      		<if test='userID != null and userID != ""'>
@@ -54,10 +54,10 @@
 						where useYN ='Y'
 	 				</if>
 	 			</if>
-				) a, (SELECT @orderNo:=0) temp, user u
+				) a, user u
 				WHERE a.userID = u.id
 	      		order by no desc
-			) b
+			) b, (SELECT @orderNo:=0) temp
 			<if test='block == null or block == ""'>
 				limit ${start},5
 			</if>
