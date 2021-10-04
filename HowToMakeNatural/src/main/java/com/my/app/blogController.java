@@ -116,45 +116,19 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
-	@ResponseBody
-	@RequestMapping(value = "/blog/main/menu/Ajax", method = RequestMethod.POST)
-	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
-		
-		System.out.println("Ajax 요청 - 개인 블로그  / 개인 메뉴 : " + map.get("menu_name"));
-		
-		List<HashMap<String, Object>> neighborList;
-		Map<String, Object> result = new HashMap<String, Object>(); //반환용
-		
-		switch (map.get("menu_name").toString()) {
-		case "my_news":
-			
-			break;
-		case "my_post":
-			
-			break;
-		case "my_neighbor":
-			neighborList=blogService.selectnNeighbor(map);
-			result.put("neighborList", neighborList);
-			break;
-		}
-		
-	    return result;
-	}
-	
 	//============================================= 블로그 메인 영역 종료 =====================================================================
 	//============================================= 개인 블로그 영역 시작 =====================================================================
 	
 	/* 개인 블로그 - 방문하기 */
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
-	public String getPersonalBlog(@PathVariable String userID, Model model) throws Exception {
+	public String getPersonalBlog(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
 		//xml 파일에서 사용할 값 설정
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", 0); //게시글 검색 + 이웃 검색
-		map.put("category", ""); //게시글 검색
+		map.put("category", category); //게시글 검색
 		map.put("userID", userID); //게시글 검색 + 카테고리 검색 + 이웃 검색
 		map.put("block", 5); //게시글 검색
 		
@@ -214,7 +188,6 @@ public class blogController {
 		
 		model.addAttribute("postList", postList); //게시글 목록 등록
 		model.addAttribute("userInfo", userInfo); //블로그 유조애 대한 정보 등록
-		model.addAttribute("nowPostNo", no); //현재 게시글의 번호를 등록
 		model.addAttribute("categoryList", categoryList); //카테고리 목록
 		model.addAttribute("neighborList", neighborList); //이웃 목록
 		
@@ -369,4 +342,35 @@ public class blogController {
 		return a;
 	}
 	//============================================= 개인 블로그 영역 종료 =====================================================================
+	//============================================= 블로그 공통 영역 시작 =====================================================================
+	
+
+	
+	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
+	@ResponseBody
+	@RequestMapping(value = "/blog/menu/Ajax", method = RequestMethod.POST)
+	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+		
+		System.out.println("Ajax 요청 - 개인 메뉴 : " + map.get("menu"));
+		
+		List<HashMap<String, Object>> neighborList;
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		switch (map.get("menu").toString()) {
+		case "my_news":
+			
+			break;
+		case "my_post":
+			
+			break;
+		case "my_neighbor":
+			neighborList=blogService.selectnNeighbor(map);
+			result.put("neighborList", neighborList);
+			break;
+		}
+		
+	    return result;
+	}
+	
+	//============================================= 블로그 공통 영역 종료 =====================================================================
 }

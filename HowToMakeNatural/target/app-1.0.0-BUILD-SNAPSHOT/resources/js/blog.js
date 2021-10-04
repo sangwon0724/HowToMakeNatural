@@ -38,39 +38,13 @@ function go_user_blog(id){
 
 /* 블로그 메인 부분 */
 
-//로그인
-$('#blog_header>section>#login_small>div').on('click',function(){
-	location.href="/login";
-});
-$('#common_header>section>#login_small>div').on('click',function(){
-	if($("#common_header>section>#login_small>div").text().match("로그인")){
-		location.href="/login";
-	}
-	else if($("#common_header>section>#login_small>div").text().match("로그아웃")){
-		location.href="/logout";
-	}
-});
-
-
-//프로필 사진 클릭시 해당 유저의 블로그로 이동
-$('.post_userProfile').on('click', function(event){
-	//location.href="/blog/"+$(event.target).attr("userID");
-	location.href="/blog/"+$("#my_ID").val();
-});
-
-//내 닉네임 클릭시 내 블로그로 이동
-$('#my_nickname').on('click', function(event){
-	//location.href="/blog/"+$(event.target).attr("userID");
-	location.href="/blog/"+$("#my_ID").val();
-});
-
 //글 쓰기 클릭시 내 블로그의 글쓰기 화면으로 이동
-$('#write_new_post').on('click', function(event){
-	location.href="/blog/"+$("#my_ID").val()+"/write";
-});
+function write_my_new_post(id){
+	location.href="/blog/"+id+"/write";
+}
 
 //검색 기능 - 블로그 메인
-$('#common_header>section>#search>#search_box>#search_button').on('click', function(event){
+function main_search(){
 	//강조 변경
 	$('#blog_main_category>section>div').removeClass('active');
 	$('#category').addClass('hidden');
@@ -106,6 +80,10 @@ $('#common_header>section>#search>#search_box>#search_button').on('click', funct
       	var postList="";
       	
       	$.each(result.postList, function (index, item) {
+      		var content = item.content;
+      		content = content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+      		content = content.replace(/<IMG(.*?)>/gi, "");
+      		
       		postList+=
              `<div class="main_post">
                  <div class="post_content">
@@ -114,7 +92,7 @@ $('#common_header>section>#search>#search_box>#search_button').on('click', funct
 						<a href="/blog/${item.userID}">${item.userNickName}</a>
 					</div>
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
-					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${item.content}</a></div>
+					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
 						<span>좋아요 0</span>
 						<span>댓글 0</span>
@@ -130,15 +108,17 @@ $('#common_header>section>#search>#search_box>#search_button').on('click', funct
           console.log(error);
       }
   });
-});
-$("#common_header>section>#search>#search_box>#search_text").on("keyup",function(key){
-    if(key.keyCode==13) {
+}
+
+//엔터키를 누르는 경우에 검색 실행
+function main_search_enter(){
+	if(window.event.keyCode==13) {
     	$('#search_button').click();
     }
-});
+}
 
 //블로그홈 클릭
-$('#blog_main_category>section>div:first-child').on('click', function(event){
+function blog_home_ajax(){
 	//강조 변경
 	$('#category').removeClass('hidden');
 	$('#category_name:first-child').addClass('active');
@@ -161,6 +141,10 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
         	var postList="";
         	
         	$.each(result.postList, function (index, item) {
+          		var content = item.content;
+          		content = content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+          		content = content.replace(/<IMG(.*?)>/gi, "");
+          		
         		postList+=
                `<div class="main_post">
                    <div class="post_content">
@@ -169,7 +153,7 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
 						<a href="/blog/${item.userID}">${item.userNickName}</a>
 					</div>
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
-					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${item.content}</a></div>
+					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
 						<span>좋아요 0</span>
 						<span>댓글 0</span>
@@ -185,14 +169,14 @@ $('#blog_main_category>section>div:first-child').on('click', function(event){
             console.log(error);
         }
     });
-});
+}
 
 //검샊 게시글 카테고리 클릭
-$('#search_category > .search_category_name').on('click', function(event){
+function blog_main_search_category_click(category){
 	//강조 변경
 	$('.search_category_name').removeClass('active');
 	
-	switch ($(event.target).attr("category")) {
+	switch (category) {
 	  case 'post':
 		 $('.search_category_name:nth-child(1)').addClass('active');
 		 $("#search_object option:eq(0)").prop("selected", true);
@@ -224,6 +208,10 @@ $('#search_category > .search_category_name').on('click', function(event){
       	var postList="";
       	
       	$.each(result.postList, function (index, item) {
+      		var content = item.content;
+      		content = content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+      		content = content.replace(/<IMG(.*?)>/gi, "");
+      		
       		postList+=
              `<div class="main_post">
                  <div class="post_content">
@@ -232,7 +220,7 @@ $('#search_category > .search_category_name').on('click', function(event){
 						<a href="/blog/${item.userID}">${item.userNickName}</a>
 					</div>
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
-					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${item.content}</a></div>
+					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
 						<span>좋아요 0</span>
 						<span>댓글 0</span>
@@ -248,10 +236,10 @@ $('#search_category > .search_category_name').on('click', function(event){
           console.log(error);
       }
   });
-});
+}
 
 //게시글 카테고리 클릭
-$('#category > .category_name').on('click', function(event){
+function blog_main_category_click(category){
 	//강조 변경
 	$('#category > .category_name').removeClass('active');
 	$(event.target).addClass('active');
@@ -259,7 +247,7 @@ $('#category > .category_name').on('click', function(event){
 	var data = {
 		start: 0,
 	    block: 10,
-        category: $(event.target).attr('category')
+        category: category
     };
 	
 	//게시글 변경
@@ -272,6 +260,10 @@ $('#category > .category_name').on('click', function(event){
         	var postList="";
         	
         	$.each(result.postList, function (index, item) {
+          		var content = item.content;
+          		content = content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+          		content = content.replace(/<IMG(.*?)>/gi, "");
+          		
         		postList+=
                `<div class="main_post">
                    <div class="post_content">
@@ -280,7 +272,7 @@ $('#category > .category_name').on('click', function(event){
 						<a href="/blog/${item.userID}">${item.userNickName}</a>
 					</div>
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
-					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${item.content}</a></div>
+					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
 						<span>좋아요 0</span>
 						<span>댓글 0</span>
@@ -296,39 +288,51 @@ $('#category > .category_name').on('click', function(event){
             console.log(error);
         }
     });
-});
+}
 
 //내 글 클릭 //임시/ 만들 예정
-$('#my_menu>#third>div').on('click', function(event){
+function blog_main_my_menu_my_post(id, menu){
 	//강조 변경
 	$('#my_menu>#third>div').removeClass('active');
-	$('#my_menu>#third>div#'+$(event.target).attr("id")).addClass('active');
+	$('#my_menu>#third>div#'+menu).addClass('active');
 	
 	var data = {
-		start: 0,
-	    block: 10
+		id: id,
+		menu: menu
     };
 	
 	//내용 변경 + 주소변경 (임시 주석)
 	$.ajax({
-        url: "/blog/main/Ajax/"+$(event.target).attr("id"),
+        url: "/blog/main/menu/Ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	var postList="";
+        	var list="";
         	
-        	$.each(result.postList, function (index, item) {
-        		postList+=``;
-            });//each 종료
-            //$('#board').html(postList);
+        	if(menu==="my_news"){
+        		$.each(result.newsList, function (index, item) {
+            		list+=``;
+                });//each 종료
+        	}
+        	else if(menu==="my_post"){
+        		$.each(result.postList, function (index, item) {
+            		list+=``;
+                });//each 종료
+        	}
+        	else if(menu==="my_neighbor"){
+            	$.each(result.neighborList, function (index, item) {
+            		list+=``;
+                });//each 종료
+        	}
+            $('#info_area>#my_menu>#show_info').html(postList);
         },
         error: function(error){
             alert("오류 발생");
             console.log(error);
         }
     });
-});
+}
 
 /*============================================================================================================*/
 
@@ -344,6 +348,11 @@ function neighbor_blog(){
 /* 개인 블로그 네이게이션 - 블로그 홈 */
 function blog_home(){
 	location.href="/blog/main";
+}
+
+/* 카테고리 클릭 */
+function go_user_blog_category(id, category){
+	location.href="/blog/" + id + "?category=" + category;
 }
 
 /* 게시글 목록 열고 닫기 */
@@ -462,12 +471,16 @@ function paging_neighbor_ajax(start, userID){
 function comment_area_toggle(){
 	console.log($(event.target));
 	if($(event.target).hasClass("active") !== true){
+		//댓글창 드러내기
+		$(".personal_post>.post_comment_hidden").addClass("comment_open");
 		$(".personal_post>.post_goodAndComment>#post_comment").addClass("active");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").removeClass("fa-chevron-down");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").addClass("fa-chevron-up");
 		$(".personal_post>.post_comment_hidden").removeClass("hidden");
 	}
 	else if($(event.target).hasClass("active") === true){
+		//댓글창 숨기기
+		$(".personal_post>.post_comment_hidden").removeClass("comment_open");
 		$(".personal_post>.post_goodAndComment>#post_comment").removeClass("active");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").removeClass("fa-chevron-up");
 		$(".personal_post>.post_goodAndComment>#post_comment>i").addClass("fa-chevron-down");
@@ -476,20 +489,17 @@ function comment_area_toggle(){
 }
 
 /* 게시글 리스트 페이징 */
-function personal_paging_top(page,blogUserID){
-	var mode = "";
+function personal_paging_top(page,blogUserID,nowPostNo){
 	var start=page; //변경될 값
 
-	$('#post_list_summary_O>.post_list_summary_paging>div.active').removeClass('active'); //활성화 css 삭제, 공통
-	
 	//1. 이전 목록
 	//2. 다음 목록
 	//3. 숫자
 	if($(event.target).hasClass('post_list_paging_left')){
-		mode = "left";
+		//이전 목록으로 가는 코드 작성
 	}
 	else if ($(event.target).hasClass('post_list_paging_right')){
-		mode = "right";
+		//다음 목록으로 가는 코드 작성
 	}
 	else if ($(event.target).hasClass('post_list_paging_number')){
 		//MariaDB에 대해서 limit에 사용할 값 설정
@@ -508,12 +518,15 @@ function personal_paging_top(page,blogUserID){
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
 	        success: function(result){
+	        	$('#post_list_summary_O>.post_list_summary_paging>div.active').removeClass('active'); //활성화 css 삭제, 공통
+	        	
+	        	
 	        	var postList="";
 	        	$.each(result.postList, function (index, item) {
 	        		postList+=
 	               `<tr><td class="title"><a href="/blog/${blogUserID}/${item.no}"`;
 	        		
-	        		if(item.no === $('#nowPostNo').val()){postList+=` class="active"`;}
+	        		if(parseInt(item.no) === nowPostNo){postList+=` class="active"`;}
 	        		
 	        		postList+=
 	        			`>${item.title}</a>&nbsp;<span>(댓글수)</span>

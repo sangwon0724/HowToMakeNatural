@@ -167,15 +167,6 @@
 	</script>
 </head>
 <body>
-	<!-- 히든 값 영역 시작 -->
-		<!-- 현재 유저의 아이디 -->
-		<input type="hidden" id="myID" value="${sessionScope.user.id}">
-		<input type="hidden" id="myNickName" value="${sessionScope.user.blog_nickname}">
-		<c:if test="${mode eq 'update'}">
-		<input type="hidden" id="no" value="${data.no}">
-		</c:if>
-	<!-- 히든 값 영역 종료-->
-	
 	<form method="post" id="write_form" enctype="multipart/form-data" accept-charset="utf-8" onSubmit="return false;">
 	    <input type="text" id="title" placeholder="제목을 입력해주세요.">
 	    <div class="write_line">
@@ -187,10 +178,9 @@
 			</div>
 	    </div>
 	 	<div id="summernote" name="text"></div>
-	 	<button id="submit" onclick="write_submit('<c:if test="${mode ne 'update'}">등록</c:if><c:if test="${mode eq 'update'}">수정</c:if>')" >작성</button>
+	 	<button id="submit" onclick="write_submit('<c:if test="${mode ne 'update'}">등록</c:if><c:if test="${mode eq 'update'}">수정</c:if>', '${sessionScope.user.id}', '${sessionScope.user.blog_nickname}','<c:if test="${mode eq 'update'}">${data.no}</c:if>')" >작성</button>
  	</form>
-	
-	
+ 	
 	<!-- Scripts -->
 	<script src="<c:url value="/resources/js/blog.js"/>"></script>
 	
