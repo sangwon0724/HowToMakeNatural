@@ -34,6 +34,13 @@ function go_user_blog(id){
 	location.href="/blog/" + id;
 }
 
+//엔터키를 누르는 경우에 검색 실행
+function search_enter(){
+	if(window.event.keyCode==13) {
+  	$('#search_button').click();
+  }
+}
+
 /*============================================================================================================*/
 
 /* 블로그 메인 부분 */
@@ -108,13 +115,6 @@ function main_search(){
           console.log(error);
       }
   });
-}
-
-//엔터키를 누르는 경우에 검색 실행
-function main_search_enter(){
-	if(window.event.keyCode==13) {
-    	$('#search_button').click();
-    }
 }
 
 //블로그홈 클릭
@@ -440,6 +440,7 @@ function paging_neighbor_ajax(start, userID){
 	    userID : userID,
 	    menu : "my_neighbor"
     };
+	
 	//게시글 변경
 	$.ajax({
         url: "/blog/menu/Ajax",
@@ -639,6 +640,12 @@ function personal_paging_bottom_ajax(blogUserID, page, nowPostNo){
             console.log(error);
         }
     });
+}
+
+
+//검색 기능 - 개인 블로그
+function personal_blog_search(userID){
+	location.href="/blog/" + userID + "/search/" + $("#search_text").val();
 }
 
 /*============================================================================================================*/

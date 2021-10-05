@@ -139,8 +139,8 @@ public class blogController {
 		//해당 블로그의 유저 정보 가져오기
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
 		
-		//이웃목록 긁어오기
-		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //게시글 10개
+		//카테고리목록 긁어오기
+		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //카테고리 목록
 		
 		//이웃목록 긁어오기
 		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
@@ -153,10 +153,11 @@ public class blogController {
 		model.addAttribute("categoryList", categoryList); //카테고리 목록
 		model.addAttribute("neighborList", neighborList); //이웃 목록
 		model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
+		model.addAttribute("mode", "view"); //게시글 모드
 		
 		//페이징 정보
-		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", onePost); //페이징 설정
-		model.addAttribute("paging", pagingSetting); //게시글
+		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", onePost, 5); //페이징 설정
+		model.addAttribute("paging", pagingSetting); //페이징 정보 설정
 		
 	    return "/blog/personal";
 	}
@@ -181,7 +182,7 @@ public class blogController {
 		userVO userInfo=userService.selectUserInfoForBlog(userID);
 		
 		//카테고리목록 긁어오기
-		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //게시글 10개
+		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //카테고리 목록
 		
 		//이웃목록 긁어오기
 		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
@@ -190,6 +191,7 @@ public class blogController {
 		model.addAttribute("userInfo", userInfo); //블로그 유조애 대한 정보 등록
 		model.addAttribute("categoryList", categoryList); //카테고리 목록
 		model.addAttribute("neighborList", neighborList); //이웃 목록
+		model.addAttribute("mode", "view"); //게시글 모드
 		
 
 		map.put("no", no); //단일 게시글 검색용
@@ -197,8 +199,54 @@ public class blogController {
 		model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
 		
 		//페이징 정보
-		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0)); //페이징 설정
-		model.addAttribute("paging", pagingSetting); //게시글
+		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정
+		model.addAttribute("paging", pagingSetting); //페이징 정보 설정
+		
+	    return "/blog/personal";
+	}
+	
+
+	/* 개인 블로그 - 방문하기 */
+	@RequestMapping(value = "/blog/{userID}/{menu}/{target}", method = RequestMethod.GET)
+	public String getPersonalBlogSearch(@PathVariable String userID, @PathVariable String menu, @PathVariable String target, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
+		
+		//xml 파일에서 사용할 값 설정
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", 0); //게시글 검색 + 이웃 검색
+		map.put("category", ""); //게시글 검색
+		map.put("userID", userID); //게시글 검색 + 카테고리 검색 + 이웃 검색
+		map.put(menu, target); //문자를 통한 검색 or 태그를 통한 검색
+		map.put("block", 10); //게시글 검색
+		
+
+		//개인 게시글 긁어오기
+		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 10개
+		
+		//해당 블로그의 유저 정보 가져오기
+		userVO userInfo=userService.selectUserInfoForBlog(userID);
+		
+		model.addAttribute("postList", postList); //게시글
+		model.addAttribute("userInfo", userInfo); //유저 정보
+		model.addAttribute("mode", "search"); //검색 모드
+		model.addAttribute("target", target); //검색 모드
+		
+		HashMap<String, Object> pagingSetting = null; //페이징 정보 세팅용
+		
+		if(postList.size() > 0 == true) {
+			model.addAttribute("count", postList.get(0).get("count")); //게시글 개수
+			pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
+		}
+		else if(postList.size() > 0 == false) {
+			model.addAttribute("count", 0); //게시글 개수
+			HashMap<String, Object> temp = new HashMap<String, Object>(); //페이징 설정
+			temp.put("count", 0);
+			temp.put("orderNo", 0);
+			pagingSetting=paging.settingPaging("blog_post_search", temp, 10); //페이징 설정
+		}
+		
+		model.addAttribute("paging", pagingSetting); //페이징 정보 설정
 		
 	    return "/blog/personal";
 	}

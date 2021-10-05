@@ -42,8 +42,10 @@
 		<c:if test="${neighbor_count%9 == 0}">
 			<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9}" integerOnly="true"/>
 		</c:if>
-		
 	<!-- 히든 값 영역 종료 -->
+	
+	
+	
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
 		<nav id="personal_nav">
@@ -72,6 +74,9 @@
 			</div>
 		</nav>
 		<!-- 네비게이션 종료 -->
+		
+		
+		
 		<!-- 배경글 시작 -->
 		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>
 		onclick="go_user_blog('${userInfo.id}')"
@@ -82,16 +87,19 @@
 			</span>
 		</header>
 		<!-- 배경글 종료 -->
-		<!-- 블로그 메인화면 시작 -->
 		
-	<c:choose>
-		<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
-			<main id="blog_personal_main" class="typeA">
-		</c:when>
-		<c:when test="${fn:contains(userInfo.blog_setting_type, 'B')}">
-			<main id="blog_personal_main" class="typeB">
-		</c:when>
-	</c:choose>
+		
+		
+		<c:if test="${mode eq 'view'}">
+		<!-- 블로그 메인화면 시작 -->
+			<c:choose>
+				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
+					<main id="blog_personal_main" class="typeA">
+				</c:when>
+				<c:when test="${fn:contains(userInfo.blog_setting_type, 'B')}">
+					<main id="blog_personal_main" class="typeB">
+				</c:when>
+			</c:choose>
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type A. 기본)-->
 			<c:choose>
 				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
@@ -116,8 +124,8 @@
 							</div>
 						</div>
 						<div id="search_panel" class="flex_center_center">
-							<input type="text" id="search_text">
-							<div id="search_button">
+							<input type="text" id="search_text" onkeyup="search_enter()">
+							<div id="search_button" onclick="personal_blog_search('${userInfo.id}')">
 								<i class="fas fa-search"></i>
 							</div>
 						</div>
@@ -321,6 +329,76 @@
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 종료 (type B. 스타일 변경)-->
 		</div>
 		<!-- 블로그 메인화면 종료 -->
+		</c:if>
+		<c:if test="${mode eq 'search' or mode eq 'tag'}">
+		<!-- 블로그 검섹화면 시작 -->
+			<c:if test="${mode eq 'search'}">
+			<!-- 검색 배너 시작 -->
+				<div id="search_banner" class="flex_center_center">
+					<div id="search_box" class="flex_center_center">
+						<input type="text" id="search_text" onkeyup="search_enter()" value="${target}">
+						<div id="search_button" onclick="personal_blog_search('${userInfo.id}')">
+							<i class="fas fa-search"></i>
+						</div>
+					</div>
+				</div>
+			<!-- 검색 배너 종료 -->
+			</c:if>
+			<c:if test="${mode eq 'search'}">
+			<!-- 태그 알림이 시작 -->
+				<div id="tag_banner" class="flex_center_center">
+					태그 내용
+				</div>
+			<!-- 태그 알림이 종료 -->
+			</c:if>
+			
+			
+			
+			<!-- 검색 결과 영역 시작 -->
+				<div id="search_result_pannel">
+					<!-- 검색 결과 게시글의 개수 시작 -->
+					<header>
+						<span>검색결과 : 총 <span>${count}</span> 건</span>
+					</header>
+					<!-- 검색 결과 게시글의 개수 종료 -->
+					
+					<!-- 검색 결과 게시글의 표출 시작 -->
+					<main>
+						<c:forEach items="${postList}" var="post" begin="0" end="9">
+						<div class="post">
+							<div class="title">
+								<a href="/blog/${userInfo.id}/${post.no}">${post.title}</a>
+							</div>
+							<div class="content">
+								<span>${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</span>
+							</div>
+							<div class="signdate flex_center_center">
+								<span>${post.signdate}</span>
+							</div>
+						</div>
+						</c:forEach>
+					</main>
+					<!-- 검색 결과 게시글의 표출 종료 -->
+					
+					<!-- 검색 결과 게시글의 페이징 시작 -->
+					<footer class="<c:if test="${paging.page_total gt 1}">flex_center_center</c:if><c:if test="${paging.page_total le 1}">hidden</c:if>">
+						<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
+								<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'left')"><i class="fas fa-angle-left"></i></div>
+						</c:if>
+						<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
+							<c:if test="${status.current le paging.page_total}">
+								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no}, 'number')"><span>${status.current}</span></div>
+							</c:if>
+						</c:forEach>
+						<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
+								<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'right')"><i class="fas fa-angle-right"></i></div>
+						</c:if>
+					</footer>
+					<!-- 검색 결과 게시글의 페이징 종료 -->
+				</div>
+			<!-- 검색 결과 영역 종료 -->
+		<!-- 블로그 검섹화면 종료 -->
+		</c:if>
 	</div>
 	
 	

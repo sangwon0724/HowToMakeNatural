@@ -167,7 +167,7 @@
 	align-items: center;
 	color: white;
 	cursor: pointer;
-	background-color: black;
+	background-color: #A29BFE;
 }
 /* 카테고리 목록 */
 #category_panel{
@@ -499,14 +499,16 @@
 	height: 7vh;
 	margin-top: 3vh;
 }
-#post_list_summary_O>.post_list_summary_paging>div{
+#post_list_summary_O>.post_list_summary_paging>div,
+#search_result_pannel>footer>div{
 	width: 30px;
 	height: 30px;
 	border: 1px solid black;
 	cursor: pointer;
 	margin: 0 7px;
 }
-#post_list_summary_O>.post_list_summary_paging>div.active{
+#post_list_summary_O>.post_list_summary_paging>div.active,
+#search_result_pannel>footer>div.active{
 	border: 1px solid red;
 	color: red;
 	cursor: auto;
@@ -582,6 +584,115 @@
 	width: 100%;
 	height: 20vh;
 	background-color: lightpurple;/*임시*/
+}
+/*============================================================================================================*/
+
+/* 검색 화면 */
+
+/* 검색 배너 */
+#search_banner{
+	width: 70%;
+    height: 12.5vh;
+    margin: 0 auto;
+    border: 5px solid #dfe4ea;
+}
+#search_banner>#search_box{
+	width: 43%;
+	height: 35%;
+    border: 1px solid black;
+    overflow-y: hidden;
+}
+#search_banner>#search_box>#search_text{
+	width: 80%;
+	height: 100%;
+	text-indent: 10px;
+	background-color: white;
+	border: none;
+}
+#search_banner>#search_box>#search_text:focus{
+	outline: none;
+}
+#search_banner>#search_box>#search_button{
+	width: 20%;
+	height: 100%;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	cursor: pointer;
+	background-color: #A29BFE;
+}
+
+/* 검색 결과 영역 */
+#search_result_pannel{
+	width: 85%;
+	height: auto;
+    margin: 5vh auto;
+}
+
+/* 검색 결과 게시글의 개수 */
+#search_result_pannel>header{
+	width: 100%;
+	height: 7vh;
+    border-bottom: 1px solid #dfe4ea;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    box-sizing: border-box;
+    padding: 0 0 10px 10px;
+}
+#search_result_pannel>header>span{
+	font-size: 1.1em;
+	font-weight: bold;
+}
+#search_result_pannel>header>span>span{
+	font-size: 1.3em;
+	color: #f0932b;
+}
+	
+/* 검색 결과 표출 */
+#search_result_pannel>main{
+	width: 100%;
+	height: auto;
+	min-height: 35vh;
+    border-bottom: 1px solid #eeeeee;
+}
+/* 게시글 */
+#search_result_pannel>main>.post{
+	width: 85%;
+	height: 17vh;
+    margin: 7vh auto 0 auto;
+    border: 1px solid black;
+    display: grid;
+    grid-template: 
+      "post_title post_signdate" 2fr
+      "post_content post_signdate" 3.5fr
+      / 5fr 1fr;
+}
+#search_result_pannel>main>.post>div:not(.signdate){
+	display: flex;
+	justify-content: flex-start;
+	padding-left: 3%;
+	box-sizing: border-box;
+}
+#search_result_pannel>main>.post>.title{
+	grid-area: post_title;
+	align-items: flex-end;
+	padding-bottom: 10px;
+}
+#search_result_pannel>main>.post>.content{
+	grid-area: post_content;
+	align-items: flex-start;
+	padding-top: 10px;
+}
+#search_result_pannel>main>.post>.signdate{
+	grid-area: post_signdate;
+}
+/* 페이징 */
+#search_result_pannel>footer{
+	width: 100%;
+	height: 7vh;
+    border-top: 1px solid #dfe4ea;
 }
 /*============================================================================================================*/
 

@@ -27,38 +27,25 @@
 		
 		<!-- 현재 위치한 블로그 주인의 아이디 -->
 		<input type="hidden" id="blogUserID" value="${userInfo.id}">
-		<!-- 현재 게시글 번호 -->
-		<input type="hidden" id="nowPostNo" value="${nowPostNo}">
 		
 		<c:if test='${neighborList != null and neighborList != ""}'>
 			<c:forEach items="${neighborList}" var="neighbor" begin="0" end="0">
 				<c:set var="neighbor_count" value="${neighbor.count}"/>
 			</c:forEach>
 		</c:if>
-		<!-- 이웃 목록에 불러들일 전체 이웃의 수 -->
+		<%-- 이웃 목록에 불러들일 전체 이웃의 수 --%>
 		<input type="hidden" id="neighbor_count" value="${neighbor_count}">
-		<!-- 이웃 목록의 총 페이지 수 -->
+		<%-- 이웃 목록의 총 페이지 수 --%>
 		<c:if test="${neighbor_count%9 != 0}">
 			<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9+(1-neighbor_count/9%1)%1}" integerOnly="true"/>
 		</c:if>
 		<c:if test="${neighbor_count%9 == 0}">
 			<fmt:parseNumber var="neighbor_page_total" value="${neighbor_count/9}" integerOnly="true"/>
 		</c:if>
-		<input type="hidden" id="neighbor_page_total" value="${neighbor_page_total}">
-		<!-- 이웃 목록의 현재 페이지 -->
-		<input type="hidden" id="neighbor_page_current" value="1">
-		
-		<!-- 게시글의 총 개수 -->
-		<input type="hidden" id="post_count" value="${paging.count}">
-		<!-- 게시글 목록의 총 페이지 수 -->
-		<input type="hidden" id="post_page_total" value="${paging.page_total}">
-		<!-- 게시글 목록의 현재 블록 (위쪽만 필요) -->
-		<input type="hidden" id="post_block_current" value="${paging.block_current}">
-		<!-- 게시글 목록(위쪽)의 현재 페이지-->
-		<input type="hidden" id="post_page_top" value="${paging.page_current}">
-		<!-- 게시글 목록(아래쪽)의 현재 페이지 -->
-		<input type="hidden" id="post_page_bottom" value="${paging.page_current}">
 	<!-- 히든 값 영역 종료 -->
+	
+	
+	
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
 		<nav id="personal_nav">
@@ -87,6 +74,9 @@
 			</div>
 		</nav>
 		<!-- 네비게이션 종료 -->
+		
+		
+		
 		<!-- 배경글 시작 -->
 		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>
 		onclick="go_user_blog('${userInfo.id}')"
@@ -97,16 +87,19 @@
 			</span>
 		</header>
 		<!-- 배경글 종료 -->
-		<!-- 블로그 메인화면 시작 -->
 		
-	<c:choose>
-		<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
-			<main id="blog_personal_main" class="typeA">
-		</c:when>
-		<c:when test="${fn:contains(userInfo.blog_setting_type, 'B')}">
-			<main id="blog_personal_main" class="typeB">
-		</c:when>
-	</c:choose>
+		
+		
+		<c:if test="${mode eq 'view'}">
+		<!-- 블로그 메인화면 시작 -->
+			<c:choose>
+				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
+					<main id="blog_personal_main" class="typeA">
+				</c:when>
+				<c:when test="${fn:contains(userInfo.blog_setting_type, 'B')}">
+					<main id="blog_personal_main" class="typeB">
+				</c:when>
+			</c:choose>
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type A. 기본)-->
 			<c:choose>
 				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
@@ -131,18 +124,18 @@
 							</div>
 						</div>
 						<div id="search_panel" class="flex_center_center">
-							<input type="text" id="search_text">
-							<div id="search_button">
+							<input type="text" id="search_text" onkeyup="search_enter()">
+							<div id="search_button" onclick="personal_blog_search('${userInfo.id}')">
 								<i class="fas fa-search"></i>
 							</div>
 						</div>
 						<div id="category_panel">
-							<span<c:if test='${category_now == null or category_now == ""}'> class="active"</c:if> onclick="go_user_blog('${userInfo.id}')">전체</span>
-							<span onclick="go_user_blog_category('${userInfo.id}','요리')">요리</span>
-							<span onclick="go_user_blog_category('${userInfo.id}','IT')">IT</span>
+							<span<c:if test='${param.category == null or param.category == ""}'> class="active"</c:if> onclick="go_user_blog('${userInfo.id}')">전체</span>
+							<span<c:if test="${param.category eq '요리'}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','요리')">요리</span>
+							<span<c:if test="${param.category eq 'IT'}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','IT')">IT</span>
 							<c:if test='${categoryList != null and categoryList != ""}'>
 								<c:forEach items="${categoryList}" var="item">
-									<span onclick="go_user_blog_category('${userInfo.id}','${item.name}')">${item.name}</span>
+									<span<c:if test="${param.category eq item.name}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','${item.name}')">${item.name}</span>
 								</c:forEach>
 							</c:if>
 						</div>
@@ -204,7 +197,7 @@
 							<c:forEach items="${postList}" var="post" begin="0" end="4">
 							<tr>
 								<td class="title">
-									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == nowPostNo}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
+									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
 								</td>
 								<td class="date">
 									<span>${post.signdate}</span>
@@ -215,15 +208,15 @@
 					</table>
 					<footer class="post_list_summary_paging flex_center_center">
 						<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
-								<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${nowPostNo})"><i class="fas fa-angle-left"></i></div>
+								<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'left')"><i class="fas fa-angle-left"></i></div>
 						</c:if>
 						<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
 							<c:if test="${status.current le paging.page_total}">
-								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}',${nowPostNo})"><span>${status.current}</span></div>
+								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no}, 'number')"><span>${status.current}</span></div>
 							</c:if>
 						</c:forEach>
 						<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
-								<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${nowPostNo})"><i class="fas fa-angle-right"></i></div>
+								<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'right')"><i class="fas fa-angle-right"></i></div>
 						</c:if>
 					</footer>
 				</header>
@@ -296,9 +289,9 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${postList}" var="post" begin="0" end="4">
-							<tr class="">
+							<tr>
 								<td class="title">
-									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == nowPostNo}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
+									<a href="/blog/${userInfo.id}/${post.no}<c:if test="${param.category != null and param.category ne ''}">?category=${param.category}</c:if>" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
 								</td>
 								<td class="date">
 									<span>${post.signdate}</span>
@@ -308,8 +301,8 @@
 						</tbody>
 					</table>
 					<footer class="post_list_summary_paging flex_center_center">
-						<div<c:if test="${paging.page_total gt 1 and paging.page_current gt 1}"> class="active"</c:if>><i class="fas fa-angle-left"></i>&nbsp;이전</div>
-						<div<c:if test="${paging.page_total gt 1 and paging.page_current lt paging.page_total}"> class="active"</c:if>>다음&nbsp;<i class="fas fa-angle-right"></i></div>
+						<div id="post_list_bottom_left" <c:if test="${paging.page_total gt 1 and paging.page_current gt 1}"> class="active"</c:if> page="0" onclick="personal_paging_bottom_left('${userInfo.id}', ${onePost.no}, ${paging.page_total})"><i class="fas fa-angle-left"></i>&nbsp;이전</div>
+						<div id="post_list_bottom_right" <c:if test="${paging.page_total gt 1 and paging.page_current lt paging.page_total}"> class="active"</c:if> page="2" onclick="personal_paging_bottom_right('${userInfo.id}', ${onePost.no}, ${paging.page_total})">다음&nbsp;<i class="fas fa-angle-right"></i></div>
 					</footer>
 				</footer>
 				<!-- 게시글 패널 종료 (목록 열기/닫기 가능 X) -->
@@ -336,6 +329,20 @@
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 종료 (type B. 스타일 변경)-->
 		</div>
 		<!-- 블로그 메인화면 종료 -->
+		</c:if>
+		<c:if test="${mode eq 'search'}">
+		<!-- 블로그 검섹화면 시작 -->
+			<!-- 검색 배너 시작 -->
+				<div id="search_banner"></div>
+			<!-- 검색 배너 종료 -->
+			
+			
+			
+			<!-- 검색 결과 영역 시작 -->
+				<div id="search_result_pannel"></div>
+			<!-- 검색 결과 영역 종료 -->
+		<!-- 블로그 검섹화면 종료 -->
+		</c:if>
 	</div>
 	
 	

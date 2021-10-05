@@ -24,7 +24,7 @@
 						<option value="theme">주제</option>
 						<option value="writer">닉네임/아이디</option>
 					</select>
-					<input type="text" id="search_text" onkeyup="main_search_enter()">
+					<input type="text" id="search_text" onkeyup="search_enter()">
 					<div id="search_button" onclick="main_search()">
 						<i class="fas fa-search"></i>
 					</div>
