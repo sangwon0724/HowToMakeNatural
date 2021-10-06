@@ -248,7 +248,7 @@
 							<footer class="post_tag">
 								<c:if test="${onePost.tag != null and onePost.tag != ''}">
 									<c:forEach items="${fn:split(onePost.tag,'#')}" var="item">
-										<div class="tag flex_center_center"><span><i>#</i>${item}</span></div>
+										<div class="tag flex_center_center" onclick="personal_blog_tag('${userInfo.id}','${item}')"><span><i>#</i>${item}</span></div>
 									</c:forEach>
 								</c:if>
 							</footer>
@@ -330,18 +330,81 @@
 		</div>
 		<!-- 블로그 메인화면 종료 -->
 		</c:if>
-		<c:if test="${mode eq 'search'}">
-		<!-- 블로그 검섹화면 시작 -->
+		<c:if test="${mode eq 'search' or mode eq 'tag'}">
+		<!-- 블로그 검색화면 시작 -->
+			<c:if test="${mode eq 'search'}">
 			<!-- 검색 배너 시작 -->
-				<div id="search_banner"></div>
+				<div id="search_banner" class="flex_center_center">
+					<div id="search_box" class="flex_center_center">
+						<input type="text" id="search_text" onkeyup="search_enter()" value="${target}">
+						<div id="search_button" onclick="personal_blog_search('${userInfo.id}')">
+							<i class="fas fa-search"></i>
+						</div>
+					</div>
+				</div>
 			<!-- 검색 배너 종료 -->
+			</c:if>
 			
 			
 			
 			<!-- 검색 결과 영역 시작 -->
-				<div id="search_result_pannel"></div>
+				<div id="search_result_pannel">
+					<!-- 검색 결과 게시글의 개수 시작 -->
+					<header>
+						<c:if test="${mode eq 'tag'}">
+							<span id="tag_target">#${target}</span>
+						</c:if>
+						<span>검색결과 : 총 <span>${count}</span> 건</span>
+					</header>
+					<!-- 검색 결과 게시글의 개수 종료 -->
+					
+					<!-- 검색 결과 게시글의 표출 시작 -->
+					<main>
+						<c:forEach items="${postList}" var="post" begin="0" end="9">
+						<div class="post">
+							<div class="title">
+								<a href="/blog/${userInfo.id}/${post.no}">${post.title}</a>
+							</div>
+							<div class="content<c:if test="${mode eq 'tag'}"> tag</c:if>">
+								<span>${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</span>
+								<c:if test="${mode eq 'tag'}">
+									<c:if test="${post.tag != null and post.tag != ''}">
+										<div class="tag_area">
+											<c:forEach items="${fn:split(post.tag,'#')}" var="item">
+												<div class="flex_center_center" onclick="personal_blog_tag('${userInfo.id}','${item}')"><span><i>#</i>${item}</span></div>
+											</c:forEach>
+										</div>
+									</c:if>
+								</c:if>
+							</div>
+							<div class="signdate flex_center_center">
+								<span>${post.signdate}</span>
+							</div>
+						</div>
+						</c:forEach>
+					</main>
+					<!-- 검색 결과 게시글의 표출 종료 -->
+					
+					<!-- 검색 결과 게시글의 페이징 시작 -->
+					<c:if test="${paging.page_total gt 1}">
+					<footer class="flex_center_center">
+						<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
+								<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="personal_paging_search(${status.current},'${userInfo.id}', 'left','${mode}','${target}')"><i class="fas fa-angle-left"></i></div>
+						</c:if>
+						<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
+							<c:if test="${status.current le paging.page_total}">
+								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_search(${status.current},'${userInfo.id}', 'number','${mode}','${target}')"><span>${status.current}</span></div>
+							</c:if>
+						</c:forEach>
+						<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
+								<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="personal_paging_search(${status.current},'${userInfo.id}', 'right','${mode}','${target}')"><i class="fas fa-angle-right"></i></div>
+						</c:if>
+					</footer>
+					</c:if>
+					<!-- 검색 결과 게시글의 페이징 종료 -->
+				</div>
 			<!-- 검색 결과 영역 종료 -->
-		<!-- 블로그 검섹화면 종료 -->
+		<!-- 블로그 검색화면 종료 -->
 		</c:if>
 	</div>
 	

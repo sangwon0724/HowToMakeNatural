@@ -497,6 +497,7 @@ function personal_paging_top(page,blogUserID,nowPostNo, mode){
 	//1. 이전 목록
 	//2. 다음 목록
 	//3. 숫자
+	
 	if(mode === "left"){
 		//이전 목록으로 가는 코드 작성
 	}
@@ -642,10 +643,108 @@ function personal_paging_bottom_ajax(blogUserID, page, nowPostNo){
     });
 }
 
-
-//검색 기능 - 개인 블로그
+//문자열 검색 기능 - 개인 블로그
 function personal_blog_search(userID){
 	location.href="/blog/" + userID + "/search/" + $("#search_text").val();
+}
+
+//문자열 검색 기능 - 개인 블로그
+function personal_blog_tag(userID, tag){
+	location.href="/blog/" + userID + "/tag/" + tag;
+}
+
+//검색 페이지에 대한 페이징
+function personal_paging_search(page, blogUserID, mode, type, value){
+	var start=page; //변경될 값
+
+	//1. 이전 목록
+	//2. 다음 목록
+	//3. 숫자
+	
+	if(mode === "left"){
+		//이전 목록으로 가는 코드 작성
+	}
+	else if (mode === "right"){
+		//다음 목록으로 가는 코드 작성
+	}
+	else if (mode === "number"){
+		//MariaDB에 대해서 limit에 사용할 값 설정
+		start-=1; //MariaDB 특성 - 0부터 시작
+		start*=10; //한 페이지당 5개씩 표출, SQL에 추가
+		
+		//Ajax로 전달할 값 설정
+		var data = {
+			start: parseInt(start),
+		    userID : blogUserID
+	    };
+		
+		if(type === "search"){
+			data.search = value;
+		}
+		else if(type === "tag"){
+			data.tag = value;
+		}
+		
+		//게시글 변경
+		$.ajax({
+	        url: "/blog/paging/Ajax",
+	        type: "POST",
+	        data: JSON.stringify(data),
+	        contentType: "application/json",
+	        success: function(result){
+	        	$('#search_result_pannel>footer>div').removeClass('active');
+	        	
+	        	var postList="";
+	        	$.each(result.postList, function (index, item) {
+	        		var content = item.content;
+	          		content = content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+	          		content = content.replace(/<IMG(.*?)>/gi, "");
+	          		
+	          		//제목 및 링크 추가
+	        		postList+=
+	               `
+	              <div class="post">
+							<div class="title">
+								<a href="/blog/${blogUserID}/${item.no}">${item.title}</a>
+							</div>
+							<div class="content`;
+	        		
+	        		//tag의 경우에 추가하는 css class
+	        		if(type === "tag"){
+	        			postList+=` tag`;
+	        		}
+	        		
+	        		//게시글 내용 추가
+	        		postList+=`"><span>${content}</span>`;
+	        		
+	        		if(type === "tag" && item.tag !== null && item.tag !== ""){
+	        			postList+=`<div class="tag_area">`; //태그 영역 열기
+	        			
+	        			//테그 아이템들 이어 붙이기
+	        			$.each(item.tag.split('#'), function(index_inner, item_inner){
+	        				postList+=`<div class="flex_center_center" onclick="personal_blog_tag('${blogUserID}','${item_inner}')"><span><i>#</i>${item_inner}</span></div>`;
+	        			});
+	        			
+    				    postList+=`</div>`; //태그 영역 닫기
+	        		}
+	        		
+	        		//작성일
+					postList+=
+					`	</div>
+						<div class="signdate flex_center_center">
+							<span>${item.signdate}</span>
+						</div>
+					</div>`;
+	            });//each 종료
+	            $('#search_result_pannel>main').html(postList);
+	            $('#search_result_pannel>footer>div[page='+page+']').addClass('active');
+	        },
+	        error: function(error){
+	            alert("오류 발생");
+	            console.log(error);
+	        }
+	    });
+	}
 }
 
 /*============================================================================================================*/
