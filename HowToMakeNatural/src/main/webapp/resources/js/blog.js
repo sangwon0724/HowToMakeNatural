@@ -642,10 +642,14 @@ function personal_paging_bottom_ajax(blogUserID, page, nowPostNo){
     });
 }
 
-
-//검색 기능 - 개인 블로그
+//문자열 검색 기능 - 개인 블로그
 function personal_blog_search(userID){
 	location.href="/blog/" + userID + "/search/" + $("#search_text").val();
+}
+
+//문자열 검색 기능 - 개인 블로그
+function personal_blog_tag(userID, tag){
+	location.href="/blog/" + userID + "/tag/" + tag;
 }
 
 /*============================================================================================================*/

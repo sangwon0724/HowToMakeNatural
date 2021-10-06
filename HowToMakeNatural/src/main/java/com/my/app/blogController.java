@@ -47,9 +47,6 @@ public class blogController {
 	//11-2. 검색화면
 	//12. 블로그 메인에 대한 사진 작업
 	//13. 댓글 작업
-	//14. 검색 기능 추가 - 개인 블로그
-	//14-2. 개인 블로그 (태그 클릭)
-	//16. view 관련해서 태그 추가
 	//17. url 인터셉터 추가 (write, update, delete) , 실험 : ajax (이유 : menu)
 	
 	//==========완료 목록==========
@@ -64,10 +61,13 @@ public class blogController {
 	//7-2. 개인 블로그 - 게시글
 	//8-2. 개인 블로그
 	//10. 검색 기능 추가 - 메인 (Ajax로 board 영역만 변경)
+	//14. 검색 기능 추가 - 개인 블로그
 	//14-1. 개인 블로그 (단어검색)
+	//14-2. 개인 블로그 (태그 클릭)
 	//15. 개인 블로그 - 게시글 리스트 가져오기
 	//15-1. 글 리스트 가져오기
 	//15-2. 글 리스트에서 다른 페이지의 게시글 클릭시 이동후 해당 게시글의 페이지를 보여주기 (ajax)
+	//16. view 관련해서 태그 추가
 	
 	@Autowired
     private SqlSession sqlSession;
@@ -233,7 +233,7 @@ public class blogController {
 		
 		model.addAttribute("postList", postList); //게시글
 		model.addAttribute("userInfo", userInfo); //유저 정보
-		model.addAttribute("mode", "search"); //검색 모드
+		model.addAttribute("mode", menu); //검색 모드
 		model.addAttribute("target", target); //검색 모드
 		
 		HashMap<String, Object> pagingSetting = null; //페이징 정보 세팅용
@@ -395,8 +395,6 @@ public class blogController {
 	}
 	//============================================= 개인 블로그 영역 종료 =====================================================================
 	//============================================= 블로그 공통 영역 시작 =====================================================================
-	
-
 	
 	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
 	@ResponseBody

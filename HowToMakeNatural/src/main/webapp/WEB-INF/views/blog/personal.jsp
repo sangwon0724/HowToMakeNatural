@@ -248,7 +248,7 @@
 							<footer class="post_tag">
 								<c:if test="${onePost.tag != null and onePost.tag != ''}">
 									<c:forEach items="${fn:split(onePost.tag,'#')}" var="item">
-										<div class="tag flex_center_center"><span><i>#</i>${item}</span></div>
+										<div class="tag flex_center_center" onclick="personal_blog_tag('${userInfo.id}','${item}')"><span><i>#</i>${item}</span></div>
 									</c:forEach>
 								</c:if>
 							</footer>
@@ -331,7 +331,7 @@
 		<!-- 블로그 메인화면 종료 -->
 		</c:if>
 		<c:if test="${mode eq 'search' or mode eq 'tag'}">
-		<!-- 블로그 검섹화면 시작 -->
+		<!-- 블로그 검색화면 시작 -->
 			<c:if test="${mode eq 'search'}">
 			<!-- 검색 배너 시작 -->
 				<div id="search_banner" class="flex_center_center">
@@ -344,13 +344,6 @@
 				</div>
 			<!-- 검색 배너 종료 -->
 			</c:if>
-			<c:if test="${mode eq 'search'}">
-			<!-- 태그 알림이 시작 -->
-				<div id="tag_banner" class="flex_center_center">
-					태그 내용
-				</div>
-			<!-- 태그 알림이 종료 -->
-			</c:if>
 			
 			
 			
@@ -358,6 +351,9 @@
 				<div id="search_result_pannel">
 					<!-- 검색 결과 게시글의 개수 시작 -->
 					<header>
+						<c:if test="${mode eq 'tag'}">
+							<span id="tag_target">#${target}</span>
+						</c:if>
 						<span>검색결과 : 총 <span>${count}</span> 건</span>
 					</header>
 					<!-- 검색 결과 게시글의 개수 종료 -->
@@ -369,8 +365,17 @@
 							<div class="title">
 								<a href="/blog/${userInfo.id}/${post.no}">${post.title}</a>
 							</div>
-							<div class="content">
+							<div class="content<c:if test="${mode eq 'tag'}"> tag</c:if>">
 								<span>${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</span>
+								<c:if test="${mode eq 'tag'}">
+									<c:if test="${post.tag != null and post.tag != ''}">
+										<div class="tag_area">
+											<c:forEach items="${fn:split(post.tag,'#')}" var="item">
+												<div class="flex_center_center" onclick="personal_blog_tag('${userInfo.id}','${item}')"><span><i>#</i>${item}</span></div>
+											</c:forEach>
+										</div>
+									</c:if>
+								</c:if>
 							</div>
 							<div class="signdate flex_center_center">
 								<span>${post.signdate}</span>
@@ -397,7 +402,7 @@
 					<!-- 검색 결과 게시글의 페이징 종료 -->
 				</div>
 			<!-- 검색 결과 영역 종료 -->
-		<!-- 블로그 검섹화면 종료 -->
+		<!-- 블로그 검색화면 종료 -->
 		</c:if>
 	</div>
 	
