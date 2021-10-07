@@ -152,11 +152,15 @@ public class blogController {
 		//단일 게시글 정보
 		HashMap<String, Object> onePost=postList.get(0);
 		
+		//댓글 가져오기
+		List<HashMap<String, Object>> commentList = blogService.selectComment(onePost);
+		
 		model.addAttribute("postList", postList); //게시글
 		model.addAttribute("userInfo", userInfo); //유저 정보
 		model.addAttribute("categoryList", categoryList); //카테고리 목록
 		model.addAttribute("neighborList", neighborList); //이웃 목록
 		model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
+		model.addAttribute("commentList", commentList); //댓글 목록
 		model.addAttribute("mode", "view"); //게시글 모드
 		
 		//페이징 정보
@@ -201,6 +205,11 @@ public class blogController {
 		map.put("no", no); //단일 게시글 검색용
 		HashMap<String, Object> onePost=blogService.selectPost(map).get(0); //단일 게시물 검색
 		model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
+
+		
+		//댓글 가져오기
+		List<HashMap<String, Object>> commentList = blogService.selectComment(onePost);
+		model.addAttribute("commentList", commentList); //댓글 목록
 		
 		//페이징 정보
 		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정
@@ -366,8 +375,13 @@ public class blogController {
 		
 		//댓글 insert
 		blogService.insertComment(map);
-
+		
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		//댓글 가져오기
+		List<HashMap<String, Object>> commentList = blogService.selectComment(map);
+		
+		result.put("commentList", commentList); //ajax 결과에 전달
 		result.put("message", "success"); //성공 메세지 전달
 		
 	    return result;

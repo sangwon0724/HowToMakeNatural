@@ -276,18 +276,23 @@
 										</header>
 										<main>
 											<textarea id="write_comment_content"></textarea>
-											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no})">작성</div>
+											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no}, '${sessionScope.user.blog_nickname}')">작성</div>
 										</main>
 									</div>
 								</c:if>
-								<div class="comment">
-									<header>
-										<div class="profile_image"></div>
-										<span class="nickname">테스트</span>
-									</header>
-									<main>내용</main>
-									<footer>작성일</footer>
-								</div>
+								
+								<c:if test="${commentList != null and commentList ne ''}">
+									<c:forEach items="${commentList}" var="item">
+										<div class="comment">
+											<header>
+												<div class="profile_image"></div>
+												<span class="nickname">${item.userNickname}</span>
+											</header>
+											<main>${item.content}</main>
+											<footer>${item.signdate}</footer>
+										</div>
+									</c:forEach>
+								</c:if>
 							</footer>
 						</div>
 				    </c:if>

@@ -19,6 +19,12 @@ public class blogDAO implements blogDAOInterface {
 		return sqlSession.selectList("blogMapper.selectPost", map);
 	}
 	
+	/* 댓글 가져오기 */
+	@Override
+	public List<HashMap<String, Object>> selectComment(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList("blogMapper.selectComment", map);
+	}
+	
 	/* 카테고리 검색 */
 	@Override
 	public List<HashMap<String, Object>> selectCategory(Map<String, Object> map) throws Exception {

@@ -409,7 +409,6 @@
 	width: 100%;
 	height: auto;
 	min-height: 25vh;
-	background-color: orange; /*임시*/ 
 }
 .personal_post>.post_comment_hidden.comment_open{
 	border-top: 1px solid #dfe4ea;
@@ -443,7 +442,7 @@
 	margin-left: 5px;
 }
 .personal_post>.post_comment_hidden>#write_comment>header>.nickname{
-	font-size: 1.5em;
+	font-size: 1.3em;
 	font-weight: bold;
 	margin-left: 5px;
 }
@@ -494,7 +493,7 @@
 	margin-left: 5px;
 }
 .personal_post>.post_comment_hidden>.comment>header>.nickname{
-	font-size: 1.5em;
+	font-size: 1.3em;
 	font-weight: bold;
 	margin-left: 5px;
 }
@@ -502,7 +501,6 @@
 	width: 100%;
 	height: auto;
 	min-height: 13vh;
-	background-color: orange; /*임시*/ 
 }
 .personal_post>.post_comment_hidden>.comment>footer{
 	width: 100%;

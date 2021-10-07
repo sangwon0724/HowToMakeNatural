@@ -82,13 +82,13 @@
     
     
     
-    <!-- 댓글 추가 -->
-    <insert id="selectComment" parameterType="hashmap">
-    	SELECT b.content, u.blog_nickname userNickname
+    <!-- 댓글 가져오기 -->
+    <select id="selectComment" parameterType="hashmap" resultType="hashmap">
+    	SELECT b.content, u.blog_nickname userNickname, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate
 		FROM blog_comment b, user u
-		WHERE post_no=${no} AND b.userID = u.id
+		WHERE post_no=${no} AND b.userID = u.id AND useYN = "Y"
 		ORDER BY NO desc
-    </insert>
+    </select>
     
     <!-- 댓글 추가 -->
     <insert id="insertComment" parameterType="hashmap">

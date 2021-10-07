@@ -839,7 +839,7 @@ function post_delete_no(){
 }
 
 /* 댓글 추가 */
-function write_comment(id, no){
+function write_comment(id, no, nickname){
 	var data = {
 		userID : id,
 		no : no,
@@ -852,7 +852,38 @@ function write_comment(id, no){
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	alert("연결 성공");
+        	var nickname_temp=nickname; //왠지 모를 오류때문에 추가
+        	var commentList="";
+        	
+        	//댓글 쓰기 영역 추가
+        	commentList+=`
+        		<div id="write_comment">
+					<header>
+						<div class="profile_image"></div>
+						<span class="nickname">${nickname_temp}</span>
+					</header>
+					<main>
+						<textarea id="write_comment_content"></textarea>
+						<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${id}', ${no})">작성</div>
+					</main>
+				</div>
+        	`;
+        	
+        	//댓글 추가
+        	$.each(result.commentList, function (index, item) {
+        		commentList+=`
+        		<div class="comment">
+					<header>
+						<div class="profile_image"></div>
+						<span class="nickname">${item.userNickname}</span>
+					</header>
+					<main><p>${item.content}</p></main>
+					<footer>${item.signdate}</footer>
+				</div>
+        		`;
+            });//each 종료
+        	
+        	$(".personal_post>.post_comment_hidden").html(commentList);
         },
         error: function(error){
             alert("오류 발생");

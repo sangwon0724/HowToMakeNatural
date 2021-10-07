@@ -253,23 +253,47 @@
 								</c:if>
 							</footer>
 							<footer class="post_goodAndComment">
-									<div id="post_good" class="flex_center_center">
-									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
-										<i class="fas fa-heart"></i>
-									</c:if>
-									<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
-										<i class="far fa-heart"></i>
-									</c:if>
-									<span>좋아요 <span id="goodCount">0</span></span>
+								<div id="post_good" class="flex_center_center">
+								<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
+									<i class="fas fa-heart"></i>
+								</c:if>
+								<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
+									<i class="far fa-heart"></i>
+								</c:if>
+								<span>좋아요 <span id="goodCount">0</span></span>
+								</div>
+								<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
+									<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
+									<i class="fas fa-chevron-down"></i>
+								</div>
+							</footer>
+							<footer class="post_comment_hidden hidden">
+								<c:if test="${not empty sessionScope.user.id}">
+									<div id="write_comment">
+										<header>
+											<div class="profile_image"></div>
+											<span class="nickname">${sessionScope.user.blog_nickname}</span>
+										</header>
+										<main>
+											<textarea id="write_comment_content"></textarea>
+											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no}, '${sessionScope.user.blog_nickname}')">작성</div>
+										</main>
 									</div>
-									<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
-										<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
-										<i class="fas fa-chevron-down"></i>
-									</div>
-								</footer>
-								<footer class="post_comment_hidden hidden">
-									<div class="comment">댓글</div>
-								</footer>
+								</c:if>
+								
+								<c:if test="${commentList != null and commentList ne ''}">
+									<c:forEach items="${commentList}" var="item">
+										<div class="comment">
+											<header>
+												<div class="profile_image"></div>
+												<span class="nickname">${item.userNickname}</span>
+											</header>
+											<main>${item.content}</main>
+											<footer>${item.signdate}</footer>
+										</div>
+									</c:forEach>
+								</c:if>
+							</footer>
 						</div>
 				    </c:if>
 				</main>
@@ -360,28 +384,33 @@
 					
 					<!-- 검색 결과 게시글의 표출 시작 -->
 					<main>
-						<c:forEach items="${postList}" var="post" begin="0" end="9">
-						<div class="post">
-							<div class="title">
-								<a href="/blog/${userInfo.id}/${post.no}">${post.title}</a>
-							</div>
-							<div class="content<c:if test="${mode eq 'tag'}"> tag</c:if>">
-								<span>${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</span>
-								<c:if test="${mode eq 'tag'}">
-									<c:if test="${post.tag != null and post.tag != ''}">
-										<div class="tag_area">
-											<c:forEach items="${fn:split(post.tag,'#')}" var="item">
-												<div class="flex_center_center" onclick="personal_blog_tag('${userInfo.id}','${item}')"><span><i>#</i>${item}</span></div>
-											</c:forEach>
-										</div>
-									</c:if>
-								</c:if>
-							</div>
-							<div class="signdate flex_center_center">
-								<span>${post.signdate}</span>
-							</div>
-						</div>
-						</c:forEach>
+						<c:if test="${count == 0}">
+							<div id="zero_post">게시글이 존재하지 않습니다.</div>
+						</c:if>
+						<c:if test="${count gt 0}">
+							<c:forEach items="${postList}" var="post" begin="0" end="9">
+								<div class="post">
+									<div class="title">
+										<a href="/blog/${userInfo.id}/${post.no}">${post.title}</a>
+									</div>
+									<div class="content<c:if test="${mode eq 'tag'}"> tag</c:if>">
+										<span>${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</span>
+										<c:if test="${mode eq 'tag'}">
+											<c:if test="${post.tag != null and post.tag != ''}">
+												<div class="tag_area">
+													<c:forEach items="${fn:split(post.tag,'#')}" var="item">
+														<div class="flex_center_center" onclick="personal_blog_tag('${userInfo.id}','${item}')"><span><i>#</i>${item}</span></div>
+													</c:forEach>
+												</div>
+											</c:if>
+										</c:if>
+									</div>
+									<div class="signdate flex_center_center">
+										<span>${post.signdate}</span>
+									</div>
+								</div>
+							</c:forEach>
+						</c:if>
 					</main>
 					<!-- 검색 결과 게시글의 표출 종료 -->
 					
