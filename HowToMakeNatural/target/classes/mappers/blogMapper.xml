@@ -80,6 +80,24 @@
     	update blog_post set useYN ='N' where no=#{no}
     </delete>
     
+    
+    
+    <!-- 댓글 추가 -->
+    <insert id="selectComment" parameterType="hashmap">
+    	SELECT b.content, u.blog_nickname userNickname
+		FROM blog_comment b, user u
+		WHERE post_no=${no} AND b.userID = u.id
+		ORDER BY NO desc
+    </insert>
+    
+    <!-- 댓글 추가 -->
+    <insert id="insertComment" parameterType="hashmap">
+    	insert into blog_comment(content, post_no, signdate, userID)
+    	values (#{content}, #{no}, NOW(), #{userID})
+    </insert>
+    
+    
+    
     <!--  카테고리 목록 검색  -->
     <select id="selectCategory" parameterType="hashmap" resultType="hashmap">
     	select category_name, count from blog_category where userID = #{userID} and useYN = "Y" order by category_order_no, no

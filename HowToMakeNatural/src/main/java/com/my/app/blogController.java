@@ -43,7 +43,7 @@ public class blogController {
 	//11. 게시글이 존재하지 않을 시 존재하지 않는다는 문구 추가
 	//11-1. 개인블로그
 	//12. 블로그 메인에 대한 사진 작업
-	//13. 댓글 작업
+	//13. 댓글 작업 (주소 : "/blog/유저아이디/게시글번호/comment")
 	//17. url 인터셉터 추가 (write, update, delete) , 실험 : ajax (이유 : menu)
 	
 	//==========완료 목록==========
@@ -357,6 +357,23 @@ public class blogController {
 	    return result;
 	}
 	
+	/* 개인 블로그 - 게시글 작성 - ajax */
+	@ResponseBody
+	@RequestMapping(value = "/blog/comment/ajax", method = RequestMethod.POST)
+	public Map<String, Object> ajaxPersonalComment(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+		
+		System.out.println("개인 블로그 댓글 작성  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
+		
+		//댓글 insert
+		blogService.insertComment(map);
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+	
+	//게시글 작성시 이미지 처리
 	@RequestMapping(value="/blog/{userID}/write/image", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, @PathVariable String userID, HttpServletRequest request)  {

@@ -38,6 +38,11 @@ public class blogService implements blogServiceInterface {
 	}
 
 	@Override
+	public void insertComment(Map<String, Object> map) throws Exception{
+		dao.insertComment(map);
+	};
+
+	@Override
 	public void updatePost(Map<String, Object> map) throws Exception {
 		dao.updatePost(map);
 	}

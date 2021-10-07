@@ -31,16 +31,25 @@ public class blogDAO implements blogDAOInterface {
 		return sqlSession.selectList("blogMapper.selectNeighbor", map);
 	}
 	
+	//게시글 추가
 	@Override
 	public void insertPost(Map<String, Object> map) throws Exception {
 		sqlSession.insert("blogMapper.insertPost", map);
 	}
+	
+	//댓글 추가
+	@Override
+	public void insertComment(Map<String, Object> map) throws Exception {
+		sqlSession.insert("blogMapper.insertComment", map);
+	}
 
+	//게시글 수정
 	@Override
 	public void updatePost(Map<String, Object> map) throws Exception {
 		sqlSession.update("blogMapper.updatePost", map);
 	}
 
+	//게시글 삭제
 	@Override
 	public void deletePost(Map<String, Object> map) throws Exception {
 		sqlSession.delete("blogMapper.deletePost", map);

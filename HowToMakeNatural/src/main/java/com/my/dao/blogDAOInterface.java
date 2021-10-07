@@ -12,6 +12,7 @@ public interface blogDAOInterface {
 	
 	//insert
 	public void insertPost(Map<String, Object> map) throws Exception;
+	public void insertComment(Map<String, Object> map) throws Exception;
 	
 	//update
 	public void updatePost(Map<String, Object> map) throws Exception;

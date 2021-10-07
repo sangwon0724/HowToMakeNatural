@@ -253,23 +253,42 @@
 								</c:if>
 							</footer>
 							<footer class="post_goodAndComment">
-									<div id="post_good" class="flex_center_center">
-									<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
-										<i class="fas fa-heart"></i>
-									</c:if>
-									<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
-										<i class="far fa-heart"></i>
-									</c:if>
-									<span>좋아요 <span id="goodCount">0</span></span>
+								<div id="post_good" class="flex_center_center">
+								<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
+									<i class="fas fa-heart"></i>
+								</c:if>
+								<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
+									<i class="far fa-heart"></i>
+								</c:if>
+								<span>좋아요 <span id="goodCount">0</span></span>
+								</div>
+								<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
+									<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
+									<i class="fas fa-chevron-down"></i>
+								</div>
+							</footer>
+							<footer class="post_comment_hidden hidden">
+								<c:if test="${not empty sessionScope.user.id}">
+									<div id="write_comment">
+										<header>
+											<div class="profile_image"></div>
+											<span class="nickname">${sessionScope.user.blog_nickname}</span>
+										</header>
+										<main>
+											<textarea id="write_comment_content"></textarea>
+											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no})">작성</div>
+										</main>
 									</div>
-									<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
-										<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
-										<i class="fas fa-chevron-down"></i>
-									</div>
-								</footer>
-								<footer class="post_comment_hidden hidden">
-									<div class="comment">댓글</div>
-								</footer>
+								</c:if>
+								<div class="comment">
+									<header>
+										<div class="profile_image"></div>
+										<span class="nickname">테스트</span>
+									</header>
+									<main>내용</main>
+									<footer>작성일</footer>
+								</div>
+							</footer>
 						</div>
 				    </c:if>
 				</main>

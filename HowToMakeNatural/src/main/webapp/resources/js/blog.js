@@ -837,3 +837,26 @@ function post_delete_yes(id, no){
 function post_delete_no(){
 	$("#go_delete").css('display','none');
 }
+
+/* 댓글 추가 */
+function write_comment(id, no){
+	var data = {
+		userID : id,
+		no : no,
+		content : $(".personal_post>.post_comment_hidden>#write_comment>main>#write_comment_content").val()
+	};
+	
+	$.ajax({
+        url: "/blog/comment/ajax",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	alert("연결 성공");
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
