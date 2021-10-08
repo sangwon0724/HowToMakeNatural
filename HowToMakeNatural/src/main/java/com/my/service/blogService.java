@@ -38,23 +38,47 @@ public class blogService implements blogServiceInterface {
 		return dao.selectnNeighbor(map);
 	}
 
+	
+	
+	
+	//게시글 작성
 	@Override
 	public void insertPost(Map<String, Object> map) throws Exception {
 		dao.insertPost(map);
 	}
 
+	//댓글 작성
 	@Override
 	public void insertComment(Map<String, Object> map) throws Exception{
 		dao.insertComment(map);
 	};
 
+	
+	
+	
+	//게시글 수정
 	@Override
 	public void updatePost(Map<String, Object> map) throws Exception {
 		dao.updatePost(map);
 	}
 
+	//댓글 수정
+	@Override
+	public void updateComment(Map<String, Object> map) throws Exception{
+		dao.updateComment(map);
+	};
+
+	
+	
+	//게시글 석제
 	@Override
 	public void deletePost(Map<String, Object> map) throws Exception {
 		dao.deletePost(map);
 	}
+	
+	//댓글 삭제
+	@Override
+	public void deleteComment(Map<String, Object> map) throws Exception{
+		dao.deleteComment(map);
+	};
 }

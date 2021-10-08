@@ -373,16 +373,32 @@ public class blogController {
 	public Map<String, Object> ajaxPersonalComment(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 댓글 작성  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
-		
-		//댓글 insert
-		blogService.insertComment(map);
-		
+
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
-		//댓글 가져오기
-		List<HashMap<String, Object>> commentList = blogService.selectComment(map);
+		//mode에 따른 
+		switch (map.get("mode").toString()) {
+			case "insert":
+				//댓글 insert
+				blogService.insertComment(map);
+				
+				//댓글 가져오기
+				List<HashMap<String, Object>> commentList = blogService.selectComment(map);
+				
+				result.put("commentList", commentList); //ajax 결과에 전달
+				break;
+			case "update":
+				
+				break;
+			case "delete":
+				//댓글 insert
+				blogService.deleteComment(map);
+				break;
+	
+			default:
+				break;
+		}
 		
-		result.put("commentList", commentList); //ajax 결과에 전달
 		result.put("message", "success"); //성공 메세지 전달
 		
 	    return result;

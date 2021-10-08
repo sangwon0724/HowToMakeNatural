@@ -96,6 +96,18 @@
     	values (#{content}, #{no}, NOW(), #{userID})
     </insert>
     
+    <!-- 댓글 추가 -->
+    <update id="updateComment" parameterType="hashmap">
+    	update blog_comment set content=#{content} and updatedate=NOW()
+    	where no=${no} and userID=#{userID}
+    </update>
+    
+    <!-- 댓글 추가 -->
+    <update id="deleteComment" parameterType="hashmap">
+    	pdate blog_comment set useYN="N"
+    	where no=${no} and userID=#{userID}
+    </update>
+    
     
     
     <!--  카테고리 목록 검색  -->
