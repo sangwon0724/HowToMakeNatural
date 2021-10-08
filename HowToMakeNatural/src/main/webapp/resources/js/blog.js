@@ -25,6 +25,11 @@ function logout(){
 	location.href="/logout";
 }
 
+//모달 캔슬
+function modal_cancle(){
+	$(".modal").css('display','none');
+}
+
 /*============================================================================================================*/
 
 /* 블로그 공통 */
@@ -813,9 +818,6 @@ function write_submit(text, id, userNickName, no){
 function post_update_yes(id, no){
 	location.href= "/blog/" + id + "/" + no + "/update";
 }
-function post_update_no(){
-	$("#go_update").css('display','none');
-}
 
 /* 게시글 삭제 관련 모달 */
 function post_delete_yes(id, no){
@@ -833,9 +835,6 @@ function post_delete_yes(id, no){
             console.log(error);
         }
     });
-}
-function post_delete_no(){
-	$("#go_delete").css('display','none');
 }
 
 /* 댓글 추가 */
@@ -946,8 +945,24 @@ function update_comment(id, no, nickname){
     });
 }
 
+/* 모달 열기 - 댓글 삭제용 */
+function open_modal_for_delete_comment(target, no){
+    var modal = document.getElementById(target);
+    var close = document.querySelector("#" + target + " .close");
+
+    modal.style.display = "block";
+    
+    $("#delete_comment_target_no").val(no);
+    
+    close.onclick = function() {
+        modal.style.display = "none";
+    }
+}
+
 /* 댓글 삭제 */
-function delete_comment(id, no){
+function delete_comment(id){
+	var no = parseInt($("#delete_comment_target_no").val());
+	
 	var data = {
 		userID : id,
 		no : no
@@ -959,6 +974,7 @@ function delete_comment(id, no){
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
+        	modal_cancle();
         	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]").css('display', 'none');
         },
         error: function(error){
