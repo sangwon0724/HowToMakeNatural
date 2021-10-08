@@ -847,7 +847,7 @@ function write_comment(id, no, nickname){
 	};
 	
 	$.ajax({
-        url: "/blog/comment/ajax",
+        url: "/blog/comment/insert",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -884,6 +884,82 @@ function write_comment(id, no, nickname){
             });//each 종료
         	
         	$(".personal_post>.post_comment_hidden").html(commentList);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 댓글 수정 */
+function update_comment(id, no, nickname){
+	var data = {
+		userID : id,
+		no : no,
+		content : $(".personal_post>.post_comment_hidden>#write_comment>main>#write_comment_content").val()
+	};
+	
+	$.ajax({
+        url: "/blog/comment/update",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var nickname_temp=nickname; //왠지 모를 오류때문에 추가
+        	var commentList="";
+        	
+        	//댓글 쓰기 영역 추가
+        	commentList+=`
+        		<div id="write_comment">
+					<header>
+						<div class="profile_image"></div>
+						<span class="nickname">${nickname_temp}</span>
+					</header>
+					<main>
+						<textarea id="write_comment_content"></textarea>
+						<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${id}', ${no})">작성</div>
+					</main>
+				</div>
+        	`;
+        	
+        	//댓글 추가
+        	$.each(result.commentList, function (index, item) {
+        		commentList+=`
+        		<div class="comment">
+					<header>
+						<div class="profile_image"></div>
+						<span class="nickname">${item.userNickname}</span>
+					</header>
+					<main><p>${item.content}</p></main>
+					<footer>${item.signdate}</footer>
+				</div>
+        		`;
+            });//each 종료
+        	
+        	$(".personal_post>.post_comment_hidden").html(commentList);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 댓글 삭제 */
+function delete_comment(id, no){
+	var data = {
+		userID : id,
+		no : no
+	};
+	
+	$.ajax({
+        url: "/blog/comment/delete",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]").css('display', 'none');
         },
         error: function(error){
             alert("오류 발생");

@@ -43,6 +43,7 @@ public class blogController {
 	//11. 게시글이 존재하지 않을 시 존재하지 않는다는 문구 추가
 	//11-1. 개인블로그
 	//12. 블로그 메인에 대한 사진 작업
+	//13. 댓글 작업 (주소 : "/blog/comment/{mode값}") => 각각의 모드는 각각의 컨트롤러로 구분
 	//17. url 인터셉터 추가 (write, update, delete) , 실험 : ajax (이유 : menu)
 	//18. 프로필 변경 기능 추가 (닉네임, 소개글, 사진, 배경)
 	
@@ -61,7 +62,6 @@ public class blogController {
 	//8-2. 개인 블로그
 	//10. 검색 기능 추가 - 메인 (Ajax로 board 영역만 변경)
 	//11-2. 검색화면
-	//13. 댓글 작업 (주소 : "/blog/유저아이디/게시글번호/comment")
 	//14. 검색 기능 추가 - 개인 블로그
 	//14-1. 개인 블로그 (단어검색)
 	//14-2. 개인 블로그 (태그 클릭)
@@ -369,35 +369,57 @@ public class blogController {
 	
 	/* 개인 블로그 - 게시글 작성 - ajax */
 	@ResponseBody
-	@RequestMapping(value = "/blog/comment/ajax", method = RequestMethod.POST)
-	public Map<String, Object> ajaxPersonalComment(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	@RequestMapping(value = "/blog/comment/insert", method = RequestMethod.POST)
+	public Map<String, Object> ajaxPersonalCommentInsert(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 댓글 작성  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
-
+		
+		//댓글 insert
+		blogService.insertComment(map);
+		
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
-		//mode에 따른 
-		switch (map.get("mode").toString()) {
-			case "insert":
-				//댓글 insert
-				blogService.insertComment(map);
-				
-				//댓글 가져오기
-				List<HashMap<String, Object>> commentList = blogService.selectComment(map);
-				
-				result.put("commentList", commentList); //ajax 결과에 전달
-				break;
-			case "update":
-				
-				break;
-			case "delete":
-				//댓글 insert
-				blogService.deleteComment(map);
-				break;
+		//댓글 가져오기
+		List<HashMap<String, Object>> commentList = blogService.selectComment(map);
+		
+		result.put("commentList", commentList); //ajax 결과에 전달
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
 	
-			default:
-				break;
-		}
+	/* 개인 블로그 - 게시글 작성 - ajax */
+	@ResponseBody
+	@RequestMapping(value = "/blog/comment/update", method = RequestMethod.POST)
+	public Map<String, Object> ajaxPersonalCommentUpdate(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+		
+		System.out.println("개인 블로그 댓글 수정  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
+		
+		//댓글 update
+		blogService.updateComment(map);
+		
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		//댓글 가져오기
+		List<HashMap<String, Object>> commentList = blogService.selectComment(map);
+		
+		result.put("commentList", commentList); //ajax 결과에 전달
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+	
+	/* 개인 블로그 - 게시글 작성 - ajax */
+	@ResponseBody
+	@RequestMapping(value = "/blog/comment/delete", method = RequestMethod.POST)
+	public Map<String, Object> ajaxPersonalCommentDelete(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+		
+		System.out.println("개인 블로그 댓글 작성  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
+		
+		//댓글 insert
+		blogService.deleteComment(map);
+		
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용=
 		
 		result.put("message", "success"); //성공 메세지 전달
 		

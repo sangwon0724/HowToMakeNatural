@@ -276,14 +276,14 @@
 										</header>
 										<main>
 											<textarea id="write_comment_content"></textarea>
-											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no}, '${sessionScope.user.blog_nickname}')">작성</div>
+											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no}, '${sessionScope.user.blog_nickname}', 'insert')">작성</div>
 										</main>
 									</div>
 								</c:if>
 								
 								<c:if test="${commentList != null and commentList ne ''}">
 									<c:forEach items="${commentList}" var="item">
-										<div class="comment">
+										<div class="comment" no="${item.no}">
 											<header>
 												<div class="profile_image"></div>
 												<span class="nickname">${item.userNickname}</span>
