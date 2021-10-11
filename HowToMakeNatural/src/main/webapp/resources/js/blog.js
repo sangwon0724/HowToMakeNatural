@@ -871,10 +871,23 @@ function write_comment(id, no, nickname){
         	//댓글 추가
         	$.each(result.commentList, function (index, item) {
         		commentList+=`
-        		<div class="comment">
+        		<div class="comment" no="${item.no}">
 					<header>
 						<div class="profile_image"></div>
-						<span class="nickname">${item.userNickname}</span>
+						<span class="nickname">${item.userNickname}</span>`;
+        		
+        		if(id === item.userID){
+        			commentList+=`
+						<div class="update_comment_button flex_center_center" onclick="open_modal_for_update_comment('update_comment', ${item.no})">
+							<i class="fas fa-edit"></i>
+						</div>
+						<div class="delete_comment_button flex_center_center" onclick="open_modal_for_delete_comment('delete_comment', ${item.no})">
+							<i class="fas fa-times"></i>
+						</div>
+        			`;
+        		}
+        		
+			   commentList+=`
 					</header>
 					<main><p>${item.content}</p></main>
 					<footer>${item.signdate}</footer>
@@ -882,13 +895,30 @@ function write_comment(id, no, nickname){
         		`;
             });//each 종료
         	
+        	//$(".personal_post>.post_goodAndComment>#post_comment>span>span#commentCount").html(result.commentList.length); //댓글 수 변경
         	$(".personal_post>.post_comment_hidden").html(commentList);
+        	alert("댓글이 정상적으로 추가되었습니다.");
         },
         error: function(error){
             alert("오류 발생");
             console.log(error);
         }
     });
+}
+
+/* 모달 열기 - 댓글 수정용 */
+function open_modal_for_update_comment(target, no){
+    var modal = document.getElementById(target);
+    var close = document.querySelector("#" + target + " .close");
+
+    modal.style.display = "block";
+    
+    //$("#update_comment_target_no").val(no);
+    $("#update_comment>.modal-content_forButton>.modal_content>#button_yesOrNo>button.yes").attr("no", no);
+    
+    close.onclick = function() {
+        modal.style.display = "none";
+    }
 }
 
 /* 댓글 수정 */
@@ -937,6 +967,7 @@ function update_comment(id, no, nickname){
             });//each 종료
         	
         	$(".personal_post>.post_comment_hidden").html(commentList);
+        	alert("댓글이 정상적으로 수정되었습니다.");
         },
         error: function(error){
             alert("오류 발생");
@@ -952,7 +983,8 @@ function open_modal_for_delete_comment(target, no){
 
     modal.style.display = "block";
     
-    $("#delete_comment_target_no").val(no);
+    //$("#delete_comment_target_no").val(no);
+    $("#delete_comment>.modal-content_forButton>.modal_content>#button_yesOrNo>button.yes").attr("no", no);
     
     close.onclick = function() {
         modal.style.display = "none";
@@ -961,7 +993,8 @@ function open_modal_for_delete_comment(target, no){
 
 /* 댓글 삭제 */
 function delete_comment(id){
-	var no = parseInt($("#delete_comment_target_no").val());
+	//var no = parseInt($("#delete_comment_target_no").val());
+	var no = parseInt($(event.target).attr("no"));
 	
 	var data = {
 		userID : id,
@@ -976,6 +1009,7 @@ function delete_comment(id){
         success: function(result){
         	modal_cancle();
         	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]").css('display', 'none');
+        	alert("뎃글이 정상적으로 삭제되었습니다.");
         },
         error: function(error){
             alert("오류 발생");

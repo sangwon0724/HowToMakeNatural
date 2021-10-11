@@ -367,7 +367,7 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 개인 블로그 - 게시글 작성 - ajax */
+	/* 개인 블로그 - 댓글 작성 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/comment/insert", method = RequestMethod.POST)
 	public Map<String, Object> ajaxPersonalCommentInsert(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
@@ -388,12 +388,12 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 개인 블로그 - 게시글 작성 - ajax */
+	/* 개인 블로그 - 댓글 수정 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/comment/update", method = RequestMethod.POST)
 	public Map<String, Object> ajaxPersonalCommentUpdate(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
-		System.out.println("개인 블로그 댓글 수정  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
+		System.out.println("개인 블로그 댓글 수정  ajax- 작성자 아이디 : " + map.get("userID") + " / 수정 대상 게시글 번호 : " + map.get("no"));
 		
 		//댓글 update
 		blogService.updateComment(map);
@@ -409,12 +409,12 @@ public class blogController {
 	    return result;
 	}
 	
-	/* 개인 블로그 - 게시글 작성 - ajax */
+	/* 개인 블로그 - 댓글 삭제 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/comment/delete", method = RequestMethod.POST)
 	public Map<String, Object> ajaxPersonalCommentDelete(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
-		System.out.println("개인 블로그 댓글 작성  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
+		System.out.println("개인 블로그 댓글 삭제  ajax- 작성자 아이디 : " + map.get("userID") + " / 삭제 대상 게시글 번호 : " + map.get("no"));
 		
 		//댓글 insert
 		blogService.deleteComment(map);
