@@ -263,7 +263,7 @@
 								<span>좋아요 <span id="goodCount">0</span></span>
 								</div>
 								<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
-									<span>댓글&nbsp;<span id="commentCount">0</span></span>&nbsp;|&nbsp;
+									<span>댓글&nbsp;<span id="commentCount"><c:if test="${fn:length(commentList) > 0}">${fn:length(commentList)}</c:if><c:if test="${fn:length(commentList) < 0 or empty commentList}">0</c:if></span></span>&nbsp;|&nbsp;
 									<i class="fas fa-chevron-down"></i>
 								</div>
 							</footer>
@@ -283,10 +283,18 @@
 								
 								<c:if test="${commentList != null and commentList ne ''}">
 									<c:forEach items="${commentList}" var="item">
-										<div class="comment">
+										<div class="comment" no="${item.no}">
 											<header>
 												<div class="profile_image"></div>
 												<span class="nickname">${item.userNickname}</span>
+												<c:if test="${sessionScope.user.id eq item.userID}">
+													<div class="update_comment_button flex_center_center" onclick="open_modal_for_update_comment('update_comment', ${item.no})">
+														<i class="fas fa-edit"></i>
+													</div>
+													<div class="delete_comment_button flex_center_center" onclick="open_modal_for_delete_comment('delete_comment', ${item.no})">
+														<i class="fas fa-times"></i>
+													</div>
+												</c:if>
 											</header>
 											<main>${item.content}</main>
 											<footer>${item.signdate}</footer>
@@ -354,6 +362,9 @@
 		</div>
 		<!-- 블로그 메인화면 종료 -->
 		</c:if>
+		
+		
+		
 		<c:if test="${mode eq 'search' or mode eq 'tag'}">
 		<!-- 블로그 검색화면 시작 -->
 			<c:if test="${mode eq 'search'}">
@@ -368,8 +379,6 @@
 				</div>
 			<!-- 검색 배너 종료 -->
 			</c:if>
-			
-			
 			
 			<!-- 검색 결과 영역 시작 -->
 				<div id="search_result_pannel">
@@ -448,7 +457,7 @@
 	      	<span>해당 게시글을 수정하시겠습니까?</span>
 			<div id="button_yesOrNo">
 				<button onclick="post_update_yes('${sessionScope.user.id}',${onePost.no})">예</button>
-				<button onclick="post_update_no()">아니오</button>
+				<button onclick="modal_cancle()">아니오</button>
 			</div>
 	      </div>
 	    </div>
@@ -461,7 +470,34 @@
 	      	<span>해당 게시글을 삭제하시겠습니까?</span>
 			<div id="button_yesOrNo">
 				<button onclick="post_delete_yes('${sessionScope.user.id}',${onePost.no})">예</button>
-				<button onclick="post_delete_no()">아니오</button>
+				<button onclick="modal_cancle()">아니오</button>
+			</div>
+	      </div>
+	    </div>
+	</div>
+	
+	<div id="update_comment" class="modal">
+	    <div class="modal-content_forButton">
+	      <span class="close">&times;</span>
+	      <div class="modal_content">
+	      	<span>해당 댓글을 수정하시겠습니까?</span>
+			<div id="button_yesOrNo">
+				<button class="yes" onclick="update_comment_active('${sessionScope.user.id}')">예</button>
+				<button class="no" onclick="modal_cancle()">아니오</button>
+			</div>
+	      </div>
+	    </div>
+	</div>
+	
+	<div id="delete_comment" class="modal">
+	    <div class="modal-content_forButton">
+	      <span class="close">&times;</span>
+	      <div class="modal_content">
+	      	<span>해당 댓글을 삭제하시겠습니까?</span>
+	      	<input type="hidden" id="delete_comment_target_no" value="">
+			<div id="button_yesOrNo">
+				<button class="yes" onclick="delete_comment('${sessionScope.user.id}')">예</button>
+				<button class="no" onclick="modal_cancle()">아니오</button>
 			</div>
 	      </div>
 	    </div>

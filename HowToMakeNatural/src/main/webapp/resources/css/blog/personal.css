@@ -453,12 +453,14 @@
 	justify-content: space-around;
 	align-items: center;
 }
-.personal_post>.post_comment_hidden>#write_comment>main>#write_comment_content{
+.personal_post>.post_comment_hidden>#write_comment>main>#write_comment_content,
+.personal_post>.post_comment_hidden>.comment>main>.update_comment_content{
 	width: 80%;
 	height: 80%;
 	resize: none;
 }
-.personal_post>.post_comment_hidden>#write_comment>main>#write_comment_button{
+.personal_post>.post_comment_hidden>#write_comment>main>#write_comment_button,
+.personal_post>.post_comment_hidden>.comment>main>.update_comment_button{
 	width: 10%;
 	height: 45%;
 	border: 1px solid black;
@@ -522,6 +524,13 @@
 	width: 100%;
 	height: auto;
 	min-height: 13vh;
+}
+.personal_post>.post_comment_hidden>.comment>main.updateComment{
+	width: 100%;
+    height: 20vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .personal_post>.post_comment_hidden>.comment>footer{
 	width: 100%;

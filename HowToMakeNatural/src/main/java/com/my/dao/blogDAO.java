@@ -58,7 +58,7 @@ public class blogDAO implements blogDAOInterface {
 	//댓글 수정
 	@Override
 	public void updateComment(Map<String, Object> map) throws Exception{
-		sqlSession.update("blogMapper.updateCommnet", map);
+		sqlSession.update("blogMapper.updateComment", map);
 	};
 
 	//게시글 삭제

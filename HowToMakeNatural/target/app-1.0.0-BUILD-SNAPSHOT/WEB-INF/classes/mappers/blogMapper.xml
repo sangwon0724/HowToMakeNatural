@@ -84,7 +84,7 @@
     
     <!-- 댓글 가져오기 -->
     <select id="selectComment" parameterType="hashmap" resultType="hashmap">
-    	SELECT b.content, u.blog_nickname userNickname, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i')
+    	SELECT b.no, b.content, b.userID, u.blog_nickname userNickname, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate
 		FROM blog_comment b, user u
 		WHERE post_no=${no} AND b.userID = u.id AND useYN = "Y"
 		ORDER BY NO desc
@@ -95,6 +95,18 @@
     	insert into blog_comment(content, post_no, signdate, userID)
     	values (#{content}, #{no}, NOW(), #{userID})
     </insert>
+    
+    <!-- 댓글 추가 -->
+    <update id="updateComment" parameterType="hashmap">
+    	update blog_comment set content=#{content}, updatedate=NOW()
+    	where no=${no} and userID=#{userID}
+    </update>
+    
+    <!-- 댓글 추가 -->
+    <update id="deleteComment" parameterType="hashmap">
+    	update blog_comment set useYN="N"
+    	where no=${no} and userID=#{userID}
+    </update>
     
     
     

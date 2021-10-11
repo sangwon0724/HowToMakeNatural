@@ -25,6 +25,11 @@ function logout(){
 	location.href="/logout";
 }
 
+//모달 캔슬
+function modal_cancle(){
+	$(".modal").css('display','none');
+}
+
 /*============================================================================================================*/
 
 /* 블로그 공통 */
@@ -813,9 +818,6 @@ function write_submit(text, id, userNickName, no){
 function post_update_yes(id, no){
 	location.href= "/blog/" + id + "/" + no + "/update";
 }
-function post_update_no(){
-	$("#go_update").css('display','none');
-}
 
 /* 게시글 삭제 관련 모달 */
 function post_delete_yes(id, no){
@@ -834,9 +836,6 @@ function post_delete_yes(id, no){
         }
     });
 }
-function post_delete_no(){
-	$("#go_delete").css('display','none');
-}
 
 /* 댓글 추가 */
 function write_comment(id, no, nickname){
@@ -847,7 +846,7 @@ function write_comment(id, no, nickname){
 	};
 	
 	$.ajax({
-        url: "/blog/comment/ajax",
+        url: "/blog/comment/insert",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -872,10 +871,23 @@ function write_comment(id, no, nickname){
         	//댓글 추가
         	$.each(result.commentList, function (index, item) {
         		commentList+=`
-        		<div class="comment">
+        		<div class="comment" no="${item.no}">
 					<header>
 						<div class="profile_image"></div>
-						<span class="nickname">${item.userNickname}</span>
+						<span class="nickname">${item.userNickname}</span>`;
+        		
+        		if(id === item.userID){
+        			commentList+=`
+						<div class="update_comment_button flex_center_center" onclick="open_modal_for_update_comment('update_comment', ${item.no})">
+							<i class="fas fa-edit"></i>
+						</div>
+						<div class="delete_comment_button flex_center_center" onclick="open_modal_for_delete_comment('delete_comment', ${item.no})">
+							<i class="fas fa-times"></i>
+						</div>
+        			`;
+        		}
+        		
+			   commentList+=`
 					</header>
 					<main><p>${item.content}</p></main>
 					<footer>${item.signdate}</footer>
@@ -883,7 +895,119 @@ function write_comment(id, no, nickname){
         		`;
             });//each 종료
         	
+        	//$(".personal_post>.post_goodAndComment>#post_comment>span>span#commentCount").html(result.commentList.length); //댓글 수 변경
         	$(".personal_post>.post_comment_hidden").html(commentList);
+        	alert("댓글이 정상적으로 추가되었습니다.");
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 모달 열기 - 댓글 수정용 */
+function open_modal_for_update_comment(target, no){
+    var modal = document.getElementById(target);
+    var close = document.querySelector("#" + target + " .close");
+
+    modal.style.display = "block";
+    
+    //$("#update_comment_target_no").val(no);
+    $("#update_comment>.modal-content_forButton>.modal_content>#button_yesOrNo>button.yes").attr("no", no);
+    
+    close.onclick = function() {
+        modal.style.display = "none";
+    }
+}
+/* 댓글 수정 */
+function update_comment_active(id){
+	var no = $(event.target).attr("no");
+	
+	var content = $(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").html();
+	
+	modal_cancle();
+	
+	var update_form = `
+	<textarea class="update_comment_content">${content}</textarea>
+	<div class="update_comment_button flex_center_center" onclick="update_comment('${id}', ${no})">수정</div>									
+	`;
+
+	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>footer").addClass("hidden"); //footer 영역 삭제 (작성일)
+	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").addClass("updateComment"); //main 영역의 css 변경 (댓글 작성 영역과 동일하게 변경)
+	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").html(update_form);
+}
+
+/* 댓글 수정 */
+function update_comment(id, no){
+	var content = $(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main>.update_comment_content").val();
+	console.log(1);console.log("내용 : "+content);console.log(2);
+	var data = {
+		userID : id,
+		no : no,
+		content : content
+	};
+	console.log(3);
+	$.ajax({
+        url: "/blog/comment/update",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var commentList="";
+        	
+        	commentList += `
+        		<p>
+        			${content}
+        		</p>
+        	`;
+        	
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>footer").removeClass("hidden"); //footer 영역 복구 (작성일)
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").removeClass("updateComment"); //main 영역의 css 변경 (일반 댓글 영역과 동일하게 변경)
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").html(commentList);
+        	alert("댓글이 정상적으로 수정되었습니다.");
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 모달 열기 - 댓글 삭제용 */
+function open_modal_for_delete_comment(target, no){
+    var modal = document.getElementById(target);
+    var close = document.querySelector("#" + target + " .close");
+
+    modal.style.display = "block";
+    
+    //$("#delete_comment_target_no").val(no);
+    $("#delete_comment>.modal-content_forButton>.modal_content>#button_yesOrNo>button.yes").attr("no", no);
+    
+    close.onclick = function() {
+        modal.style.display = "none";
+    }
+}
+
+/* 댓글 삭제 */
+function delete_comment(id){
+	//var no = parseInt($("#delete_comment_target_no").val());
+	var no = parseInt($(event.target).attr("no"));
+	
+	var data = {
+		userID : id,
+		no : no
+	};
+	
+	$.ajax({
+        url: "/blog/comment/delete",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	modal_cancle();
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]").css('display', 'none');
+        	alert("뎃글이 정상적으로 삭제되었습니다.");
         },
         error: function(error){
             alert("오류 발생");

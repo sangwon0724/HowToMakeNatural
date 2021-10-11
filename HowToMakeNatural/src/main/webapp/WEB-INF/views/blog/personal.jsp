@@ -276,7 +276,7 @@
 										</header>
 										<main>
 											<textarea id="write_comment_content"></textarea>
-											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no}, '${sessionScope.user.blog_nickname}', 'insert')">작성</div>
+											<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${sessionScope.user.id}', ${onePost.no}, '${sessionScope.user.blog_nickname}')">작성</div>
 										</main>
 									</div>
 								</c:if>
@@ -482,7 +482,7 @@
 	      <div class="modal_content">
 	      	<span>해당 댓글을 수정하시겠습니까?</span>
 			<div id="button_yesOrNo">
-				<button class="yes" onclick="update_comment('${sessionScope.user.id}')">예</button>
+				<button class="yes" onclick="update_comment_active('${sessionScope.user.id}')">예</button>
 				<button class="no" onclick="modal_cancle()">아니오</button>
 			</div>
 	      </div>

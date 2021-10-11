@@ -889,7 +889,7 @@ function write_comment(id, no, nickname){
         		
 			   commentList+=`
 					</header>
-					<main><p>${item.content}</p></main>
+					<main>${item.content}</main>
 					<footer>${item.signdate}</footer>
 				</div>
         		`;
@@ -920,13 +920,32 @@ function open_modal_for_update_comment(target, no){
         modal.style.display = "none";
     }
 }
+/* 댓글 수정 */
+function update_comment_active(id){
+	var no = $(event.target).attr("no");
+	
+	var content = $(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").html();
+	
+	modal_cancle();
+	
+	var update_form = `
+	<textarea class="update_comment_content">${content}</textarea>
+	<div class="update_comment_button flex_center_center" onclick="update_comment('${id}', ${no})">수정</div>									
+	`;
+
+	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>footer").addClass("hidden"); //footer 영역 삭제 (작성일)
+	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").addClass("updateComment"); //main 영역의 css 변경 (댓글 작성 영역과 동일하게 변경)
+	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").html(update_form);
+}
 
 /* 댓글 수정 */
-function update_comment(id, no, nickname){
+function update_comment(id, no){
+	var content = $(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main>.update_comment_content").val();
+	
 	var data = {
 		userID : id,
 		no : no,
-		content : $(".personal_post>.post_comment_hidden>#write_comment>main>#write_comment_content").val()
+		content : content
 	};
 	
 	$.ajax({
@@ -935,38 +954,17 @@ function update_comment(id, no, nickname){
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	var nickname_temp=nickname; //왠지 모를 오류때문에 추가
         	var commentList="";
         	
-        	//댓글 쓰기 영역 추가
-        	commentList+=`
-        		<div id="write_comment">
-					<header>
-						<div class="profile_image"></div>
-						<span class="nickname">${nickname_temp}</span>
-					</header>
-					<main>
-						<textarea id="write_comment_content"></textarea>
-						<div id="write_comment_button" class="flex_center_center" onclick="write_comment('${id}', ${no})">작성</div>
-					</main>
-				</div>
+        	commentList += `
+        		<p>
+        			${content}
+        		</p>
         	`;
         	
-        	//댓글 추가
-        	$.each(result.commentList, function (index, item) {
-        		commentList+=`
-        		<div class="comment">
-					<header>
-						<div class="profile_image"></div>
-						<span class="nickname">${item.userNickname}</span>
-					</header>
-					<main><p>${item.content}</p></main>
-					<footer>${item.signdate}</footer>
-				</div>
-        		`;
-            });//each 종료
-        	
-        	$(".personal_post>.post_comment_hidden").html(commentList);
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>footer").removeClass("hidden"); //footer 영역 복구 (작성일)
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").removeClass("updateComment"); //main 영역의 css 변경 (일반 댓글 영역과 동일하게 변경)
+        	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main").html(commentList);
         	alert("댓글이 정상적으로 수정되었습니다.");
         },
         error: function(error){
@@ -1009,7 +1007,7 @@ function delete_comment(id){
         success: function(result){
         	modal_cancle();
         	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]").css('display', 'none');
-        	alert("뎃글이 정상적으로 삭제되었습니다.");
+        	alert("댓글이 정상적으로 삭제되었습니다.");
         },
         error: function(error){
             alert("오류 발생");

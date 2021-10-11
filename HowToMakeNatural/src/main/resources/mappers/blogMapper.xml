@@ -98,7 +98,7 @@
     
     <!-- 댓글 추가 -->
     <update id="updateComment" parameterType="hashmap">
-    	update blog_comment set content=#{content} and updatedate=NOW()
+    	update blog_comment set content=#{content}, updatedate=NOW()
     	where no=${no} and userID=#{userID}
     </update>
     
