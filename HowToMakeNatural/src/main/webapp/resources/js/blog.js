@@ -199,7 +199,7 @@ function blog_main_search_category_click(category){
 	var data = {
 	  start: 0,
 	  block: 10,
-      object: $(event.target).attr("category"),
+      object: category,
       search : $('#search_text').val()
 	};
 	
@@ -414,7 +414,7 @@ function blog_main_my_menu(id, menu){
         			list+=`<main style="width: 100%; height: 100%;" class="flex_center_center"><span>이웃이 존재하지 않습니다.</span></main>`;
         		}//count if 종료
         	} //menu if 종료
-        	console.log(list);
+        	
             $('#info_area>#my_menu>#show_info').html(list);
         },
         error: function(error){
