@@ -14,8 +14,8 @@
     <!-- B-2. 검색 값 존재 O => 블로그 메인에서 해당 값에 대한 카테고리 및 태그 모두 검색 -->
     <select id="selectPost" parameterType="hashmap" resultType="hashmap">
 		SELECT a.*, ROW_NUMBER() OVER (ORDER BY no DESC) AS orderNo FROM (
-      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate, userID, u.blog_nickname  userNickName
-      		FROM blog_post b, user u
+      		SELECT count(title) OVER(PARTITION BY 1) count, no, title, content, category, tag, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate, userID, (SELECT blog_nickname FROM user WHERE id=b.userID) userNickName
+      		FROM blog_post b
       		<if test='userID != null and userID != ""'>
 				where userID=#{userID}
 				<if test='category != null and category != ""'>
@@ -53,7 +53,7 @@
 					where useYN ='Y'
  				</if>
  			</if>
-			and b.userID = u.id
+			<!-- and b.userID = u.id -->
       		order by no desc
 			) a
 		<if test='block == null or block == ""'>
