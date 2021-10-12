@@ -329,7 +329,7 @@ function blog_main_my_menu(id, menu){
         	}
         	else if(menu==="my_post"){
         		//게시글이 5개 이하인 경우 페이징이 없음
-        		if(result.paging.count<=5){
+        		if(result.paging.count<=5 && result.paging.count>0){
         			list+=`<main style="width: 100%; height: 100%;">`;
             		$.each(result.postList, function (index, item) {
                 		list+=`
@@ -364,17 +364,20 @@ function blog_main_my_menu(id, menu){
             			</footer>
         			`;
         		} //count if 종료
+        		else if(result.paging.count === 0){
+        			list+=`<main style="width: 100%; height: 100%;" class="flex_center_center"><span>작성한 게시글이 존재하지 않습니다.</span></main>`;
+        		}//count if 종료
         	}//menu if 종료
         	else if(menu==="my_neighbor"){
         		//이웃이 9명 이하인 경우 페이징이 없음
-        		if(result.paging.count<=9){
+        		if(result.paging.count<=9 && result.paging.count>0){
         			list+=`<main style="width: 100%; height: 100%; display: grid; grid-template-rows: repeat(3, 1fr); grid-template-columns: repeat(3, 1fr); padding: 5px; gap: 5px; box-sizing: border-box;">`;
             		$.each(result.neighborList, function (index, item) {
                 		list+=`
                 			<div class="neighbor">
                 				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
 								<footer>
-									<span>십번</span>
+									<span>${item.nickname}</span>
 								</footer>
                 			</div>
                 		`;
@@ -388,7 +391,7 @@ function blog_main_my_menu(id, menu){
                 			<div class="neighbor">
                 				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
 								<footer>
-									<span>십번</span>
+									<span>${item.nickname}</span>
 								</footer>
                 			</div>
                 		`;
@@ -406,8 +409,12 @@ function blog_main_my_menu(id, menu){
             			</footer>
         			`;
         		} //count if 종료
+        		else if(result.paging.count === 0){
+        			console.log(333);
+        			list+=`<main style="width: 100%; height: 100%;" class="flex_center_center"><span>이웃이 존재하지 않습니다.</span></main>`;
+        		}//count if 종료
         	} //menu if 종료
-        	
+        	console.log(list);
             $('#info_area>#my_menu>#show_info').html(list);
         },
         error: function(error){

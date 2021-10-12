@@ -131,8 +131,6 @@
 						</div>
 						<div id="category_panel">
 							<span<c:if test='${param.category == null or param.category == ""}'> class="active"</c:if> onclick="go_user_blog('${userInfo.id}')">전체</span>
-							<span<c:if test="${param.category eq '요리'}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','요리')">요리</span>
-							<span<c:if test="${param.category eq 'IT'}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','IT')">IT</span>
 							<c:if test='${categoryList != null and categoryList != ""}'>
 								<c:forEach items="${categoryList}" var="item">
 									<span<c:if test="${param.category eq item.name}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','${item.name}')">${item.name}</span>
@@ -181,6 +179,7 @@
 				<!-- 검색창 종료  (type B. 기본X) -->
 				<!-- 게시글 목록 시작 (목록 열기/닫기 가능 O) -->
 				<header id="post_list_summary_O">
+					<c:if test="${not empty postList and postList ne ''}">
 					<div id="post_list_toggle" onclick="blog_post_list_toggle()">목록 닫기</div>
 					<table cellspacing="0" cellpadding="0" class="post_summary_list">
 						<colgroup>
@@ -207,22 +206,28 @@
 						</tbody>
 					</table>
 					<footer class="post_list_summary_paging flex_center_center">
-						<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
-								<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'left')"><i class="fas fa-angle-left"></i></div>
-						</c:if>
-						<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
-							<c:if test="${status.current le paging.page_total}">
-								<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no}, 'number')"><span>${status.current}</span></div>
+						<c:if test="${not empty postList and postList ne ''}">
+							<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
+									<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'left')"><i class="fas fa-angle-left"></i></div>
 							</c:if>
-						</c:forEach>
-						<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
-								<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'right')"><i class="fas fa-angle-right"></i></div>
+							<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
+								<c:if test="${status.current le paging.page_total}">
+									<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no}, 'number')"><span>${status.current}</span></div>
+								</c:if>
+							</c:forEach>
+							<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
+									<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="personal_paging_top(${status.current},'${userInfo.id}',${onePost.no},'right')"><i class="fas fa-angle-right"></i></div>
+							</c:if>
 						</c:if>
 					</footer>
+					</c:if>
 				</header>
 				<!-- 게시글 목록 종료 (목록 열기/닫기 가능 O) -->
 				<!-- 게시글이 보이는 화면 시작 -->
 				<main id="post_panel">
+					<c:if test='${empty onePost or onePost eq ""}'>
+						<span>게시글이 존재하지 않습니다.</span>
+					</c:if>
 					<c:if test='${onePost != null and onePost != ""}'>
 						<div class="personal_post">
 							<header class="post_category">
@@ -308,6 +313,7 @@
 				<!-- 게시글이 보이는 화면 종료 -->
 				<!-- 게시글 목록 시작 (목록 열기/닫기 가능 X) -->
 				<footer id="post_list_summary_X">
+					<c:if test="${not empty postList and postList ne ''}">
 					<table cellspacing="0" cellpadding="0" class="post_summary_list">
 						<colgroup>
 							<col width="75%"/>
@@ -336,6 +342,7 @@
 						<div id="post_list_bottom_left" <c:if test="${paging.page_total gt 1 and paging.page_current gt 1}"> class="active"</c:if> page="0" onclick="personal_paging_bottom_left('${userInfo.id}', ${onePost.no}, ${paging.page_total})"><i class="fas fa-angle-left"></i>&nbsp;이전</div>
 						<div id="post_list_bottom_right" <c:if test="${paging.page_total gt 1 and paging.page_current lt paging.page_total}"> class="active"</c:if> page="2" onclick="personal_paging_bottom_right('${userInfo.id}', ${onePost.no}, ${paging.page_total})">다음&nbsp;<i class="fas fa-angle-right"></i></div>
 					</footer>
+				</c:if>
 				</footer>
 				<!-- 게시글 패널 종료 (목록 열기/닫기 가능 X) -->
 			</div>
@@ -360,6 +367,8 @@
 			</div>
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 종료 (type B. 스타일 변경)-->
 		</div>
+		<%--게시글이 빈 경우에 대한 화면 잘림 방지용 --%>
+		<c:if test="${empty postList or postList eq ''}"><div style="width: 100%; height: 30vh;"></div></c:if>
 		<!-- 블로그 메인화면 종료 -->
 		</c:if>
 		

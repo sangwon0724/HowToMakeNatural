@@ -132,6 +132,7 @@ public class blogController {
 		
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		Map<String, Object> pagingSetting = new HashMap<String, Object>(); //페이징용
+		Map<String, Object> page_zero = new HashMap<String, Object>(); //게시글이나 이웃이 없는 경우
 		
 		switch (map.get("menu").toString()) {
 		case "my_news":
@@ -142,16 +143,30 @@ public class blogController {
 			result.put("postList", postList);
 			
 			//페이징 정보
-			pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정
-			result.put("paging", pagingSetting); //페이징 정보 설정
+			if(!postList.isEmpty()) {
+				pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정
+				result.put("paging", pagingSetting); //페이징 정보 설정
+			}
+			else if(postList.isEmpty()) {
+				page_zero.put("count",0);
+				page_zero.put("page_total",0);
+				result.put("paging", page_zero); //페이징 정보 설정
+			}
 			break;
 		case "my_neighbor":
 			List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map);
 			result.put("neighborList", neighborList);
 			
 			//페이징 정보
-			pagingSetting=paging.settingPaging("blog_neighbor", neighborList.get(0), 9); //페이징 설정
-			result.put("paging", pagingSetting); //페이징 정보 설정
+			if(!neighborList.isEmpty()) {
+				pagingSetting=paging.settingPaging("blog_neighbor", neighborList.get(0), 9); //페이징 설정
+				result.put("paging", pagingSetting); //페이징 정보 설정
+			}
+			else if(neighborList.isEmpty()) {
+				page_zero.put("count",0);
+				page_zero.put("page_total",0);
+				result.put("paging", page_zero); //페이징 정보 설정
+			}
 			break;
 		}
 		
@@ -188,10 +203,16 @@ public class blogController {
 		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
 		
 		//단일 게시글 정보
-		HashMap<String, Object> onePost=postList.get(0);
+		HashMap<String, Object> onePost=null;
+		if(!postList.isEmpty()) {
+			onePost=postList.get(0);
+		}
 		
 		//댓글 가져오기
-		List<HashMap<String, Object>> commentList = blogService.selectComment(onePost);
+		List<HashMap<String, Object>> commentList = null;
+		if(!postList.isEmpty()) {
+			commentList = blogService.selectComment(onePost);
+		}
 		
 		model.addAttribute("postList", postList); //게시글
 		model.addAttribute("userInfo", userInfo); //유저 정보
@@ -202,8 +223,10 @@ public class blogController {
 		model.addAttribute("mode", "view"); //게시글 모드
 		
 		//페이징 정보
-		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", onePost, 5); //페이징 설정
-		model.addAttribute("paging", pagingSetting); //페이징 정보 설정
+		if(!postList.isEmpty()) {
+			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", onePost, 5); //페이징 설정
+			model.addAttribute("paging", pagingSetting); //페이징 정보 설정
+		}
 		
 	    return "/blog/personal";
 	}
