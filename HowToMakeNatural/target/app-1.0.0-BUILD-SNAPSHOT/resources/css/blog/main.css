@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-
-
 /* 블로그 홈 + 이웃 새글 (로그인시) */
 #blog_main_category{
 	width : 100vw;
@@ -363,4 +361,38 @@
 	width: 100%;
 	height: 42.5vh;
 	background-color: white;
+}
+#my_menu>#show_info>.line{
+	width: 100%;
+	height: 17%;
+	border-bottom: 1px solid black;
+	box-sizing: border-box;
+}
+#my_menu>#show_info>.line:last-child{
+	border: none;
+}
+#my_menu>#show_info>.line_under5{
+	width: 100%;
+	height: 20%;
+	border-bottom: 1px solid black;
+	box-sizing: border-box;
+}
+#my_menu>#show_info>.line_under5:last-child{
+	border: none;
+}
+#my_menu>#show_info>#show_info_paging{
+	width: 100%;
+	height: 15%;
+	border-top: 1px solid #A29BFE;
+}
+#my_menu>#show_info>.line>.title,
+#my_menu>#show_info>.line_under5>.title{
+	width: 65%;
+	height: 100%;
+	text-overflow: ellipsis;
+}
+#my_menu>#show_info>.line>.signdate,
+#my_menu>#show_info>.line_under5>.signdate{
+	width: 35%;
+	height: 100%;
 }

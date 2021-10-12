@@ -296,19 +296,22 @@ function blog_main_category_click(category){
 }
 
 //블로그 메인에서 내 메뉴 클릭 //임시/ 만들 예정
-function blog_main_my_menu_my_post(id, menu){
+function blog_main_my_menu(id, menu){
 	//강조 변경
 	$('#my_menu>#third>div').removeClass('active');
 	$('#my_menu>#third>div#'+menu).addClass('active');
 	
 	var data = {
-		id: id,
-		menu: menu
+		userID: id,
+		menu: menu,
+		start: 0,
+		block: 5,
+		category: ""
     };
 	
 	//내용 변경 + 주소변경 (임시 주석)
 	$.ajax({
-        url: "/blog/menu/Ajax/",
+        url: "/blog/menu/Ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -316,21 +319,276 @@ function blog_main_my_menu_my_post(id, menu){
         	var list="";
         	
         	if(menu==="my_news"){
-        		$.each(result.newsList, function (index, item) {
-            		list+=``;
-                });//each 종료
+        		//$.each(result.newsList, function (index, item) {}); //each 종료
+        		
+        		list+=`
+					<div style="width:100%; height: 100%; display:flex; justify-content:center; align-items: center;">
+						<span>새 소식이 없습니다.</span>
+					</div>
+        		`;
         	}
         	else if(menu==="my_post"){
-        		$.each(result.postList, function (index, item) {
-            		list+=``;
-                });//each 종료
-        	}
+        		//게시글이 5개 이하인 경우 페이징이 없음
+        		if(result.paging.count<=5){
+        			list+=`<main style="width: 100%; height: 100%;">`;
+            		$.each(result.postList, function (index, item) {
+                		list+=`
+                			<div class="line flex_center_center">
+                				<div class="title"><a href="/blog/${id}/{item.no}">${item.title}</a></div>
+                				<div class="signdate">${item.signdate}</div>
+                			</div>
+                		`;
+                    });//each 종료
+            		list+=`</main>`;
+        		}//count if 종료
+        		else if(result.paging.count>5){
+        			list+=`<main style="width: 100%; height: 85%;">`;
+            		$.each(result.postList, function (index, item) {
+                		list+=`
+                			<div class="line flex_center_center">
+                				<div class="title"><a href="/blog/${id}/{item.no}">${item.title}</a></div>
+                				<div class="signdate">${item.signdate}</div>
+                			</div>
+                		`;
+                    });//each 종료
+            		list+=`</main>`;
+            		
+            		list+=`
+            			<footer id="show_info_paging">
+            				<div id="show_info_post_left" class="" page="0" onclick="main_menu_paging_post_left('${id}', ${result.paging.page_total})">
+            					<i class="fas fa-angle-left" aria-hidden="true"></i>
+        					</div>
+            				<div id="show_info_post_right" class="active" page="2" onclick="main_menu_paging_post_right('${id}', ${result.paging.page_total})">
+            					<i class="fas fa-angle-right" aria-hidden="true"></i>
+        					</div>
+            			</footer>
+        			`;
+        		} //count if 종료
+        	}//menu if 종료
         	else if(menu==="my_neighbor"){
-            	$.each(result.neighborList, function (index, item) {
-            		list+=``;
-                });//each 종료
-        	}
-            $('#info_area>#my_menu>#show_info').html(postList);
+        		//이웃이 9명 이하인 경우 페이징이 없음
+        		if(result.paging.count<=9){
+        			list+=`<main style="width: 100%; height: 100%; display: grid; grid-template-rows: repeat(3, 1fr); grid-template-columns: repeat(3, 1fr); padding: 5px; gap: 5px; box-sizing: border-box;">`;
+            		$.each(result.neighborList, function (index, item) {
+                		list+=`
+                			<div class="neighbor">
+                				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
+								<footer>
+									<span>십번</span>
+								</footer>
+                			</div>
+                		`;
+                    });//each 종료
+            		list+=`</main>`;
+        		}//count if 종료
+        		else if(result.paging.count>5){
+        			list+=`<main style="width: 100%; height: 85%; display: grid; grid-template-rows: repeat(3, 1fr); grid-template-columns: repeat(3, 1fr); padding: 5px; gap: 5px; box-sizing: border-box;">`;
+            		$.each(result.neighborList, function (index, item) {
+                		list+=`
+                			<div class="neighbor">
+                				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
+								<footer>
+									<span>십번</span>
+								</footer>
+                			</div>
+                		`;
+                    });//each 종료
+            		list+=`</main>`;
+            		
+            		list+=`
+            			<footer id="show_info_paging">
+            				<div id="show_info_neighbor_left" class="" page="0" onclick="main_menu_paging_neighbor_left('${id}', ${result.paging.page_total})">
+            					<i class="fas fa-angle-left" aria-hidden="true"></i>
+        					</div>
+            				<div id="show_info_neighbor_right" class="active" page="2" onclick="main_menu_paging_neighbor_right('${id}', ${result.paging.page_total})">
+            					<i class="fas fa-angle-right" aria-hidden="true"></i>
+        					</div>
+            			</footer>
+        			`;
+        		} //count if 종료
+        	} //menu if 종료
+        	
+            $('#info_area>#my_menu>#show_info').html(list);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 블로그 메인 - 내 메뉴 - 내 게시글 - 좌측 */
+function main_menu_paging_post_left(blogUserID, total_page){
+	var page = parseInt($(event.target).attr("page"));
+	
+	var start=page; //변경될 값
+	
+	//제약조건 설정
+	if($(event.target).hasClass('active') === true && page >= 1){
+		//화면 변경
+		main_menu_paging_post_ajax(blogUserID, page);
+		
+		//css 변경
+		if(page === 1){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_left').removeClass('active');
+		}
+		else if(page !== 1){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_left').addClass('active');
+		}
+		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_right').addClass('active');
+	}
+}
+
+/* 블로그 메인 - 내 메뉴 - 내 게시글 - 우측 */
+function main_menu_paging_post_right(blogUserID, total_page){
+	var page = parseInt($(event.target).attr("page"));
+	
+	var start=page; //변경될 값
+	
+	//제약조건 설정
+	if($(event.target).hasClass('active') === true && page <= total_page){
+		//화면 변경
+		main_menu_paging_post_ajax(blogUserID, page);
+		
+		//css 변경
+		if(page === total_page){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_right').removeClass('active');
+		}
+		else if (page !== total_page){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_right').addClass('active');
+		}
+		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_left').addClass('active');
+	}
+}
+
+/* 블로그 메인 - 내 메뉴 - 내 게시글 - ajax */
+function main_menu_paging_post_ajax(blogUserID, page){
+	var start=page; //변경될 값
+	
+	//MariaDB에 대해서 limit에 사용할 값 설정
+	start-=1; //MariaDB 특성 - 0부터 시작
+	start*=5; //한 페이지당 5개씩 표출, SQL에 추가
+	
+	//Ajax로 전달할 값 설정
+	var data = {
+		start: parseInt(start),
+	    userID : blogUserID,
+	    menu: "my_post"
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/menu/Ajax",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var postList="";
+        	$.each(result.postList, function (index, item) {
+        		postList+=`
+        			<div class="line flex_center_center">
+        				<div class="title"><a href="/blog/${blogUserID}/{item.no}">${item.title}</a></div>
+        				<div class="signdate">${item.signdate}</div>
+        			</div>
+        		`;
+            });//each 종료
+        	
+            $('#info_area>#my_menu>#show_info>main').html(postList);
+            
+    		//page 속성 변경
+    		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_left').attr('page', page-1);
+    		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_post_right').attr('page', page+1);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 블로그 메인 - 내 메뉴 - 내 이웃 - 좌측 */
+function main_menu_paging_neighbor_left(blogUserID, total_page){
+	var page = parseInt($(event.target).attr("page"));
+	
+	var start=page; //변경될 값
+	
+	//제약조건 설정
+	if($(event.target).hasClass('active') === true && page >= 1){
+		//화면 변경
+		main_menu_paging_neighbor_ajax(blogUserID, page);
+		
+		//css 변경
+		if(page === 1){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_left').removeClass('active');
+		}
+		else if(page !== 1){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_left').addClass('active');
+		}
+		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_right').addClass('active');
+	}
+}
+
+/* 블로그 메인 - 내 메뉴 - 내 이웃 - 우측 */
+function main_menu_paging_neighbor_right(blogUserID, total_page){
+	var page = parseInt($(event.target).attr("page"));
+	
+	var start=page; //변경될 값
+	
+	//제약조건 설정
+	if($(event.target).hasClass('active') === true && page <= total_page){
+		//화면 변경
+		main_menu_paging_neighbor_ajax(blogUserID, page);
+		
+		//css 변경
+		if(page === total_page){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_right').removeClass('active');
+		}
+		else if (page !== total_page){
+			$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_right').addClass('active');
+		}
+		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_left').addClass('active');
+	}
+}
+
+/* 블로그 메인 - 내 메뉴 - 내 이웃 - ajax */
+function main_menu_paging_neighbor_ajax(blogUserID, page){
+	var start=page; //변경될 값
+	
+	//MariaDB에 대해서 limit에 사용할 값 설정
+	start-=1; //MariaDB 특성 - 0부터 시작
+	start*=5; //한 페이지당 5개씩 표출, SQL에 추가
+	
+	//Ajax로 전달할 값 설정
+	var data = {
+		start: parseInt(start),
+	    userID : blogUserID,
+	    menu: "my_neighbor"
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/menu/Ajax",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var neighborList="";
+        	$.each(result.neighborList, function (index, item) {
+        		neighborList+=`
+        			<div class="neighbor">
+        				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
+						<footer>
+							<span>${item.nickname}</span>
+						</footer>
+        			</div>
+        		`;
+            });//each 종료
+        	
+            $('#info_area>#my_menu>#show_info>main').html(neighborList);
+            
+    		//page 속성 변경
+    		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_left').attr('page', page-1);
+    		$('#info_area>#my_menu>#show_info>#show_info_paging>#show_info_neighbor_right').attr('page', page+1);
         },
         error: function(error){
             alert("오류 발생");
@@ -457,7 +715,7 @@ function paging_neighbor_ajax(start, userID){
         	$.each(result.neighborList, function (index, item) {
         		neighborList+=
                `<div neighborID="${item.target}">
-					<main neighborID="${item.target}">
+					<main onclick="go_user_blog('${item.target}')">
 						이미지 영역
 					</main>
 					<footer>
@@ -805,7 +1063,7 @@ function write_submit(text, id, userNickName, no){
         contentType: "application/json",
         success: function(result){
         	alert("게시글이 정상적으로 " + text + "되었습니다.");
-        	location.href="/blog/"+$("#myID").val();
+        	location.href="/blog/"+id;
         },
         error: function(error){
             alert("오류 발생");

@@ -296,19 +296,22 @@ function blog_main_category_click(category){
 }
 
 //블로그 메인에서 내 메뉴 클릭 //임시/ 만들 예정
-function blog_main_my_menu_my_post(id, menu){
+function blog_main_my_menu(id, menu){
 	//강조 변경
 	$('#my_menu>#third>div').removeClass('active');
 	$('#my_menu>#third>div#'+menu).addClass('active');
 	
 	var data = {
-		id: id,
-		menu: menu
+		userID: id,
+		menu: menu,
+		start: 0,
+		block: 5,
+		category: ""
     };
 	
 	//내용 변경 + 주소변경 (임시 주석)
 	$.ajax({
-        url: "/blog/menu/Ajax/",
+        url: "/blog/menu/Ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -316,21 +319,47 @@ function blog_main_my_menu_my_post(id, menu){
         	var list="";
         	
         	if(menu==="my_news"){
-        		$.each(result.newsList, function (index, item) {
-            		list+=``;
-                });//each 종료
+        		//$.each(result.newsList, function (index, item) {}); //each 종료
+        		
+        		list+=`
+					<div style="width:100%; height: 100%; display:flex; justify-content:center; align-items: center;">
+						<span>새 소식이 없습니다.</span>
+					</div>
+        		`;
         	}
         	else if(menu==="my_post"){
-        		$.each(result.postList, function (index, item) {
-            		list+=``;
-                });//each 종료
-        	}
+        		console.log(result.paging.count);
+        		
+        		//게시글이 5개밖에 없는 경우 페이징이 없음
+        		if(result.paging.count<=5){
+            		$.each(result.postList, function (index, item) {
+                		list+=`
+                			<div class="line_under5 flex_center_center">
+                				<div class="title">${item.title}</div>
+                				<div class="signdate">${item.signdate}</div>
+                			</div>
+                		`;
+                    });//each 종료
+        		}//count if 종료
+        		else if(result.paging.count>5){
+            		$.each(result.postList, function (index, item) {
+                		list+=`
+                			<div class="line flex_center_center">
+                				<div class="title">${item.title}</div>
+                				<div class="signdate">${item.signdate}</div>
+                			</div>
+                		`;
+                    });//each 종료
+            		
+            		list+='<footer id="show_info_paging">페이징</footer>'
+        		} //count if 종료
+        	}//menu if 종료
         	else if(menu==="my_neighbor"){
             	$.each(result.neighborList, function (index, item) {
             		list+=``;
                 });//each 종료
         	}
-            $('#info_area>#my_menu>#show_info').html(postList);
+            $('#info_area>#my_menu>#show_info').html(list);
         },
         error: function(error){
             alert("오류 발생");
@@ -889,7 +918,7 @@ function write_comment(id, no, nickname){
         		
 			   commentList+=`
 					</header>
-					<main><p>${item.content}</p></main>
+					<main>${item.content}</main>
 					<footer>${item.signdate}</footer>
 				</div>
         		`;
@@ -941,13 +970,13 @@ function update_comment_active(id){
 /* 댓글 수정 */
 function update_comment(id, no){
 	var content = $(".personal_post>.post_comment_hidden>.comment[no="+no+"]>main>.update_comment_content").val();
-	console.log(1);console.log("내용 : "+content);console.log(2);
+	
 	var data = {
 		userID : id,
 		no : no,
 		content : content
 	};
-	console.log(3);
+	
 	$.ajax({
         url: "/blog/comment/update",
         type: "POST",
@@ -1007,7 +1036,7 @@ function delete_comment(id){
         success: function(result){
         	modal_cancle();
         	$(".personal_post>.post_comment_hidden>.comment[no="+no+"]").css('display', 'none');
-        	alert("뎃글이 정상적으로 삭제되었습니다.");
+        	alert("댓글이 정상적으로 삭제되었습니다.");
         },
         error: function(error){
             alert("오류 발생");

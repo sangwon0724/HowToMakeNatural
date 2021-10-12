@@ -143,7 +143,7 @@
 							<header>
 								<span>이웃 목록</span>
 							</header>
-							<main>
+							<main<c:if test='${empty neighborList or neighborList eq ""}'> style="border-bottom:none;"</c:if>>
 								<c:if test='${neighborList == null or neighborList == ""}'>
 									<span>이웃이 없습니다.</span>
 								</c:if>
@@ -160,7 +160,7 @@
 									</c:forEach>
 								</c:if>
 							</main>
-							<footer class="flex_center_center">
+							<footer class="<c:if test='${empty neighborList or neighborList eq ""}'>hidden</c:if><c:if test='${not empty neighborList and neighborList ne ""}'>hidden</c:if>">
 								<div id="neighbor_page_left" class="flex_center_center disabled" onclick="paging_neighbor_left(${neighbor_page_total},'${userInfo.id}')" page="0">
 									<i class="fas fa-chevron-left" aria-hidden="true"></i>
 								</div>

@@ -147,7 +147,9 @@
 					<div id="my_neighbor" onclick="blog_main_my_menu('${sessionScope.user.id}','my_neighbor')">내 이웃</div>
 				</div>
 				<div id="show_info">
-					정보가 보여질 부분
+					<div style="width:100%; height: 100%; display:flex; justify-content:center; align-items: center;">
+						<span>새 소식이 없습니다.</span>
+					</div>
 				</div>
 			</div>
 			</c:if>

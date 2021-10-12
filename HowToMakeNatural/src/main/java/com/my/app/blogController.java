@@ -122,6 +122,42 @@ public class blogController {
 	    return result;
 	}
 	
+	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
+	@ResponseBody
+	@RequestMapping(value = "/blog/menu/Ajax", method = RequestMethod.POST)
+	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+		
+		System.out.println("Ajax 요청 - 개인 메뉴 : " + map.get("menu"));
+		
+		
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		Map<String, Object> pagingSetting = new HashMap<String, Object>(); //페이징용
+		
+		switch (map.get("menu").toString()) {
+		case "my_news":
+			break;
+		case "my_post":
+			//개인 게시글 긁어오기
+			List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 10개
+			result.put("postList", postList);
+			
+			//페이징 정보
+			pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정
+			result.put("paging", pagingSetting); //페이징 정보 설정
+			break;
+		case "my_neighbor":
+			List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map);
+			result.put("neighborList", neighborList);
+			
+			//페이징 정보
+			pagingSetting=paging.settingPaging("blog_neighbor", neighborList.get(0), 9); //페이징 설정
+			result.put("paging", pagingSetting); //페이징 정보 설정
+			break;
+		}
+		
+	    return result;
+	}
+	
 	//============================================= 블로그 메인 영역 종료 =====================================================================
 	//============================================= 개인 블로그 영역 시작 =====================================================================
 	
@@ -465,33 +501,4 @@ public class blogController {
 		return a;
 	}
 	//============================================= 개인 블로그 영역 종료 =====================================================================
-	//============================================= 블로그 공통 영역 시작 =====================================================================
-	
-	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
-	@ResponseBody
-	@RequestMapping(value = "/blog/menu/Ajax", method = RequestMethod.POST)
-	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
-		
-		System.out.println("Ajax 요청 - 개인 메뉴 : " + map.get("menu"));
-		
-		List<HashMap<String, Object>> neighborList;
-		Map<String, Object> result = new HashMap<String, Object>(); //반환용
-		
-		switch (map.get("menu").toString()) {
-		case "my_news":
-			
-			break;
-		case "my_post":
-			
-			break;
-		case "my_neighbor":
-			neighborList=blogService.selectnNeighbor(map);
-			result.put("neighborList", neighborList);
-			break;
-		}
-		
-	    return result;
-	}
-	
-	//============================================= 블로그 공통 영역 종료 =====================================================================
 }
