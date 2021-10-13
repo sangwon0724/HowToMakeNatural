@@ -115,7 +115,7 @@
 									<span onclick="location.href='/blog/${sessionScope.user.id}/write'"><i class="fas fa-pen"></i>&nbsp;글쓰기</span>
 									<span><i class="fas fa-cog"></i>&nbsp;관리</span>
 								</c:if>
-								<c:if test="${empty sessionScope.user.id or sessionScope.user.id ne userInfo.id}">
+								<c:if test="${empty sessionScope.user.id or neighborCheck == 0}">
 									<div class="flex_center_center">
 										<span>이웃 추가</span>
 										<i class="fas fa-plus"></i>
@@ -158,7 +158,7 @@
 									</c:forEach>
 								</c:if>
 							</main>
-							<footer class="<c:if test='${empty neighborList or neighborList eq ""}'>hidden</c:if><c:if test='${not empty neighborList and neighborList ne ""}'>hidden</c:if>">
+							<footer class="<c:if test='${empty neighborList or neighborList eq ""}'>hidden</c:if><c:if test='${not empty neighborList and neighborList ne ""}'>flex_center_center</c:if>">
 								<div id="neighbor_page_left" class="flex_center_center disabled" onclick="paging_neighbor_left(${neighbor_page_total},'${userInfo.id}')" page="0">
 									<i class="fas fa-chevron-left" aria-hidden="true"></i>
 								</div>

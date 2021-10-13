@@ -18,7 +18,7 @@
       			count(title) OVER(PARTITION BY 1) count, no, 
       			title, content, category, tag, 
       			DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate, userID, (SELECT blog_nickname FROM user WHERE id=b.userID) userNickName, 
-      			 (SELECT count(no) FROM blog_comment WHERE post_no=b.no) commentCount
+      			 (SELECT count(no) FROM blog_comment WHERE post_no=b.no and useYN ='Y') commentCount
       		FROM blog_post b
       		<if test='userID != null and userID != ""'>
 				where userID=#{userID}
@@ -44,13 +44,15 @@
  				</if>
 				<if test='object != null and object != ""'>
 					<if test='object =="post"'>
-						where title like '%${search}%' or content like '%${search}%' and useYN ='Y'
+						<![CDATA[
+							where (REGEXP_REPLACE(title, '<[^>]*>|\&([^;])*;', '') LIKE '%${search}%' or REGEXP_REPLACE(content, '<[^>]*>|\&([^;])*;', '') LIKE '%${search}%') and useYN ='Y'
+	 					]]>
 	 				</if>
 					<if test='object =="theme"'>
-						where category like '%${search}%' or tag like '%${search}%' and useYN ='Y'
+						where (category like '%${search}%' or tag like '%${search}%') and useYN ='Y'
 	 				</if>
 					<if test='object =="writer"'>
-						where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y'
+						where (userID like '%${search}%' or userNickName like '%${search}%') and useYN ='Y'
 	 				</if>
  				</if>
 				<if test='(category == null or category == "") and (object == null or object == "")'>
@@ -122,5 +124,8 @@
     <!-- 이웃목록 검색 -->
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
     	select count(target) OVER(PARTITION BY 1) count, target, nickname from blog_neighbor where id = #{userID} order by no limit ${start},9
+    </select>
+    <select id="checkMyNeighbor" parameterType="hashmap" resultType="integer">
+    	select IFNULL(count(target) OVER(PARTITION BY 1), 0) count from blog_neighbor where id = #{userID} and target = #{target}
     </select>
 </mapper>

@@ -125,4 +125,7 @@
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
     	select count(target) OVER(PARTITION BY 1) count, target, nickname from blog_neighbor where id = #{userID} order by no limit ${start},9
     </select>
+    <select id="checkMyNeighbor" parameterType="hashmap" resultType="integer">
+    	select IFNULL(count(target), 0) count from blog_neighbor where id = #{userID} and target = #{target}
+    </select>
 </mapper>

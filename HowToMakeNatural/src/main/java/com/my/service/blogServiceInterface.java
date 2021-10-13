@@ -9,7 +9,8 @@ public interface blogServiceInterface {
 	public List<HashMap<String, Object>> selectPost(Map<String, Object> map) throws Exception;
 	public List<HashMap<String, Object>> selectComment(Map<String, Object> map) throws Exception;
 	public List<HashMap<String, Object>> selectCategory(Map<String, Object> map) throws Exception;
-	public List<HashMap<String, Object>> selectnNeighbor(Map<String, Object> map) throws Exception;
+	public List<HashMap<String, Object>> selectNeighbor(Map<String, Object> map) throws Exception;
+	public int checkMyNeighbor(Map<String, Object> map) throws Exception;
 	
 	//insert
 	public void insertPost(Map<String, Object> map) throws Exception;

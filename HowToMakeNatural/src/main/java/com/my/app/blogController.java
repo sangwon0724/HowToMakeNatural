@@ -166,7 +166,7 @@ public class blogController {
 			}
 			break;
 		case "my_neighbor":
-			List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map);
+			List<HashMap<String, Object>> neighborList=blogService.selectNeighbor(map);
 			result.put("neighborList", neighborList);
 			
 			//페이징 정보
@@ -190,7 +190,7 @@ public class blogController {
 	
 	/* 개인 블로그 - 방문하기 */
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
-	public String getPersonalBlog(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, Model model) throws Exception {
+	public String getPersonalBlog(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, Model model, HttpServletRequest request) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
@@ -212,7 +212,7 @@ public class blogController {
 		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //카테고리 목록
 		
 		//이웃목록 긁어오기
-		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
+		List<HashMap<String, Object>> neighborList=blogService.selectNeighbor(map); //이웃 9명
 		
 		//단일 게시글 정보
 		HashMap<String, Object> onePost=null;
@@ -234,6 +234,15 @@ public class blogController {
 		model.addAttribute("commentList", commentList); //댓글 목록
 		model.addAttribute("mode", "view"); //게시글 모드
 		
+		if(request.getSession().getAttribute("user") != null && request.getSession().getAttribute("user") != "") {
+			userVO user = (userVO) request.getSession().getAttribute("user");
+			Map<String, Object> temp = new HashMap<String, Object>();
+			temp.put("userID", user.getId());
+			temp.put("target", userID);
+			int check = blogService.checkMyNeighbor(temp);
+			model.addAttribute("neighborCheck", check);
+		}
+		
 		//페이징 정보
 		if(!postList.isEmpty()) {
 			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", onePost, 5); //페이징 설정
@@ -245,7 +254,7 @@ public class blogController {
 	
 	/* 개인 블로그 - 게시글 한 개만 보기 */
 	@RequestMapping(value = "/blog/{userID}/{no}", method = RequestMethod.GET)
-	public String getPersonalPostView(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+	public String getPersonalPostView(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, @PathVariable int no, Model model, HttpServletRequest request) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		
@@ -266,7 +275,7 @@ public class blogController {
 		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //카테고리 목록
 		
 		//이웃목록 긁어오기
-		List<HashMap<String, Object>> neighborList=blogService.selectnNeighbor(map); //이웃 9명
+		List<HashMap<String, Object>> neighborList=blogService.selectNeighbor(map); //이웃 9명
 		
 		model.addAttribute("postList", postList); //게시글 목록 등록
 		model.addAttribute("userInfo", userInfo); //블로그 유조애 대한 정보 등록
@@ -283,6 +292,15 @@ public class blogController {
 		//댓글 가져오기
 		List<HashMap<String, Object>> commentList = blogService.selectComment(onePost);
 		model.addAttribute("commentList", commentList); //댓글 목록
+
+		if(request.getSession().getAttribute("user") != null && request.getSession().getAttribute("user") != "") {
+			userVO user = (userVO) request.getSession().getAttribute("user");
+			Map<String, Object> temp = new HashMap<String, Object>();
+			temp.put("userID", user.getId());
+			temp.put("target", userID);
+			int check = blogService.checkMyNeighbor(temp);
+			model.addAttribute("neighborCheck", check);
+		}
 		
 		//페이징 정보
 		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정

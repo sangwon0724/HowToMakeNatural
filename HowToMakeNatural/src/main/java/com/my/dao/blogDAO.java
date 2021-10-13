@@ -33,9 +33,17 @@ public class blogDAO implements blogDAOInterface {
 
 	/* 이웃 검색 */
 	@Override
-	public List<HashMap<String, Object>> selectnNeighbor(Map<String, Object> map) throws Exception {
+	public List<HashMap<String, Object>> selectNeighbor(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList("blogMapper.selectNeighbor", map);
 	}
+	
+	/* 이웃 여부 확인 */
+	@Override
+	public int checkMyNeighbor(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne("blogMapper.checkMyNeighbor", map);
+	};
+	
+	
 	
 	//게시글 추가
 	@Override
@@ -48,6 +56,9 @@ public class blogDAO implements blogDAOInterface {
 	public void insertComment(Map<String, Object> map) throws Exception {
 		sqlSession.insert("blogMapper.insertComment", map);
 	}
+	
+	
+	
 
 	//게시글 수정
 	@Override
@@ -60,6 +71,9 @@ public class blogDAO implements blogDAOInterface {
 	public void updateComment(Map<String, Object> map) throws Exception{
 		sqlSession.update("blogMapper.updateComment", map);
 	};
+	
+	
+	
 
 	//게시글 삭제
 	@Override
@@ -71,5 +85,6 @@ public class blogDAO implements blogDAOInterface {
 	@Override
 	public void deleteComment(Map<String, Object> map) throws Exception{
 		sqlSession.update("blogMapper.deleteComment", map);
-	};
+	}
+
 }

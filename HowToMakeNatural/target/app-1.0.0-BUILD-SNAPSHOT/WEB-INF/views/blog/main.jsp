@@ -92,7 +92,7 @@
 							<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</a></div>
 							<div class="post_goodAndComment">
 								<span>좋아요 0</span>
-								<span>댓글 0</span>
+								<span>댓글 ${post.commentCount}</span>
 							</div>
 						</div>
 						
@@ -109,11 +109,23 @@
 			    </c:forEach>
     		</main>
 			<!-- 게시글 목록 종료 -->
+			<c:if test="${paging.page_total gt 1}">
 			<!-- 게시글 페이징 시작 -->
-			<footer id="paging">
-				페이징 부분
+			<footer id="main_paging" class="flex_center_center">
+				<c:if test="${paging.block_total gt 1 and paging.block_current gt 1}">
+						<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="main_post_paging(${status.current},'', 'left')"><i class="fas fa-angle-left"></i></div>
+				</c:if>
+				<c:forEach var="index" varStatus="status" begin="${(paging.block_current-1)*10+1}" end="${(paging.block_current-1)*10+10}">
+					<c:if test="${status.current le paging.page_total}">
+						<div class="post_list_paging_number flex_center_center<c:if test="${status.current == paging.page_current}"> active</c:if>" page="${status.current}" onclick="main_post_paging(${status.current},'', 'number')"><span>${status.current}</span></div>
+					</c:if>
+				</c:forEach>
+				<c:if test="${paging.block_total gt 1 and paging.block_current lt paging.block_total}">
+						<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="main_post_paging(${status.current},'', 'right')"><i class="fas fa-angle-right"></i></div>
+				</c:if>
 			</footer>
 			<!-- 게시글 페이징 종료 -->
+			</c:if>
 		</section>
 		<section id="info_area">
 			<!-- 로그인을 하지 않았을 경우에 보일 부분 시작 -->

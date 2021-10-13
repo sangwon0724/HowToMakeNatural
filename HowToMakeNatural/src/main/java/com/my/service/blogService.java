@@ -34,9 +34,15 @@ public class blogService implements blogServiceInterface {
 	
 	/* 이웃 검색 */
 	@Override
-	public List<HashMap<String, Object>> selectnNeighbor(Map<String, Object> map) throws Exception {
-		return dao.selectnNeighbor(map);
+	public List<HashMap<String, Object>> selectNeighbor(Map<String, Object> map) throws Exception {
+		return dao.selectNeighbor(map);
 	}
+	
+	/* 이웃 여부 확인 */
+	@Override
+	public int checkMyNeighbor(Map<String, Object> map) throws Exception {
+		return dao.checkMyNeighbor(map);
+	};
 
 	
 	
@@ -80,5 +86,5 @@ public class blogService implements blogServiceInterface {
 	@Override
 	public void deleteComment(Map<String, Object> map) throws Exception{
 		dao.deleteComment(map);
-	};
+	}
 }
