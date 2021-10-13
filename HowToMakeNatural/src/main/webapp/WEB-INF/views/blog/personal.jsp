@@ -115,7 +115,7 @@
 									<span onclick="location.href='/blog/${sessionScope.user.id}/write'"><i class="fas fa-pen"></i>&nbsp;글쓰기</span>
 									<span><i class="fas fa-cog"></i>&nbsp;관리</span>
 								</c:if>
-								<c:if test="${empty sessionScope.user.id or neighborCheck == 0}">
+								<c:if test="${(empty sessionScope.user.id or neighborCheck == 0) and sessionScope.user.id ne userInfo.id}">
 									<div class="flex_center_center">
 										<span>이웃 추가</span>
 										<i class="fas fa-plus"></i>

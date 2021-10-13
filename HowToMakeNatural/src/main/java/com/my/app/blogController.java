@@ -36,7 +36,6 @@ import com.my.vo.userVO;
 public class blogController {
 	//==========할 일 목록==========
 	//12. 블로그 메인에 대한 사진 작업
-	//17. url 인터셉터 추가 (write, update, delete) , 실험 : ajax (이유 : menu)
 	//18. 프로필 변경 기능 추가 (닉네임, 소개글, 사진, 배경)
 	//19. 블로그 꾸미기 기능 추가 (엘리멘트 배치, 위젯 설정)
 	
@@ -70,6 +69,10 @@ public class blogController {
 	//15-1. 글 리스트 가져오기
 	//15-2. 글 리스트에서 다른 페이지의 게시글 클릭시 이동후 해당 게시글의 페이지를 보여주기 (ajax)
 	//16. view 관련해서 태그 추가
+	//17. url 인터셉터 추가 (write, update, delete, ajax)
+	
+	//========== 배운 점 ==========
+	//1. 인터셉터로 ajax에 대한 url을 막으면 ajax가 실행되지 않는다.
 	
 	@Autowired
     private SqlSession sqlSession;

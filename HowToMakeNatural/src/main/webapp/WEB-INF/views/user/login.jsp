@@ -21,6 +21,15 @@
 			<div class="submitButton" onclick="login_submit()">로그인</div>
 		</form>
 		
+		<c:if test="${sessionScope.result eq 'need'}">
+			<script>
+				setTimeout("timer_alert()", 500);
+				function timer_alert(){
+					alert("로그인이 필요한 서비스 입니다.");
+				}
+			</script>
+		</c:if>
+		
 		<script>
 		function login_submit(){
 			var id = login__form.id.value;
