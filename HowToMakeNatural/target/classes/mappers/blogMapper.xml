@@ -49,10 +49,10 @@
 	 					]]>
 	 				</if>
 					<if test='object =="theme"'>
-						where category like '%${search}%' or tag like '%${search}%' and useYN ='Y'
+						where (category like '%${search}%' or tag like '%${search}%') and useYN ='Y'
 	 				</if>
 					<if test='object =="writer"'>
-						where userID like '%${search}%' or userNickName like '%${search}%' and useYN ='Y'
+						where (userID like '%${search}%' or userNickName like '%${search}%') and useYN ='Y'
 	 				</if>
  				</if>
 				<if test='(category == null or category == "") and (object == null or object == "")'>

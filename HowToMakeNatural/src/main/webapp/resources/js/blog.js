@@ -82,6 +82,9 @@ function main_search(){
       search : $('#search_text').val()
 	};
 	
+	var object = $('#search_object').val();
+    var search = $('#search_text').val();
+	
 	//게시글 변경
 	$.ajax({
       url: "/blog/main/Ajax",
@@ -106,7 +109,7 @@ function main_search(){
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
 					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
-						<span>좋아요 0</span>
+						<span>좋아요 ${item.commentCount}</span>
 						<span>댓글 0</span>
 					</div>
 				</div>
@@ -114,6 +117,37 @@ function main_search(){
 			</div>`;
           });//each 종료
           $('#board').html(postList);
+
+          //페이징 부분 변경
+          var pagingList="";
+          
+          if(result.paging !== undefined && result.paging.page_total > 1){
+          	if(result.paging.block_total > 1 && result.paging.block_current > 1){
+          		pagingList += `
+          			<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="main_post_paging(${(result.paging.block_current-1)*10},'', 'left', '${object}', '${search}')"><i class="fas fa-angle-left"></i></div>
+          		`;
+          	}
+          	
+          	var paging_start = (result.paging.block_current-1)*10+1; //반복문 시작 값
+          	var paging_end = (result.paging.block_current-1)*10+10; //반복문 종료 값
+          	
+          	for(var index=paging_start; index<=paging_end; index++){
+          		if(index <= result.paging.page_total){
+          			pagingList +=`<div class="post_list_paging_number flex_center_center`;
+          			
+          			if(index === result.paging.page_current){ pagingList += ` active`;}
+          			
+          			pagingList +=`" page="${index}" onclick="main_post_paging(${index},'', 'number', '${object}', '${search}')"><span>${index}</span></div>`;
+          		}
+          	} //for 종료
+          	
+          	if(result.paging.block_total > 1 && result.paging.block_current < result.paging.block_total){
+          		pagingList += `
+          			<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="main_post_paging(${(result.paging.block_current+1)*10+1},'', 'right', '${object}', '${search}')"><i class="fas fa-angle-right"></i></div>
+          		`;
+          	}
+          }
+          $('#main_paging').html(pagingList);
       },
       error: function(error){
           alert("오류 발생");
@@ -203,6 +237,9 @@ function blog_main_search_category_click(category){
       search : $('#search_text').val()
 	};
 	
+	var object = category;
+	var search = $('#search_text').val();
+	
 	//게시글 변경
 	$.ajax({
       url: "/blog/main/Ajax",
@@ -235,6 +272,37 @@ function blog_main_search_category_click(category){
 			</div>`;
           });//each 종료
           $('#board').html(postList);
+
+          //페이징 부분 변경
+          var pagingList="";
+          
+          if(result.paging !== undefined && result.paging.page_total > 1){
+          	if(result.paging.block_total > 1 && result.paging.block_current > 1){
+          		pagingList += `
+          			<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="main_post_paging(${(result.paging.block_current-1)*10},'', 'left', '${object}', '${search}')"><i class="fas fa-angle-left"></i></div>
+          		`;
+          	}
+          	
+          	var paging_start = (result.paging.block_current-1)*10+1; //반복문 시작 값
+          	var paging_end = (result.paging.block_current-1)*10+10; //반복문 종료 값
+          	
+          	for(var index=paging_start; index<=paging_end; index++){
+          		if(index <= result.paging.page_total){
+          			pagingList +=`<div class="post_list_paging_number flex_center_center`;
+          			
+          			if(index === result.paging.page_current){ pagingList += ` active`;}
+          			
+          			pagingList +=`" page="${index}" onclick="main_post_paging(${index},'', 'number', '${object}', '${search}')"><span>${index}</span></div>`;
+          		}
+          	} //for 종료
+          	
+          	if(result.paging.block_total > 1 && result.paging.block_current < result.paging.block_total){
+          		pagingList += `
+          			<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="main_post_paging(${(result.paging.block_current+1)*10+1},'', 'right', '${object}', '${search}')"><i class="fas fa-angle-right"></i></div>
+          		`;
+          	}
+          }
+          $('#main_paging').html(pagingList);
       },
       error: function(error){
           alert("오류 발생");
@@ -287,13 +355,13 @@ function blog_main_category_click(category){
 			</div>`;
             });//each 종료
             $('#board').html(postList);
-            console.log
+            
             //페이징 부분 변경
             var pagingList="";
-            if(result.paging.page_total > 1){
+            if(result.paging !== undefined && result.paging.page_total > 1){
             	if(result.paging.block_total > 1 && result.paging.block_current > 1){
             		pagingList += `
-            			<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="main_post_paging(${status.current},'${category}', 'left')"><i class="fas fa-angle-left"></i></div>
+            			<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="main_post_paging(${(result.paging.block_current-1)*10},'${category}', 'left')"><i class="fas fa-angle-left"></i></div>
             		`;
             	}
             	
@@ -312,7 +380,7 @@ function blog_main_category_click(category){
             	
             	if(result.paging.block_total > 1 && result.paging.block_current < result.paging.block_total){
             		pagingList += `
-            			<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="main_post_paging(${status.current},'${category}', 'right')"><i class="fas fa-angle-right"></i></div>
+            			<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="main_post_paging(${(result.paging.block_current+1)*10+1},'${category}', 'right')"><i class="fas fa-angle-right"></i></div>
             		`;
             	}
             }
@@ -325,7 +393,7 @@ function blog_main_category_click(category){
     });
 }
 
-//블로그 메인에서 내 메뉴 클릭 //임시/ 만들 예정
+//블로그 메인에서 내 메뉴 클릭
 function blog_main_my_menu(id, menu){
 	//강조 변경
 	$('#my_menu>#third>div').removeClass('active');
@@ -339,7 +407,6 @@ function blog_main_my_menu(id, menu){
 		category: ""
     };
 	
-	//내용 변경 + 주소변경 (임시 주석)
 	$.ajax({
         url: "/blog/menu/Ajax",
         type: "POST",
@@ -440,7 +507,6 @@ function blog_main_my_menu(id, menu){
         			`;
         		} //count if 종료
         		else if(result.paging.count === 0){
-        			console.log(333);
         			list+=`<main style="width: 100%; height: 100%;" class="flex_center_center"><span>이웃이 존재하지 않습니다.</span></main>`;
         		}//count if 종료
         	} //menu if 종료
@@ -635,7 +701,7 @@ function main_menu_paging_neighbor_ajax(blogUserID, page){
 }
 
 //블로그 메인 게시글에 대한 페이징
-function main_post_paging(page, category, mode){
+function main_post_paging(page, category, mode, object, search){
 	var start=page; //변경될 값
 
 	//1. 이전 목록
@@ -660,12 +726,14 @@ function main_post_paging(page, category, mode){
 		    block: 10
 	    };
 		
-		/*if(type === "search"){
-			data.search = value;
+		if(object !== "" && object !== null){
+			data.object = object;
+			data.category="";
 		}
-		else if(type === "tag"){
-			data.tag = value;
-		}*/
+		if(search !== "" && search !== null){
+			data.search = search;
+			data.category="";
+		}
 		
 		//게시글 변경
 		$.ajax({
