@@ -102,6 +102,12 @@ public class blogController {
 		
 		model.addAttribute("postList", postList);
 		
+		//페이징 정보
+		if(!postList.isEmpty()) {
+			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
+			model.addAttribute("paging", pagingSetting); //페이징 정보 설정
+		}
+		
 	    return "/blog/main";
 	}
 	
@@ -118,6 +124,13 @@ public class blogController {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("postList", postList);
+
+		
+		//페이징 정보
+		if(!postList.isEmpty()) {
+			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
+			result.put("paging", pagingSetting); //페이징 정보 설정
+		}
 		
 	    return result;
 	}
@@ -128,7 +141,6 @@ public class blogController {
 	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("Ajax 요청 - 개인 메뉴 : " + map.get("menu"));
-		
 		
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		Map<String, Object> pagingSetting = new HashMap<String, Object>(); //페이징용

@@ -161,7 +161,7 @@ function blog_home_ajax(){
 					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
 						<span>좋아요 0</span>
-						<span>댓글 0</span>
+						<span>댓글 ${item.commentCount}</span>
 					</div>
 				</div>
 				<div class="post_image"></div>
@@ -176,7 +176,7 @@ function blog_home_ajax(){
     });
 }
 
-//검샊 게시글 카테고리 클릭
+//검색 게시글 카테고리 클릭
 function blog_main_search_category_click(category){
 	//강조 변경
 	$('.search_category_name').removeClass('active');
@@ -279,7 +279,7 @@ function blog_main_category_click(category){
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
 					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
-						<span>좋아요 0</span>
+						<span>좋아요 ${item.commentCount}</span>
 						<span>댓글 0</span>
 					</div>
 				</div>
@@ -287,6 +287,36 @@ function blog_main_category_click(category){
 			</div>`;
             });//each 종료
             $('#board').html(postList);
+            console.log
+            //페이징 부분 변경
+            var pagingList="";
+            if(result.paging.page_total > 1){
+            	if(result.paging.block_total > 1 && result.paging.block_current > 1){
+            		pagingList += `
+            			<div class="post_list_paging_left flex_center_center" style="margin-right: 20px;" onclick="main_post_paging(${status.current},'${category}', 'left')"><i class="fas fa-angle-left"></i></div>
+            		`;
+            	}
+            	
+            	var paging_start = (result.paging.block_current-1)*10+1; //반복문 시작 값
+            	var paging_end = (result.paging.block_current-1)*10+10; //반복문 종료 값
+            	
+            	for(var index=paging_start; index<=paging_end; index++){
+            		if(index <= result.paging.page_total){
+            			pagingList +=`<div class="post_list_paging_number flex_center_center`;
+            			
+            			if(index === result.paging.page_current){ pagingList += ` active`;}
+            			
+            			pagingList +=`" page="${index}" onclick="main_post_paging(${index},'${category}', 'number')"><span>${index}</span></div>`;
+            		}
+            	} //for 종료
+            	
+            	if(result.paging.block_total > 1 && result.paging.block_current < result.paging.block_total){
+            		pagingList += `
+            			<div class="post_list_paging_right flex_center_center" style="margin-left: 20px;" onclick="main_post_paging(${status.current},'${category}', 'right')"><i class="fas fa-angle-right"></i></div>
+            		`;
+            	}
+            }
+            $('#main_paging').html(pagingList);
         },
         error: function(error){
             alert("오류 발생");
@@ -602,6 +632,84 @@ function main_menu_paging_neighbor_ajax(blogUserID, page){
             console.log(error);
         }
     });
+}
+
+//블로그 메인 게시글에 대한 페이징
+function main_post_paging(page, category, mode){
+	var start=page; //변경될 값
+
+	//1. 이전 목록
+	//2. 다음 목록
+	//3. 숫자
+	
+	if(mode === "left"){
+		//이전 목록으로 가는 코드 작성
+	}
+	else if (mode === "right"){
+		//다음 목록으로 가는 코드 작성
+	}
+	else if (mode === "number"){
+		//MariaDB에 대해서 limit에 사용할 값 설정
+		start-=1; //MariaDB 특성 - 0부터 시작
+		start*=10; //한 페이지당 5개씩 표출, SQL에 추가
+		
+		//Ajax로 전달할 값 설정
+		var data = {
+			start: parseInt(start),
+		    category: category,
+		    block: 10
+	    };
+		
+		/*if(type === "search"){
+			data.search = value;
+		}
+		else if(type === "tag"){
+			data.tag = value;
+		}*/
+		
+		//게시글 변경
+		$.ajax({
+	        url: "/blog/main/Ajax",
+	        type: "POST",
+	        data: JSON.stringify(data),
+	        contentType: "application/json",
+	        success: function(result){
+	        	$('#main_paging>div.active').removeClass('active'); //활성화 css 삭제, 공통
+	        	
+	        	var postList="";
+	        	
+	        	$.each(result.postList, function (index, item) {
+	          		var content = item.content;
+	          		content = content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+	          		content = content.replace(/<IMG(.*?)>/gi, "");
+	          		
+	        		postList+=
+	               `<div class="main_post">
+	                   <div class="post_content">
+						<div class="post_profileAndName">
+							<div class="post_userProfile" userID="${item.userID}"></div>
+							<a href="/blog/${item.userID}">${item.userNickName}</a>
+						</div>
+						<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
+						<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
+						<div class="post_goodAndComment">
+							<span>좋아요 ${item.commentCount}</span>
+							<span>댓글 0</span>
+						</div>
+					</div>
+					<div class="post_image"></div>
+        			</div>`;
+	            });//each 종료
+	            $('#board').html(postList);
+	            
+	            $('#main_paging>div[page='+page+']').addClass('active');
+	        },
+	        error: function(error){
+	            alert("오류 발생");
+	            console.log(error);
+	        }
+	    });
+	}
 }
 
 /*============================================================================================================*/
