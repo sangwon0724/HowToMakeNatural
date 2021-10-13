@@ -35,8 +35,6 @@ import com.my.vo.userVO;
 @Controller
 public class blogController {
 	//==========할 일 목록==========
-	//7. 페이징 기능 추가
-	//7-1. 메인 화면
 	//12. 블로그 메인에 대한 사진 작업
 	//17. url 인터셉터 추가 (write, update, delete) , 실험 : ajax (이유 : menu)
 	//18. 프로필 변경 기능 추가 (닉네임, 소개글, 사진, 배경)
@@ -51,6 +49,8 @@ public class blogController {
 	//4. write 기능 추가 (작성 전 주소 : "/blog/유저아이디/write" => 작성 후 주소 : "/blog/유저아이디")
 	//5. update 기능 추가  (수정 시 주소 : "/blog/유저아이디/게시글번호/update" => 수정 후 주소 : "/blog/유저아이디/게시글번호")
 	//6. delete 기능 추가 (삭제 전 주소 : "/blog/유저아이디/게시글번호/delete" => 삭제 후 주소 : "/blog/유저아이디/")
+	//7. 페이징 기능 추가
+	//7-1. 메인 화면
 	//7-2. 개인 블로그 - 게시글
 	//7-3. 개인 블로그 - 단어 검색
 	//7-4. 개인 블로그 - 태그 검색
