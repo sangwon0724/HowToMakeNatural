@@ -45,6 +45,7 @@
             <mapping path="/blog/comment/update"/>
             <mapping path="/blog/comment/delete"/>
             <mapping path="/blog/{userID}/write/image"/>
+            <mapping path="/blog/{userID}/setting"/>
             <beans:ref bean="authenticationInterceptor"/>
         </interceptor>
     </interceptors>

@@ -188,7 +188,7 @@ public class blogController {
 	}
 	
 	//============================================= 블로그 메인 영역 종료 =====================================================================
-	//============================================= 개인 블로그 영역 시작 =====================================================================
+	//============================================= 개인 블로그 영역 (메인) 시작 ===============================================================
 	
 	/* 개인 블로그 - 방문하기 */
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
@@ -330,7 +330,7 @@ public class blogController {
 	}
 	
 
-	/* 개인 블로그 - 방문하기 */
+	/* 개인 블로그 - 검색 */
 	@RequestMapping(value = "/blog/{userID}/{menu}/{target}", method = RequestMethod.GET)
 	public String getPersonalBlogSearch(@PathVariable String userID, @PathVariable String menu, @PathVariable String target, Model model) throws Exception {
 		
@@ -391,6 +391,9 @@ public class blogController {
 		
 	    return result;
 	}
+	
+	//============================================= 개인 블로그 영역 (메인) 종료 ===============================================================
+	//======================================== 개인 블로그 영역 (CRUD - 게시글/댓글/좋아요) 시작 ===================================================
 	
 	/* 개인 블로그 - 게시글 작성  */
 	@RequestMapping(value = "/blog/{userID}/write", method = RequestMethod.GET)
@@ -618,5 +621,23 @@ public class blogController {
 		String a = jsonObject.toString();
 		return a;
 	}
-	//============================================= 개인 블로그 영역 종료 =====================================================================
+
+	//======================================== 개인 블로그 영역 (CRUD - 게시글/댓글/좋아요) 종료 ===================================================
+	//=========================================== 개인 블로그 영역 (설정) 시작 =================================================================
+	
+
+	/* 개인 블로그 - 방문하기 */
+	@RequestMapping(value = "/blog/{userID}/setting", method = RequestMethod.GET)
+	public String getPersonalBlogSetting(@PathVariable String userID, Model model, HttpServletRequest request) throws Exception {
+		
+		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
+		
+		//해당 블로그의 유저 정보 가져오기
+		HashMap<String, Object> userInfo=userService.selectUserInfoForBlog(userID);
+		
+		model.addAttribute("userInfo", userInfo); //유저 정보
+		
+	    return "/blog/setting";
+	}
+	//=========================================== 개인 블로그 영역 (설정) 종료 =================================================================
 }

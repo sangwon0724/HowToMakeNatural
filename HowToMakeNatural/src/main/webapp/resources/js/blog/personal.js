@@ -736,6 +736,7 @@ function open_modal_for_add_neighbor(id){
 	    }
 	}
 }
+
 /* 이웃 추가 */
 function addNeighbor(id, target){
 	var data = {
