@@ -182,7 +182,12 @@
  	</form>
  	
 	<!-- Scripts -->
-	<script src="<c:url value="/resources/js/blog.js"/>"></script>
+	<script src="<c:url value="/resources/js/blog/common.js"/>"></script>
+	<script src="<c:url value="/resources/js/blog/personal.js"/>"></script>
+	
+	<!-- 공통 적용 파일 시작 -->
+			<c:import url="../include/footer.jsp"></c:import>
+	<!-- 공통 적용 파일 -->
 	
 	<script>
 		/* 커스텀 select 박스 시작  */

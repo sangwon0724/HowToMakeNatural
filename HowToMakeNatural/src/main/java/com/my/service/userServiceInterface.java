@@ -1,13 +1,13 @@
 package com.my.service;
 
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
-import com.my.vo.userVO;
+import javax.servlet.http.HttpSession;
 
 public interface userServiceInterface {
 	//logout
 	public void logout(HttpSession session) throws Exception;
 	
 	//select
-	public userVO selectUserInfoForBlog(String id) throws Exception;
+	public HashMap<String, Object> selectUserInfoForBlog(String id) throws Exception;
 }

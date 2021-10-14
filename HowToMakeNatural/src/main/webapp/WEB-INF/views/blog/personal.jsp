@@ -116,7 +116,7 @@
 									<span><i class="fas fa-cog"></i>&nbsp;관리</span>
 								</c:if>
 								<c:if test="${(empty sessionScope.user.id or neighborCheck == 0) and sessionScope.user.id ne userInfo.id}">
-									<div class="flex_center_center">
+									<div class="flex_center_center" onclick="open_modal_for_add_neighbor('${sessionScope.user.id}')">
 										<span>이웃 추가</span>
 										<i class="fas fa-plus"></i>
 									</div>
@@ -506,6 +506,22 @@
 	      	<input type="hidden" id="delete_comment_target_no" value="">
 			<div id="button_yesOrNo">
 				<button class="yes" onclick="delete_comment('${sessionScope.user.id}')">예</button>
+				<button class="no" onclick="modal_cancle()">아니오</button>
+			</div>
+	      </div>
+	    </div>
+	</div>
+	</c:if>
+	
+	<c:if test="${not empty sessionScope.user.id}">
+	<div id="add_neighbor" class="modal">
+	    <div class="modal-content_forButton">
+	      <span class="close">&times;</span>
+	      <div class="modal_content">
+	      	<span>해당 유저를 이웃으로 추가하시겠습니까?</span>
+	      	<input type="hidden" id="delete_comment_target_no" value="">
+			<div id="button_yesOrNo">
+				<button class="yes" onclick="addNeighbor('${sessionScope.user.id}', '${userInfo.id}')">예</button>
 				<button class="no" onclick="modal_cancle()">아니오</button>
 			</div>
 	      </div>

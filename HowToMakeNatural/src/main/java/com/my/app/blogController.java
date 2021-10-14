@@ -30,7 +30,6 @@ import com.google.gson.JsonObject;
 import com.my.service.blogServiceInterface;
 import com.my.service.userServiceInterface;
 import com.my.util.paging;
-import com.my.vo.userVO;
 
 @Controller
 public class blogController {
@@ -209,7 +208,7 @@ public class blogController {
 		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 10개
 		
 		//해당 블로그의 유저 정보 가져오기
-		userVO userInfo=userService.selectUserInfoForBlog(userID);
+		HashMap<String, Object> userInfo=userService.selectUserInfoForBlog(userID);
 		
 		//카테고리목록 긁어오기
 		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //카테고리 목록
@@ -239,10 +238,10 @@ public class blogController {
 		
 		//로그인 한 경우
 		if(request.getSession().getAttribute("user") != null && request.getSession().getAttribute("user") != "") {
-			userVO user = (userVO) request.getSession().getAttribute("user");
+			HashMap<String, Object> user = (HashMap<String, Object>) request.getSession().getAttribute("user");
 			
 			Map<String, Object> temp = new HashMap<String, Object>();
-			temp.put("userID", user.getId());
+			temp.put("userID", user.get("id"));
 			temp.put("target", userID);
 			
 			int check_neighbor = blogService.checkMyNeighbor(temp);
@@ -281,7 +280,7 @@ public class blogController {
 		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 목록
 		
 		//해당 블로그의 유저 정보 가져오기
-		userVO userInfo=userService.selectUserInfoForBlog(userID);
+		HashMap<String, Object> userInfo=userService.selectUserInfoForBlog(userID);
 		
 		//카테고리목록 긁어오기
 		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //카테고리 목록
@@ -307,10 +306,10 @@ public class blogController {
 
 		//로그인 한 경우
 		if(request.getSession().getAttribute("user") != null && request.getSession().getAttribute("user") != "") {
-			userVO user = (userVO) request.getSession().getAttribute("user");
+			HashMap<String, Object> user = (HashMap<String, Object>) request.getSession().getAttribute("user");
 			
 			Map<String, Object> temp = new HashMap<String, Object>();
-			temp.put("userID", user.getId());
+			temp.put("userID", user.get("id"));
 			temp.put("target", userID);
 			
 			int check_neighbor = blogService.checkMyNeighbor(temp);
@@ -350,7 +349,7 @@ public class blogController {
 		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 10개
 		
 		//해당 블로그의 유저 정보 가져오기
-		userVO userInfo=userService.selectUserInfoForBlog(userID);
+		HashMap<String, Object> userInfo=userService.selectUserInfoForBlog(userID);
 		
 		model.addAttribute("postList", postList); //게시글
 		model.addAttribute("userInfo", userInfo); //유저 정보
@@ -555,6 +554,27 @@ public class blogController {
 		
 		int goodCount = blogService.selectGood(map);
 		result.put("goodCount", goodCount);
+		
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+	
+	/* 개인 블로그 - 이웃 관련 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/neighbor/Ajax", method = RequestMethod.POST)
+	public Map<String, Object> getNeighborControll(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 좋아요 - 신청자 : " + map.get("userID") + " / 대상자 : "+ map.get("target") + " / 모드 : " + map.get("mode"));
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		if(map.get("mode").equals("insert")) {
+			blogService.addNeighbor(map);
+		}
+		else if(map.get("mode").equals("delete")) {
+			//blogService.cancleNeighbor(map);
+		}
 		
 		result.put("message", "success"); //성공 메세지 전달
 		

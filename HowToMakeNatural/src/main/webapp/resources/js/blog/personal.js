@@ -714,3 +714,48 @@ function goodAddAndCancle(id, no){
         }
     });
 }
+
+/* 모달 열기 - 이웃 추가용 */
+function open_modal_for_add_neighbor(id){
+	if(id === ''){
+		if (confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")) {
+	        location.href="/login";
+	    }
+		else{
+			return;
+		}
+	}
+	else if(id !== ''){
+	    var modal = document.getElementById("add_neighbor");
+	    var close = document.querySelector("#add_neighbor .close");
+
+	    modal.style.display = "block";
+	    
+	    close.onclick = function() {
+	        modal.style.display = "none";
+	    }
+	}
+}
+/* 이웃 추가 */
+function addNeighbor(id, target){
+	var data = {
+		userID : id,
+		target: target,
+		mode: "insert"
+	};
+	
+	$.ajax({
+        url: "/blog/neighbor/Ajax",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	alert("정상적으로 추가되었습니다.");
+        	window.location.reload();
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}

@@ -1,5 +1,7 @@
 package com.my.app;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.service.userServiceInterface;
-//import com.my.vo.blogVO;
-import com.my.vo.userVO;
 
 @Controller
 public class userController {
@@ -49,15 +49,15 @@ public class userController {
 	
 	//login-post
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String postLogin(userVO vo, HttpServletRequest request) throws Exception {
+	public String postLogin(@RequestParam HashMap<String, Object> map, HttpServletRequest request) throws Exception {
 		System.out.println("start login - method : post");
 				
 		//userVO result=userService.selectLogin(vo);
 		HttpSession session = request.getSession();
 		
 		//임시
-		if(vo != null) {
-			session.setAttribute("user", userService.selectUserInfoForBlog(vo.getId()));
+		if(map != null) {
+			session.setAttribute("user", userService.selectUserInfoForBlog(map.get("id").toString()));
 		}
 
 		//로그인 전의 페이지 주소로 이동

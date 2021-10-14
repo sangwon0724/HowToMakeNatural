@@ -91,7 +91,7 @@
 							<div class="post_title"><a href="/blog/${post.userID}/${post.no}">${post.title}</a></div>
 							<div class="post_text"><a href="/blog/${post.userID}/${post.no}">${post.content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")}</a></div>
 							<div class="post_goodAndComment">
-								<span>좋아요 0</span>
+								<span>좋아요 ${post.goodCount}</span>
 								<span>댓글 ${post.commentCount}</span>
 							</div>
 						</div>
@@ -171,6 +171,11 @@
 <!-- 메인 화면 종료 -->
 
 	<!-- Scripts -->
-	<script src="<c:url value="/resources/js/blog.js"/>"></script>
+	<script src="<c:url value="/resources/js/blog/common.js"/>"></script>
+	<script src="<c:url value="/resources/js/blog/main.js"/>"></script>
+	
+	<!-- 공통 적용 파일 시작 -->
+			<c:import url="../include/footer.jsp"></c:import>
+	<!-- 공통 적용 파일 -->
 </body>
 </html>
