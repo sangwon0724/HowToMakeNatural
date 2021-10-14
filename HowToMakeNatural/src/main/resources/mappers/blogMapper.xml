@@ -18,7 +18,8 @@
       			count(title) OVER(PARTITION BY 1) count, no, 
       			title, content, category, tag, 
       			DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate, userID, (SELECT blog_nickname FROM user WHERE id=b.userID) userNickName, 
-      			 (SELECT count(no) FROM blog_comment WHERE post_no=b.no and useYN ='Y') commentCount
+      			 (SELECT count(no) FROM blog_comment WHERE post_no=b.no and useYN ='Y') commentCount,
+      			 (SELECT count(userID) FROM blog_good WHERE post_no=b.no) goodCount
       		FROM blog_post b
       		<if test='userID != null and userID != ""'>
 				where userID=#{userID}
@@ -199,24 +200,24 @@
    		from
    			blog_good
 		where
-			post_no = #{no}
+			post_no = ${no}
     </select>
     
     <!-- 좋아요 목록 확인 -->
-    <select id="checkGood" parameterType="hashmap" resultType="int">
+    <select id="checkMyGood" parameterType="hashmap" resultType="int">
     	select
     		count(userID) count
    		from
    			blog_good
 		where
-			post_no = #{no} and userID = #{userID}
+			post_no = ${no} and userID = #{userID}
     </select>
     
     <!--  좋아요 추가  -->
-    <update id="addGood" parameterType="hashmap">
+    <insert id="addGood" parameterType="hashmap">
    		insert into blog_good(post_no, userID)
     	values (#{no}, #{userID})
-    </update>
+    </insert>
     
     <!-- 좋아요 삭제  -->
     <delete id="cancleGood" parameterType="hashmap">

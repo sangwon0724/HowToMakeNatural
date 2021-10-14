@@ -237,13 +237,22 @@ public class blogController {
 		model.addAttribute("commentList", commentList); //댓글 목록
 		model.addAttribute("mode", "view"); //게시글 모드
 		
+		//로그인 한 경우
 		if(request.getSession().getAttribute("user") != null && request.getSession().getAttribute("user") != "") {
 			userVO user = (userVO) request.getSession().getAttribute("user");
+			
 			Map<String, Object> temp = new HashMap<String, Object>();
 			temp.put("userID", user.getId());
 			temp.put("target", userID);
-			int check = blogService.checkMyNeighbor(temp);
-			model.addAttribute("neighborCheck", check);
+			
+			int check_neighbor = blogService.checkMyNeighbor(temp);
+			
+			model.addAttribute("neighborCheck", check_neighbor);
+			
+			if(onePost != null) {
+				int check_good = blogService.checkMyGood(onePost);
+				model.addAttribute("goodCheck", check_good);
+			}
 		}
 		
 		//페이징 정보
@@ -296,13 +305,22 @@ public class blogController {
 		List<HashMap<String, Object>> commentList = blogService.selectComment(onePost);
 		model.addAttribute("commentList", commentList); //댓글 목록
 
+		//로그인 한 경우
 		if(request.getSession().getAttribute("user") != null && request.getSession().getAttribute("user") != "") {
 			userVO user = (userVO) request.getSession().getAttribute("user");
+			
 			Map<String, Object> temp = new HashMap<String, Object>();
 			temp.put("userID", user.getId());
 			temp.put("target", userID);
-			int check = blogService.checkMyNeighbor(temp);
-			model.addAttribute("neighborCheck", check);
+			
+			int check_neighbor = blogService.checkMyNeighbor(temp);
+			
+			model.addAttribute("neighborCheck", check_neighbor);
+			
+			if(onePost != null) {
+				int check_good = blogService.checkMyGood(onePost);
+				model.addAttribute("goodCheck", check_good);
+			}
 		}
 		
 		//페이징 정보
@@ -505,7 +523,7 @@ public class blogController {
 	/* 개인 블로그 - 댓글 삭제 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/comment/delete", method = RequestMethod.POST)
-	public Map<String, Object> ajaxPersonalCommentDelete(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> ajaxPersonalCommentDelete(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 댓글 삭제  ajax- 작성자 아이디 : " + map.get("userID") + " / 삭제 대상 게시글 번호 : " + map.get("no"));
 		
@@ -513,6 +531,30 @@ public class blogController {
 		blogService.deleteComment(map);
 		
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용=
+		
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+	
+	/* 개인 블로그 - 좋아요 관련 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/good/Ajax", method = RequestMethod.POST)
+	public Map<String, Object> getGoodControll(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 좋아요 - 유저 아이디 : " + map.get("userID") + " / 게시글 번호 : "+ map.get("no") + " / 모드 : " + map.get("mode"));
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		if(map.get("mode") == "insert") {
+			blogService.addGood(map);
+		}
+		else if(map.get("mode") == "delete") {
+			blogService.cancleGood(map);
+		}
+		
+		int goodCount = blogService.selectGood(map);
+		result.put("goodCount", goodCount);
 		
 		result.put("message", "success"); //성공 메세지 전달
 		

@@ -196,7 +196,7 @@
 							<c:forEach items="${postList}" var="post" begin="0" end="4">
 							<tr>
 								<td class="title">
-									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
+									<a href="/blog/${userInfo.id}/${post.no}" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(${post.commentCount})</span>
 								</td>
 								<td class="date">
 									<span>${post.signdate}</span>
@@ -258,17 +258,17 @@
 								</c:if>
 							</footer>
 							<footer class="post_goodAndComment">
-								<div id="post_good" class="flex_center_center">
-								<c:if test='${thisPostIsGood != null and thisPostIsGood != ""}'>
-									<i class="fas fa-heart"></i>
-								</c:if>
-								<c:if test='${thisPostIsGood == null or thisPostIsGood == ""}'>
+								<div id="post_good" class="flex_center_center" onclick="goodAddAndCancle('${sessionScope.user.id}', '${onePost.no}')" mode="<c:if test='${goodCheck == 0}'>insert</c:if><c:if test='${goodCheck == 1}'>delete</c:if>">
+								<c:if test='${goodCheck == 0 or empty goodCheck}'>
 									<i class="far fa-heart"></i>
 								</c:if>
-								<span>좋아요 <span id="goodCount">0</span></span>
+								<c:if test='${goodCheck == 1}'>
+									<i class="fas fa-heart"></i>
+								</c:if>
+								<span>좋아요 <span id="goodCount">${onePost.goodCount}</span></span>
 								</div>
 								<div id="post_comment" class="flex_center_center" onclick="comment_area_toggle()">
-									<span>댓글&nbsp;<span id="commentCount"><c:if test="${fn:length(commentList) > 0}">${fn:length(commentList)}</c:if><c:if test="${fn:length(commentList) < 0 or empty commentList}">0</c:if></span></span>&nbsp;|&nbsp;
+									<span>댓글&nbsp;<span id="commentCount"><c:if test="${onePost.commentCount > 0}">${onePost.commentCount}</c:if><c:if test="${onePost.commentCount < 0 or empty commentList}">0</c:if></span></span>&nbsp;|&nbsp;
 									<i class="fas fa-chevron-down"></i>
 								</div>
 							</footer>
@@ -329,7 +329,7 @@
 							<c:forEach items="${postList}" var="post" begin="0" end="4">
 							<tr>
 								<td class="title">
-									<a href="/blog/${userInfo.id}/${post.no}<c:if test="${param.category != null and param.category ne ''}">?category=${param.category}</c:if>" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(댓글수)</span>
+									<a href="/blog/${userInfo.id}/${post.no}<c:if test="${param.category != null and param.category ne ''}">?category=${param.category}</c:if>" <c:if test="${post.no == onePost.no}"> class="active"</c:if>>${post.title}</a>&nbsp;<span>(${post.commentCount})</span>
 								</td>
 								<td class="date">
 									<span>${post.signdate}</span>
@@ -515,7 +515,8 @@
 	<!-- 모달 영역 종료 -->
 	
 	<!-- Scripts -->
-	<script src="<c:url value="/resources/js/blog.js"/>"></script>
+	<script src="<c:url value="/resources/js/blog/common.js"/>"></script>
+	<script src="<c:url value="/resources/js/blog/personal.js"/>"></script>
 	
 	<!-- 공통 적용 파일 시작 -->
 			<c:import url="../include/footer.jsp"></c:import>
