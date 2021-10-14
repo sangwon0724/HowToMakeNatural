@@ -14,6 +14,7 @@ public class blogService implements blogServiceInterface {
 	@Autowired
     private blogDAOInterface dao;
 	
+	//===========================================================<<< select >>>============================================================================
 	/* 메인에서 가장 최근글 10개 긁어오기 */
 	@Override
 	public List<HashMap<String, Object>> selectPost(Map<String, Object> map) throws Exception {
@@ -59,6 +60,7 @@ public class blogService implements blogServiceInterface {
 	
 	
 	
+	//===========================================================<<< insert >>>============================================================================
 	//게시글 작성
 	@Override
 	public void insertPost(Map<String, Object> map) throws Exception {
@@ -86,6 +88,7 @@ public class blogService implements blogServiceInterface {
 	
 	
 	
+	//===========================================================<<< update >>>============================================================================
 	//게시글 수정
 	@Override
 	public void updatePost(Map<String, Object> map) throws Exception {
@@ -100,6 +103,7 @@ public class blogService implements blogServiceInterface {
 
 	
 	
+	//===========================================================<<< delete >>>============================================================================
 	//게시글 석제
 	@Override
 	public void deletePost(Map<String, Object> map) throws Exception {
