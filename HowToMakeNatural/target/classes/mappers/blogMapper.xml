@@ -225,6 +225,6 @@
     	from
     		blog_good
    		where
-   			userID = #{userID} and post_no = #{post_no}
+   			userID = #{userID} and post_no = #{no}
     </delete>
 </mapper>

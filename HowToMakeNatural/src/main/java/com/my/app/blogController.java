@@ -546,10 +546,10 @@ public class blogController {
 
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
-		if(map.get("mode") == "insert") {
+		if(map.get("mode").equals("insert")) {
 			blogService.addGood(map);
 		}
-		else if(map.get("mode") == "delete") {
+		else if(map.get("mode").equals("delete")) {
 			blogService.cancleGood(map);
 		}
 		

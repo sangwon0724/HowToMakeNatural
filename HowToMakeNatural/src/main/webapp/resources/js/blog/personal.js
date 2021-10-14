@@ -675,8 +675,12 @@ function delete_comment(id){
 /* 좋아요 추가 및 취소 */
 function goodAddAndCancle(id, no){
 	if(id === ''){
-		alert("로그인이 필요한 서비스입니다.");
-		return;
+		if (confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")) {
+	        location.href="/login";
+	    }
+		else{
+			return;
+		}
 	}
 	
 	var data = {
@@ -691,12 +695,12 @@ function goodAddAndCancle(id, no){
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	if($(event.target).attr("mode") === "insert"){
+        	if($("#post_good").attr("mode") === "insert"){
             	$(".personal_post>.post_goodAndComment>#post_good>i").removeClass("far");
             	$(".personal_post>.post_goodAndComment>#post_good>i").addClass("fas");
             	$("#post_good").attr("mode", "delete");
         	}
-        	else if($(event.target).attr("mode") === "delete"){
+        	else if($("#post_good").attr("mode") === "delete"){
             	$(".personal_post>.post_goodAndComment>#post_good>i").removeClass("fas");
             	$(".personal_post>.post_goodAndComment>#post_good>i").addClass("far");
             	$("#post_good").attr("mode", "insert");
