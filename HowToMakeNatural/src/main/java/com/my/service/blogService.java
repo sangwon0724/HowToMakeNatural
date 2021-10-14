@@ -44,6 +44,18 @@ public class blogService implements blogServiceInterface {
 		return dao.checkMyNeighbor(map);
 	};
 
+	/* 좋아요 검색 */
+	@Override
+	public int selectGood(Map<String, Object> map) throws Exception {
+		return dao.selectGood(map);
+	}
+
+	/* 좋아요 여부 확인*/
+	@Override
+	public int checkMyGood(Map<String, Object> map) throws Exception {
+		return dao.checkMyGood(map);
+	}
+
 	
 	
 	
@@ -58,6 +70,18 @@ public class blogService implements blogServiceInterface {
 	public void insertComment(Map<String, Object> map) throws Exception{
 		dao.insertComment(map);
 	};
+
+	//이웃 추가
+	@Override
+	public void addNeighbor(Map<String, Object> map) throws Exception {
+		dao.addNeighbor(map);
+	}
+
+	//좋아요 추가
+	@Override
+	public void addGood(Map<String, Object> map) throws Exception {
+		dao.addGood(map);
+	}
 
 	
 	
@@ -86,5 +110,17 @@ public class blogService implements blogServiceInterface {
 	@Override
 	public void deleteComment(Map<String, Object> map) throws Exception{
 		dao.deleteComment(map);
+	}
+
+	//이웃 취소
+	@Override
+	public void cancleNeighbor(Map<String, Object> map) throws Exception {
+		dao.cancleNeighbor(map);
+	}
+
+	//좋아요 취소
+	@Override
+	public void cancleGood(Map<String, Object> map) throws Exception {
+		dao.cancleGood(map);
 	}
 }

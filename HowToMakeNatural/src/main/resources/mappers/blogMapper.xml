@@ -88,14 +88,14 @@
     </update>
     
     <!-- 게시글 삭제 -->
-    <delete id="deletePost" parameterType="hashmap">
+    <update id="deletePost" parameterType="hashmap">
     	update
     		blog_post
    		set
     		useYN ='N'
    		where
    			no=#{no}
-    </delete>
+    </update>
     
     
     
@@ -127,7 +127,7 @@
     		no=${no} and userID=#{userID}
     </update>
     
-    <!-- 댓글 추가 -->
+    <!-- 댓글 삭제 -->
     <update id="deleteComment" parameterType="hashmap">
     	update
     		blog_comment
