@@ -78,21 +78,36 @@
     
     <!-- 게시글 수정 -->
     <update id="updatePost" parameterType="hashmap">
-    	update blog_post set title=#{title}, content=#{content}, category=#{category}, tag=#{tag}, updatedate=NOW() where no=#{no}
+    	update
+    		blog_post
+   		set
+   			title=#{title}, content=#{content},
+   			category=#{category}, tag=#{tag}, updatedate=NOW()
+		where
+			no=#{no}
     </update>
     
     <!-- 게시글 삭제 -->
     <delete id="deletePost" parameterType="hashmap">
-    	update blog_post set useYN ='N' where no=#{no}
+    	update
+    		blog_post
+   		set
+    		useYN ='N'
+   		where
+   			no=#{no}
     </delete>
     
     
     
     <!-- 댓글 가져오기 -->
     <select id="selectComment" parameterType="hashmap" resultType="hashmap">
-    	SELECT b.no, b.content, b.userID, u.blog_nickname userNickname, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate
-		FROM blog_comment b, user u
-		WHERE post_no=${no} AND b.userID = u.id AND useYN = "Y"
+    	SELECT
+    		b.no, b.content, b.userID, u.blog_nickname userNickname,
+    		DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate
+		FROM
+			blog_comment b, user u
+		WHERE
+			post_no=${no} AND b.userID = u.id AND useYN = "Y"
 		ORDER BY NO desc
     </select>
     
@@ -104,28 +119,111 @@
     
     <!-- 댓글 추가 -->
     <update id="updateComment" parameterType="hashmap">
-    	update blog_comment set content=#{content}, updatedate=NOW()
-    	where no=${no} and userID=#{userID}
+    	update
+    		blog_comment
+    	set
+    		content=#{content}, updatedate=NOW()
+    	where
+    		no=${no} and userID=#{userID}
     </update>
     
     <!-- 댓글 추가 -->
     <update id="deleteComment" parameterType="hashmap">
-    	update blog_comment set useYN="N"
-    	where no=${no} and userID=#{userID}
+    	update
+    		blog_comment
+    	set
+    		useYN="N"
+    	where
+    		no=${no} and userID=#{userID}
     </update>
     
     
     
     <!--  카테고리 목록 검색  -->
     <select id="selectCategory" parameterType="hashmap" resultType="hashmap">
-    	select category_name, count from blog_category where userID = #{userID} and useYN = "Y" order by category_order_no, no
+    	select
+    		category_name, count
+   		from
+   			blog_category
+  		where
+  			userID = #{userID} and useYN = "Y"
+ 		order by category_order_no, no
     </select>
+    
+    
     
     <!-- 이웃목록 검색 -->
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
-    	select count(target) OVER(PARTITION BY 1) count, target, nickname from blog_neighbor where id = #{userID} order by no limit ${start},9
+    	select
+    		count(target) OVER(PARTITION BY 1) count, target,
+    		(SELECT blog_nickname FROM user WHERE id=b.target) nickname
+   		from
+   			blog_neighbor b
+		where
+			id = #{userID}
+		order by no
+		limit ${start},9
     </select>
+    
+    <!--  이웃 여부 확인  -->
     <select id="checkMyNeighbor" parameterType="hashmap" resultType="integer">
-    	select IFNULL(count(target), 0) count from blog_neighbor where id = #{userID} and target = #{target}
+    	select
+    		IFNULL(count(target), 0) count
+   		from
+   			blog_neighbor
+  		where
+  			id = #{userID} and target = #{target}
     </select>
+    
+    <!--  이웃 추가  -->
+    <update id="addNeighbor" parameterType="hashmap">
+   		insert into blog_neighbor(id, target)
+    	values (#{userID}, #{target})
+    </update>
+    
+    <!--  이웃 삭제  -->
+    <delete id="cancleNeighbor" parameterType="hashmap">
+    	delete
+    	from
+    		blog_neighbor
+   		where
+   			id = #{userID} and target = #{target}
+    </delete>
+    
+    
+    
+    <!-- 좋아요 목록 확인 -->
+    <select id="selectGood" parameterType="hashmap" resultType="int">
+    	select
+    		count(userID) target
+   		from
+   			blog_good
+		where
+			post_no = #{no}
+    </select>
+    
+    <!-- 좋아요 목록 확인 -->
+    <select id="checkGood" parameterType="hashmap" resultType="int">
+    	select
+    		count(userID) count
+   		from
+   			blog_good
+		where
+			post_no = #{no} and userID = #{userID}
+    </select>
+    
+    <!--  좋아요 추가  -->
+    <update id="addGood" parameterType="hashmap">
+   		insert into blog_good(post_no, userID)
+    	values (#{no}, #{userID})
+    </update>
+    
+    <!-- 좋아요 삭제  -->
+    <delete id="cancleGood" parameterType="hashmap">
+    	delete
+    	from
+    		blog_good
+   		where
+   			userID = #{userID} and post_no = #{post_no}
+    </delete>
 </mapper>
