@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+/* 패널 */
+#setting_panel{
+	width: 100vw;
+	height: 100vh;
+	max-height: 100vh;
+	display: grid;
+	grid-template: 
+      "personal_nav_setting personal_nav_setting" 1fr
+      "setting_list_panel setting_function_panel" 9fr
+      / 1.2fr 8.8fr;
+    /*background-color: #A29BFE;*/
+    background-color: #9c88ff;
+}
+
+/* 설정 목록 화면 */
+#setting_list_panel{
+	grid-area: setting_list_panel;
+	display: grid;
+	grid-template-rows: repeat(4, 1fr);
+	grid-template-columns: 1fr;
+	border-top: 1px solid black;
+	border-right: 0.5px solid black;
+    background-color: white;
+}
+
+/* 설정 기능 화면 */
+#setting_function_panel{
+	grid-area: setting_function_panel;
+	overflow-y: scroll;
+	border-top: 1px solid black;
+	/*border-left: 0.5px solid black;*/
+    background-color: white;
+}
+
+/*============================================================================================================*/
+
+/* 블로그 네비게이션 - 설정 화면용 */
+#personal_nav_setting{
+	width : 82.3vw;
+	display: flex;
+    justify-content: flex-end;
+    align-items: center;
+	margin: 0 auto;
+	grid-area: personal_nav_setting;
+}
+#personal_nav_setting>div{
+	width: 30%;
+	height: 100%;
+	height: 7vh;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#personal_nav_setting>div>#span_type{
+	width: 60%;
+	height: 70%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#personal_nav_setting>div>#span_type>span.click{
+	cursor: pointer;
+	font-size: 0.8em;
+}
+#personal_nav_setting>div>#span_type>span.click:hover{
+	text-decoration: underline;
+	font-weight: bold;
+}
+#personal_nav_setting>div>#blog_sign{
+	width: 17.5%;
+	height: 55%;
+    border: 1.5px dashed #6c5ce7;
+    background-color: #fff;
+    color: #6c5ce7;
+    cursor: pointer;
+}
+#personal_nav_setting>div>#blog_all_menu{
+	width: 8%;
+	height: 55%;
+    border: 1.5px dashed #6c5ce7;
+    background-color: #fff;
+    cursor: pointer;
+}
+#personal_nav_setting>div>#blog_all_menu>i{
+    color: #6c5ce7;
+}
+
+/*============================================================================================================*/
+
+/* 설정 목록 화면 */
+
+#setting_list_panel>.setting_menu_grid{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#setting_list_panel>.setting_menu_grid:nth-child(even){
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#setting_list_panel>.setting_menu_grid>.setting_menu{
+	width: 100%;
+	height: 80%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+#setting_list_panel>.setting_menu_grid>.setting_menu>span.big{
+	font-weight: bold;
+	font-size: 1.1em;
+	cursor: auto;
+}
+#setting_list_panel>.setting_menu_grid>.setting_menu>span.small:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/*============================================================================================================*/
+
+/* 설정 기능 화면 */
+
+#setting_function_panel>article{
+	width: 100%;
+	height: auto;
+	min-height: 100%;
+}
+
+#setting_function_panel>article:nth-child(odd){
+	background-color: red;
+}
+
+#setting_function_panel>article:nth-child(even){
+	background-color: blue;
+}

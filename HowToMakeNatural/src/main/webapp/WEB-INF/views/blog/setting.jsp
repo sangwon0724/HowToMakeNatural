@@ -16,19 +16,16 @@
 </title>
 </head>
 <body>
-	<!-- 히든 값 영역 시작 -->
-		<c:if test="${not empty sessionScope.user.id}">
-		<!-- 현재 유저의 아이디 -->
-		<input type="hidden" id="myID" value="${sessionScope.user.id}">
-		<input type="hidden" id="myNickName" value="${sessionScope.user.blog_nickname}">
-		</c:if>
-	<!-- 히든 값 영역 종료 -->
+	<c:if test="${not empty sessionScope.user.id}">
+		<!-- 히든 값 영역 시작 -->
+		<!-- 히든 값 영역 종료 -->
+	</c:if>
 	
 	
 	
-	<div id="center_panel">
+	<div id="setting_panel">
 		<!-- 네비게이션 시작 -->
-		<nav id="personal_nav">
+		<nav id="personal_nav_setting">
 			<div>
 				<div id="span_type">
 					<span id="my_blog" class="click"
@@ -57,8 +54,66 @@
 		
 		
 		
-		<!-- 블로그 설정 화면 시작 -->
-		<!-- 블로그 설정 화면 종료 -->
+		<!-- 블로그 설정 목록 화면 시작 -->
+		<section id="setting_list_panel">
+			<div class="setting_menu_grid">
+				<div class="setting_menu">
+					<span class="setting_menu_line big">프로필 변경</span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_info')">블로그 정보</span>
+				</div>
+			</div>
+			
+			<div class="setting_menu_grid">
+				<div class="setting_menu">
+					<span class="setting_menu_line big"><bold>블로그 꾸미기</bold></span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_background')">배경 변경</span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_placement')">배치 변경</span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_wizet')">위젯 설정</span>
+				</div>
+			</div>
+			
+			<div class="setting_menu_grid">
+				<div class="setting_menu">
+					<span class="setting_menu_line big"><bold>이웃 관리</bold></span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_neighbor_list')">이웃 목록</span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_neighbor_follow_me')">나를 추가한 이웃</span>
+				</div>
+			</div>
+			
+			<div class="setting_menu_grid">
+				<div class="setting_menu">
+					<span class="setting_menu_line big"><bold>카테고리 관리</bold></span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_category')">카테고리 관리</span>
+				</div>
+			</div>
+		</section>
+		<!-- 블로그 설정 목록 화면 종료 -->
+		
+		<!-- 블로그 설정 기능 화면 시작 -->
+		<section id="setting_function_panel">
+			<!-- 블로그 정보 설정 시작 -->
+			<article id="setting_blog_info"></article>
+			<!-- 블로그 정보 설정 종료 -->
+			<!-- 블로그 베경 설정 시작 -->
+			<article id="setting_blog_background" class="hidden"></article>
+			<!-- 블로그 배경 설정 종료 -->
+			<!-- 블로그 배치 설정 시작 -->
+			<article id="setting_blog_placement" class="hidden"></article>
+			<!-- 블로그 배치 설정 종료 -->
+			<!-- 블로그 위젯 설정 시작 -->
+			<article id="setting_blog_wizet" class="hidden"></article>
+			<!-- 블로그 위젯 설정 종료 -->
+			<!-- 블로그 이웃 목록 설정 시작 -->
+			<article id="setting_blog_neighbor_list" class="hidden"></article>
+			<!-- 블로그 이웃 목록 설정 종료 -->
+			<!-- 블로그 나를 추가한 이웃 설정 시작 -->
+			<article id="setting_blog_neighbor_follow_me" class="hidden"></article>
+			<!-- 블로그 나를 추가한 이웃 설정 종료 -->
+			<!-- 블로그 카테고리 설정 시작 -->
+			<article id="setting_blog_category" class="hidden"></article>
+			<!-- 블로그 카테고리 설정 종료 -->
+		</section>
+		<!-- 블로그 설정 기능 화면 종료 -->
 	</div>
 	
 	
@@ -71,7 +126,7 @@
 	      <div class="modal_content">
 	      	<span>temp</span>
 			<div id="button_yesOrNo">
-				<button onclick="실행기기능('${sessionScope.user.id}')">예</button>
+				<button onclick="실행기능('${sessionScope.user.id}')">예</button>
 				<button onclick="modal_cancle()">아니오</button>
 			</div>
 	      </div>
@@ -82,7 +137,7 @@
 	
 	<!-- Scripts -->
 	<script src="<c:url value="/resources/js/blog/common.js"/>"></script>
-	<script src="<c:url value="/resources/js/blog/personal.js"/>"></script>
+	<script src="<c:url value="/resources/js/blog/setting.js"/>"></script>
 	
 	<!-- 공통 적용 파일 시작 -->
 			<c:import url="../include/footer.jsp"></c:import>
