@@ -10,4 +10,7 @@ public interface userServiceInterface {
 	
 	//select
 	public HashMap<String, Object> selectUserInfoForBlog(String id) throws Exception;
+	
+	//update
+	public void updateUserProfile(HashMap<String, Object> map) throws Exception;
 }

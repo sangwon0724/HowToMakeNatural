@@ -37,6 +37,7 @@ public class blogController {
 	//12. 블로그 메인에 대한 사진 작업
 	//18. 프로필 변경 기능 추가 (닉네임, 소개글, 사진, 배경)
 	//19. 블로그 꾸미기 기능 추가 (엘리멘트 배치, 위젯 설정)
+	//20. 카테고리 관리 기능 추가
 	
 	//==========완료 목록==========
 	//1. 블로그 메인 기본 틀 완성
@@ -638,6 +639,22 @@ public class blogController {
 		model.addAttribute("userInfo", userInfo); //유저 정보
 		
 	    return "/blog/setting";
+	}
+	
+	/* 개인 블로그 설정- 프로필 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/setting/profile", method = RequestMethod.POST)
+	public Map<String, Object> getSettingProfile(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 설정 - 프로필   (대상자 : " + map.get("userID") + ")");
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		System.out.println(map);
+		//userService.updateUserProfile(map);
+		
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
 	}
 	//=========================================== 개인 블로그 영역 (설정) 종료 =================================================================
 }

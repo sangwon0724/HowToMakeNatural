@@ -20,9 +20,21 @@ public class userService  implements userServiceInterface{
 		session.invalidate();
 	}
 
+	
+	//===========================================================<<< select >>>============================================================================
+	
 	/* 개인 블로그 입장시 해당 유저의 정보 가져오기 */
 	@Override
 	public HashMap<String, Object> selectUserInfoForBlog(String id) throws Exception {
 		return dao.selectUserInfoForBlog(id);
+	}
+	
+	//===========================================================<<< update >>>============================================================================
+	
+	/* 블로그 정보 변경*/
+	@Override
+	public void updateUserProfile(HashMap<String, Object> map) throws Exception {
+		dao.updateUserProfile(map);
+		
 	}
 }

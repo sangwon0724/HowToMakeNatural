@@ -6,6 +6,26 @@
 <mapper namespace="userMapper">
 	<!-- 개인 블로그 입장시 해당 유저의 정보 가져오기 -->
     <select id="selectUserInfoForBlog" parameterType="String" resultType="hashmap" >
-      		SELECT id,blog_nickname,blog_profile_text,blog_logo_text,blog_logo_image,blog_background_image,blog_setting_type FROM user where id=#{id}
+      		SELECT
+      			id, blog_profile_image,
+      			blog_nickname, blog_profile_text, blog_logo_text,
+      			blog_logo_image, blog_background_image, blog_setting_type
+     		FROM
+     			user
+     		where
+     			id=#{id}
     </select>
+    
+    <!-- 블로그 프로필 업데이트 -->
+    <update id="updateUserProfile" parameterType="hashmap">
+    	UPDATE
+    		user
+    	SET
+    		blog_nickname=#{blog_nickname},
+    		blog_profile_image=#{blog_profile_image},
+    		blog_profile_text=#{blog_profile_text},
+    		blog_logo_text=#{blog_logo_text}
+    	WHERE
+    		id=#{userID}
+    </update>
 </mapper>
