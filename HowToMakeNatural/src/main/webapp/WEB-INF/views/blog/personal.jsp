@@ -105,7 +105,7 @@
 				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
 					<div id="left" class="typeA">
 						<div id="profile_panel">
-							<div id="profile_image">프로필 이미지</div>
+							<div id="profile_image" style="background-image: url('${userInfo.blog_profile_image}');"><%-- 프로필 이미지 --%></div>
 							<div id="profile_nickname" class="flex_center_center"><span>${userInfo.blog_nickname}</span>&nbsp;<span>(${userInfo.id})</span></div>
 							<div id="profile_text" class="flex_center_center">
 								<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
@@ -148,7 +148,7 @@
 								<c:if test='${neighborList != null and neighborList != ""}'>	
 									<c:forEach items="${neighborList}" var="neighbor" begin="0" end="8">
 										<div neighborID="${neighbor.target}">
-											<main onclick="go_user_blog('${neighbor.target}')">
+											<main onclick="go_user_blog('${neighbor.target}')" style="background-image: url('${neighbor.blog_profile_image}');">
 												이미지 영역
 											</main>
 											<footer>
@@ -246,7 +246,7 @@
 								</c:if>
 							</header>
 							<header class="post_profileAndNameAndSigndate">
-								<div class="profile_image" onclick="go_user_blog('${userInfo.id}')"></div>
+								<div class="profile_image" onclick="go_user_blog('${userInfo.id}')" style="background-image: url('${userInfo.blog_profile_image}');"></div>
 								<span onclick="go_user_blog('${userInfo.id}')">${userInfo.blog_nickname}</span>
 							</header>
 							<main class="post_content">${onePost.content}</main>
@@ -351,7 +351,7 @@
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type B. 스타일 변경)-->
 			<div id="bottom" class="typeB hidden">
 				<div id="profile_panel">
-					<div id="profile_image">프로필 이미지</div>
+					<div id="profile_image" style="background-image: url('${userInfo.blog_profile_image}');"><%-- 프로필 이미지 --%></div>
 					<div id="profile_text" class="flex_center_center">
 						<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
 					</div>

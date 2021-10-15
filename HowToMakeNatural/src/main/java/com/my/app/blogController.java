@@ -682,7 +682,7 @@ public class blogController {
 				FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
 				System.out.println(fileRoot + savedFileName);//경로 및 파일명 출력
 
-				map.put("blog_profile_image", fileRoot + savedFileName);
+				map.put("blog_profile_image", "/resources/image/profile/" + request.getParameter("userID") + "/" + savedFileName);
 			}
 			catch (IOException e) {
 				System.out.println(e.getMessage());

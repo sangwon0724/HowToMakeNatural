@@ -131,7 +131,7 @@
 		function uploadImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
-			var url = "/blog/"+$("#myID").val()+"/write/image";
+			var url = "/blog/${sessionScope.user.id}/write/image";
 			
 			$.ajax({
 				data : data,

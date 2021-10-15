@@ -95,7 +95,9 @@
 					</div>
 					<div class="setting_item_name"><span>프로필 이미지</span></div>
 					<div id="setting_profile_image" class="setting_item">
-					<div style="width: 300px; height: 300px; background-image: url('${userInfo.blog_profile_image}'); background-size:cover;"></div>
+					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
+						<div id="profile_image_preview" style="background-image: url('${userInfo.blog_profile_image}');"></div>
+					</c:if>
 					<input type="file" id="blog_profile_image">
 					</div>
 					<div class="setting_item_name"><span>프로필 소개글</span></div>

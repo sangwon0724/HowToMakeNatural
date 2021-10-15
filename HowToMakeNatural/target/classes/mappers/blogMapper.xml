@@ -157,7 +157,8 @@
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
     	select
     		count(target) OVER(PARTITION BY 1) count, target,
-    		(SELECT blog_nickname FROM user WHERE id=b.target) nickname
+    		(SELECT blog_nickname FROM user WHERE id=b.target) nickname,
+    		(SELECT blog_profile_image FROM user WHERE id=b.target) blog_profile_image
    		from
    			blog_neighbor b
 		where
