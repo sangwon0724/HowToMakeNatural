@@ -8,18 +8,19 @@ function toggleSettingFunctionPanel(target){
 
 /* 프로필 변경 */
 function change_blog_info(id){
-	var data = {
+	/*var data = {
 		userID : id,
 		blog_nickname: $("#blog_nickname").val(),
 		blog_profile_text: $("#profile_text").val(),
 		blog_logo_text: $("#logo_text").val()
-	};
+	};*/
 	
 	var formData = new FormData();
-	formData.append("blog_nickname", $("#title").val());
+	formData.append("userID", id);
+	formData.append("blog_nickname", $("#blog_nickname").val());
 	formData.append("blog_profile_image",$("#blog_profile_image")[0].files[0]);
 	formData.append("blog_profile_text", $("#blog_profile_text").val());
-	formData.append("logo_text", $("#logo_text").val());
+	formData.append("blog_logo_text", $("#blog_logo_text").val());
 	
 	/*$.ajax({
         url: "/blog/setting/profile",
@@ -39,6 +40,7 @@ function change_blog_info(id){
 	$.ajax({
         url: "/blog/setting/profile",
         type: "POST",
+        enctype: 'multipart/form-data', // 필수
         processData: false, // 필수
         contentType: false, // 필수
         data: formData,

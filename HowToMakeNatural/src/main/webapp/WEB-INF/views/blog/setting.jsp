@@ -95,7 +95,7 @@
 					</div>
 					<div class="setting_item_name"><span>프로필 이미지</span></div>
 					<div id="setting_profile_image" class="setting_item">
-					${userInfo.blog_profile_image}
+					<div style="width: 300px; height: 300px; background-image: url('${userInfo.blog_profile_image}'); background-size:cover;"></div>
 					<input type="file" id="blog_profile_image">
 					</div>
 					<div class="setting_item_name"><span>프로필 소개글</span></div>

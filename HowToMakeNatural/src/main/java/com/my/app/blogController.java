@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.JsonObject;
 import com.my.service.blogServiceInterface;
@@ -644,16 +646,54 @@ public class blogController {
 	/* 개인 블로그 설정- 프로필 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/setting/profile", method = RequestMethod.POST)
-	public Map<String, Object> getSettingProfile(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+	public Map<String, Object> getSettingProfile(MultipartHttpServletRequest request) throws Exception {
 		
-		System.out.println("개인 블로그 설정 - 프로필   (대상자 : " + map.get("userID") + ")");
+		System.out.println("개인 블로그 설정 - 프로필   (대상자 : " + request.getParameter("userID") + ")");
 
+		HashMap<String, Object> map = new HashMap<String, Object>(); //SQL 실행용
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
-		System.out.println(map);
-		//userService.updateUserProfile(map);
+		
+		map.put("userID",  request.getParameter("userID"));
+		map.put("blog_nickname", new String(request.getParameter("blog_nickname").getBytes("8859_1"),"utf-8"));
+		map.put("blog_profile_text", new String(request.getParameter("blog_profile_text").getBytes("8859_1"),"utf-8"));
+		map.put("blog_logo_text", new String(request.getParameter("blog_logo_text").getBytes("8859_1"),"utf-8"));
+
+		// 내부경로로 저장
+		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
+		String fileRoot = contextRoot+"resources/image/profile/"+ request.getParameter("userID") +"/"; //경로 지정
+		
+		//파일 업로드
+		Iterator<String> itr = request.getFileNames();
+		if(itr.hasNext()) {
+			MultipartFile multipartFile = request.getFile(itr.next());
+			
+			String originalFileName = new String(multipartFile.getOriginalFilename().getBytes("8859_1"),"utf-8"); //오리지널 파일명
+			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+			String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+			
+			File targetFile = new File(fileRoot + savedFileName); //파일 객체에 저장
+			
+			System.out.println(multipartFile.getOriginalFilename() +" uploaded!");
+			try {
+				System.out.println("file length : " + multipartFile.getBytes().length);
+				System.out.println("file name : " + multipartFile.getOriginalFilename());
+				
+				InputStream fileStream = multipartFile.getInputStream();
+				FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
+				System.out.println(fileRoot + savedFileName);//경로 및 파일명 출력
+
+				map.put("blog_profile_image", fileRoot + savedFileName);
+			}
+			catch (IOException e) {
+				System.out.println(e.getMessage());
+				FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
+				e.printStackTrace();
+			}
+		}
+		
+		userService.updateUserProfile(map); //업데이트
 		
 		result.put("message", "success"); //성공 메세지 전달
-		
 	    return result;
 	}
 	//=========================================== 개인 블로그 영역 (설정) 종료 =================================================================

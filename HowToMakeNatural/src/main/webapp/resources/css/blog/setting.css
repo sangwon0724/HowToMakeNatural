@@ -178,8 +178,8 @@
 	border-bottom: 1px solid black;
 }
 #setting_function_panel>article#setting_blog_info>main>div.setting_item>#blog_nickname,
-#setting_function_panel>article#setting_blog_info>main>div.setting_item>#profile_text,
-#setting_function_panel>article#setting_blog_info>main>div.setting_item>#logo_text{
+#setting_function_panel>article#setting_blog_info>main>div.setting_item>#blog_profile_text,
+#setting_function_panel>article#setting_blog_info>main>div.setting_item>#blog_logo_text{
 	width: 70%;
 	height: 50%;
 }
