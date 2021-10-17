@@ -702,7 +702,7 @@ public class blogController {
 	@ResponseBody
 	@RequestMapping(value = "/blog/setting/background", method = RequestMethod.POST)
 	public Map<String, Object> getSettingBackground(MultipartHttpServletRequest request) throws Exception {
-		System.out.println("개인 블로그 설정 - 프로필   (대상자 : " + request.getParameter("userID") + ")");
+		System.out.println("개인 블로그 설정 - 배경   (대상자 : " + request.getParameter("userID") + ")");
 
 		HashMap<String, Object> map = new HashMap<String, Object>(); //SQL 실행용
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
@@ -711,13 +711,37 @@ public class blogController {
 
         List<MultipartFile> fileList = request.getFiles("file"); //파일 목록
 
+ 		Iterator<String> itr = request.getFileNames(); //파일 이름 목록
+ 		
         //내부경로로 저장
  		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
  		String fileRoot = contextRoot+"resources/image/background/"+ request.getParameter("userID") +"/"; //경로 지정
  		
-		
-        for (MultipartFile mf : fileList) {
+ 		//폴더 존재 여부 확인
+ 		File Folder = new File(fileRoot); //필요한 경로에 폴더가 존재 하는 지 확인용 (확인 이유 : MultipartFile.transferTo 메소드는 해당 경로에 폴더가 없으면 오류가 발생한다.)
+
+    	// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+    	if (!Folder.exists()) {
+			try{
+				//Folder.mkdir() => 해당 디렉토리가 없을 때 해당 경로의 부모 디렉터리가 존재하지 않으면 폴더를 생성하지 않는다.
+				//Folder.mkdir() => 해당 디렉토리가 없을때 해당 경로의 부모 디렉터리가 존재하지 않으면 부모 디렉터리까지 함께 폴더를 생성한다.
+			    Folder.mkdirs(); //폴더 생성합니다.
+			    System.out.println("폴더가 생성되었습니다.");
+	        } 
+	        catch(Exception e){
+	        	e.getStackTrace();
+	        }        
+        }
+    	else {
+    		System.out.println("이미 폴더가 생성되어 있습니다.");
+    	}
+ 		
+		while(itr.hasNext()) {
+			String fileName = itr.next();
+			MultipartFile mf = request.getFile(fileName); //ajax에서 이름을 주었던 대로 MultipartFile 객체에 저장
+			
         	String originalFileName = new String(mf.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명
+        	System.out.println("1 : " + originalFileName); //임시
     		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
     		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
     		
@@ -726,9 +750,13 @@ public class blogController {
             try {
             	//InputStream fileStream = mf.getInputStream(); //파일 저장 - 1
 				//FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장 - 2
-            	
+
+            	System.out.println("2 : " + fileName); //임시
+            	System.out.println("3 : " + mf.getName()); //임시
             	mf.transferTo(new File(fileRoot + savedFileName)); //InputStream를 사용하지 않고 쉽게 저장하는 방법
-            	System.out.println(mf.getName());
+            	
+            	
+            	
 				//map.put("blog_profile_image", "/resources/image/background/" + request.getParameter("userID") + "/" + savedFileName);
             } catch (IllegalStateException e) {
                 e.printStackTrace();

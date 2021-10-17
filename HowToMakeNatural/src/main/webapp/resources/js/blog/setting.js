@@ -54,13 +54,11 @@ function toggle_button_for_profile_image(mode){
 function change_blog_background(id){
 	var formData = new FormData();
 	formData.append("userID", id);
-	formData.append("blog_nickname", $("#blog_nickname").val());
-	formData.append("blog_profile_image",$("#blog_profile_image")[0].files[0]);
-	formData.append("blog_profile_text", $("#blog_profile_text").val());
-	formData.append("blog_logo_text", $("#blog_logo_text").val());
+	formData.append("blog_background_image", $("#blog_background_image")[0].files[0]);
+	formData.append("blog_logo_image", $("#blog_logo_image")[0].files[0]);
 	
 	$.ajax({
-        url: "/blog/setting/profile",
+        url: "/blog/setting/background",
         type: "POST",
         enctype: 'multipart/form-data', // 필수
         processData: false, // 필수
