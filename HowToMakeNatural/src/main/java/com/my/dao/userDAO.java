@@ -26,4 +26,10 @@ public class userDAO implements userDAOInterface {
 	public void updateUserProfile(HashMap<String, Object> map) throws Exception {
 		sqlSession.update("userMapper.updateUserProfile", map);
 	}
+
+	/* 블로그 배경 변경 */
+	@Override
+	public void updateBlogBackground(HashMap<String, Object> map) throws Exception {
+		sqlSession.update("userMapper.updateBlogBackground", map);
+	}
 }

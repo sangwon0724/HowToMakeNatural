@@ -136,7 +136,7 @@
 					<input type="file" id="blog_background_image"<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}"> class="hidden"</c:if>>
 					<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}">
 						<button id="background_image_update_O" class="image_update_O" onclick="toggle_button_for_image('background', 'change')">변경</button>
-						<button id="background_image_update_X" class="image_update_X" onclick="toggle_button_for_image('background', '')" class="hidden">X</button>
+						<button id="background_image_update_X" class="image_update_X hidden" onclick="toggle_button_for_image('background', '')">X</button>
 					</c:if>
 					</div>
 					<div class="setting_item_name last"><span>블로그 로고 배경</span></div>
@@ -150,7 +150,7 @@
 					<input type="file" id="blog_logo_image"<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}"> class="hidden"</c:if>>
 					<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}">
 						<button id="logo_image_update_O" class="image_update_O" onclick="toggle_button_for_image('logo', 'change')">변경</button>
-						<button id="logo_image_update_X" class="image_update_X" onclick="toggle_button_for_image('logo', '')" class="hidden">X</button>
+						<button id="logo_image_update_X" class="image_update_X hidden" onclick="toggle_button_for_image('logo', '')">X</button>
 					</c:if>
 					</div>
 					<div class="change_button_area">

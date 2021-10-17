@@ -13,4 +13,5 @@ public interface userServiceInterface {
 	
 	//update
 	public void updateUserProfile(HashMap<String, Object> map) throws Exception;
+	public void updateBlogBackground(HashMap<String, Object> map) throws Exception;
 }

@@ -755,16 +755,16 @@ public class blogController {
             	System.out.println("3 : " + mf.getName()); //임시
             	mf.transferTo(new File(fileRoot + savedFileName)); //InputStream를 사용하지 않고 쉽게 저장하는 방법
             	
-            	
-            	
-				//map.put("blog_profile_image", "/resources/image/background/" + request.getParameter("userID") + "/" + savedFileName);
+				map.put(fileName, "/resources/image/background/" + request.getParameter("userID") + "/" + savedFileName);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
+		
+		userService.updateBlogBackground(map); //업데이트
+		
         result.put("message", "success"); //성공 메세지 전달
 	    return result;
     }

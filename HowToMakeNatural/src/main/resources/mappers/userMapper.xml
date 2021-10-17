@@ -30,4 +30,22 @@
     	WHERE
     		id=#{userID}
     </update>
+    
+    <!-- 블로그 배경 업데이트 -->
+    <update id="updateBlogBackground" parameterType="hashmap">
+    	UPDATE
+    		user
+    	SET
+    		<if test="blog_background_image != null and blog_background_image != '' and (blog_logo_image == null or blog_logo_image == '')">
+    		blog_background_image=#{blog_background_image}
+    		</if>
+    		<if test="blog_background_image != null and blog_background_image != '' and blog_logo_image != null and blog_logo_image != ''">
+    		blog_background_image=#{blog_background_image},
+    		</if>
+    		<if test="blog_logo_image != null and blog_logo_image != ''">
+    		blog_logo_image=#{blog_logo_image}
+    		</if>
+    	WHERE
+    		id=#{userID}
+    </update>
 </mapper>

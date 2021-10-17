@@ -35,6 +35,11 @@ public class userService  implements userServiceInterface{
 	@Override
 	public void updateUserProfile(HashMap<String, Object> map) throws Exception {
 		dao.updateUserProfile(map);
-		
+	}
+
+	/* 블로그 배경 변경 */
+	@Override
+	public void updateBlogBackground(HashMap<String, Object> map) throws Exception {
+		dao.updateBlogBackground(map);
 	}
 }
