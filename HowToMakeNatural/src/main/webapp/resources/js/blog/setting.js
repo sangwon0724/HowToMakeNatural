@@ -83,3 +83,20 @@ function change_blog_background(id){
         }
     });
 }
+
+//사진 변경
+function readURL(input, target) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+            $("#setting_blog_" + target + "_image>.image_preview").attr('src', e.target.result);
+        }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#blog_profile_image").on('change', function(){
+    readURL(this, "profile");
+});

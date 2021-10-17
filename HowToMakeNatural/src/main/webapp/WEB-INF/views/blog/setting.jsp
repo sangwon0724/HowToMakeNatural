@@ -94,9 +94,10 @@
 						<input type="text" id="blog_nickname" value="${userInfo.blog_nickname}" maxlength="30" placeholder="최대 30자까지 가능합니다.">
 					</div>
 					<div class="setting_item_name"><span>프로필 이미지</span></div>
-					<div id="setting_profile_image" class="setting_item">
+					<div id="setting_blog_profile_image" class="setting_item">
 					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
-						<div class="image_preview" style="background-image: url('${userInfo.blog_profile_image}');"></div>
+						<%-- <div class="image_preview" style="background-image: url('${userInfo.blog_profile_image}');"></div> --%>
+						<img alt="" src="${userInfo.blog_profile_image}" class="image_preview">
 					</c:if>
 					<c:if test="${empty userInfo.blog_profile_image or userInfo.blog_profile_image eq ''}">
 						<div class="image_preview"></div>
