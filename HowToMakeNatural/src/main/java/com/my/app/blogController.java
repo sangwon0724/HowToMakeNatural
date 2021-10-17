@@ -658,7 +658,7 @@ public class blogController {
 		map.put("blog_profile_text", new String(request.getParameter("blog_profile_text").getBytes("8859_1"),"utf-8"));
 		map.put("blog_logo_text", new String(request.getParameter("blog_logo_text").getBytes("8859_1"),"utf-8"));
 
-		// 내부경로로 저장
+		//내부경로로 저장
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
 		String fileRoot = contextRoot+"resources/image/profile/"+ request.getParameter("userID") +"/"; //경로 지정
 		
@@ -667,16 +667,17 @@ public class blogController {
 		if(itr.hasNext()) {
 			MultipartFile multipartFile = request.getFile(itr.next());
 			
-			String originalFileName = new String(multipartFile.getOriginalFilename().getBytes("8859_1"),"utf-8"); //오리지널 파일명
+			String originalFileName = new String(multipartFile.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 			String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 			
 			File targetFile = new File(fileRoot + savedFileName); //파일 객체에 저장
 			
-			System.out.println(multipartFile.getOriginalFilename() +" uploaded!");
+			//System.out.println(multipartFile.getOriginalFilename() +" uploaded!");
+			
 			try {
-				System.out.println("file length : " + multipartFile.getBytes().length);
-				System.out.println("file name : " + multipartFile.getOriginalFilename());
+				//System.out.println("file length : " + multipartFile.getBytes().length);
+				//System.out.println("file name : " + multipartFile.getOriginalFilename());
 				
 				InputStream fileStream = multipartFile.getInputStream();
 				FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
@@ -696,5 +697,48 @@ public class blogController {
 		result.put("message", "success"); //성공 메세지 전달
 	    return result;
 	}
+	
+	/* 개인 블로그 설정- 배경 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/setting/background", method = RequestMethod.POST)
+	public Map<String, Object> getSettingBackground(MultipartHttpServletRequest request) throws Exception {
+		System.out.println("개인 블로그 설정 - 프로필   (대상자 : " + request.getParameter("userID") + ")");
+
+		HashMap<String, Object> map = new HashMap<String, Object>(); //SQL 실행용
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		map.put("userID",  request.getParameter("userID"));
+
+        List<MultipartFile> fileList = request.getFiles("file"); //파일 목록
+
+        //내부경로로 저장
+ 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
+ 		String fileRoot = contextRoot+"resources/image/background/"+ request.getParameter("userID") +"/"; //경로 지정
+ 		
+		
+        for (MultipartFile mf : fileList) {
+        	String originalFileName = new String(mf.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명
+    		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+    		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+    		
+    		File targetFile = new File(fileRoot + savedFileName); //파일 객체에 저장
+    		
+            try {
+            	//InputStream fileStream = mf.getInputStream(); //파일 저장 - 1
+				//FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장 - 2
+            	
+            	mf.transferTo(new File(fileRoot + savedFileName)); //InputStream를 사용하지 않고 쉽게 저장하는 방법
+            	System.out.println(mf.getName());
+				//map.put("blog_profile_image", "/resources/image/background/" + request.getParameter("userID") + "/" + savedFileName);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        result.put("message", "success"); //성공 메세지 전달
+	    return result;
+    }
 	//=========================================== 개인 블로그 영역 (설정) 종료 =================================================================
 }

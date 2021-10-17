@@ -127,7 +127,7 @@
 				<main>
 					<div class="setting_item_name"><span>블로그 전체 배경</span></div>
 					<div id="setting_blog_background_image" class="setting_item">
-					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
+					<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}">
 						<div class="image_preview" style="background-image: url('${userInfo.blog_background_image}');"></div>
 					</c:if>
 					<c:if test="${empty userInfo.blog_background_image or userInfo.blog_background_image eq ''}">

@@ -210,7 +210,7 @@
 	cursor: pointer;
 }
 /* 이미지 미리보기 */
-#setting_function_panel>article#setting_blog_info>main>div.setting_item>.image_preview{
+#setting_function_panel>article>main>div.setting_item>.image_preview{
 	width: 150px;
 	height: 150px;
 	background-size: cover;
