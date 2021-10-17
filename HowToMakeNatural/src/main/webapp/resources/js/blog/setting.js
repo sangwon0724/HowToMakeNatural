@@ -54,3 +54,20 @@ function change_blog_info(id){
         }
     });
 }
+
+/* 프로필 이미지 변경에 대한 버튼 표출 여부 */
+function toggle_button_for_profiel_image(mode){
+	if(mode === "change"){
+		//변경 버튼 클릭
+		$("#blog_profile_image").removeClass("hidden"); //input file 보이기
+		$("#profile_image_update_O").addClass("hidden"); //변경 버튼 숨기기
+		$("#profile_image_update_X").removeClass("hidden"); //취소 버튼 보이기
+	}
+	else if(mode !== "change"){
+		//취소 버튼 클릭
+		$("#blog_profile_image").addClass("hidden"); //input file 숨기기
+		$("#profile_image_update_O").removeClass("hidden"); //변경 버튼 보이기
+		$("#profile_image_update_X").addClass("hidden"); //취소 버튼 숨기기
+		
+	}
+}

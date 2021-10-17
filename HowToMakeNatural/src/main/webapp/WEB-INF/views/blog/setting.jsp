@@ -98,7 +98,14 @@
 					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
 						<div id="profile_image_preview" style="background-image: url('${userInfo.blog_profile_image}');"></div>
 					</c:if>
-					<input type="file" id="blog_profile_image">
+					<c:if test="${empty userInfo.blog_profile_image or userInfo.blog_profile_image eq ''}">
+						<div id="profile_image_preview"></div>
+					</c:if>
+					<input type="file" id="blog_profile_image"<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}"> class="hidden"</c:if>>
+					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
+						<button id="profile_image_update_O" onclick="toggle_button_for_profiel_image('change')">변경</button>
+						<button id="profile_image_update_X" onclick="toggle_button_for_profiel_image('')" class="hidden">X</button>
+					</c:if>
 					</div>
 					<div class="setting_item_name"><span>프로필 소개글</span></div>
 					<div id="setting_profile_text" class="setting_item">

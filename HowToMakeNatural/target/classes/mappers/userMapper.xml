@@ -22,7 +22,9 @@
     		user
     	SET
     		blog_nickname=#{blog_nickname},
+    		<if test="blog_profile_image != null and blog_profile_image != ''">
     		blog_profile_image=#{blog_profile_image},
+    		</if>
     		blog_profile_text=#{blog_profile_text},
     		blog_logo_text=#{blog_logo_text}
     	WHERE
