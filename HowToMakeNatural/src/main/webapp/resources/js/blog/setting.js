@@ -1,4 +1,6 @@
-/*======= 블로그 개인 설정= ======*/
+/*======= 블로그 개인 설정 =======*/
+
+/*=================================== 공통 영역  시작 ===================================*/
 
 /* 보이는 화면 설정 */
 function toggleSettingFunctionPanel(target){
@@ -22,6 +24,23 @@ function toggle_button_for_image(target, mode){
 		
 	}
 }
+
+//사진 변경 시 미리보기
+function preview_image(input, target) {
+  if (input.files && input.files[0]) {
+  	
+  var reader = new FileReader();
+
+  reader.onload = function (e) {
+          $("#setting_blog_" + target + "_image>.image_preview").attr('src', e.target.result);
+      }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+/*=================================== 공통 영역  종료 ===================================*/
+/*=================================== 개별 영역  시작 ===================================*/
 
 /* 프로필 변경 */
 function change_blog_info(id){
@@ -51,6 +70,8 @@ function change_blog_info(id){
         }
     });
 }
+
+/*---------------------------------------------------------------------------------*/
 
 /* 배경 변경 */
 function change_blog_background(id){
@@ -82,16 +103,149 @@ function change_blog_background(id){
     });
 }
 
-//사진 변경
-function readURL(input, target) {
-    if (input.files && input.files[0]) {
-    	
-    var reader = new FileReader();
+/*---------------------------------------------------------------------------------*/
 
-    reader.onload = function (e) {
-            $("#setting_blog_" + target + "_image>.image_preview").attr('src', e.target.result);
+/* 배치 변경 */
+function change_blog_placement(id){
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/업데이트_예정",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var list="";
+        	$.each(result.list, function (index, item) {
+        		
+            });//each 종료
+            $('해당 영역').html(list);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
         }
-
-      reader.readAsDataURL(input.files[0]);
-    }
+    });
 }
+
+/*---------------------------------------------------------------------------------*/
+
+/* 위젯 변경 */
+function change_blog_wizet(id){
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/업데이트_예정",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var list="";
+        	$.each(result.list, function (index, item) {
+        		
+            });//each 종료
+            $('해당 영역').html(list);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/*---------------------------------------------------------------------------------*/
+
+/* 이웃 목록 관련 */
+function change_blog_neighbor_list(id){
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/업데이트_예정",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var list="";
+        	$.each(result.list, function (index, item) {
+        		
+            });//each 종료
+            $('해당 영역').html(list);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/*---------------------------------------------------------------------------------*/
+
+/* 나를 추가한 이웃 관련 */
+function change_blog_neighbor_follow_me(id){
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/업데이트_예정",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var list="";
+        	$.each(result.list, function (index, item) {
+        		
+            });//each 종료
+            $('해당 영역').html(list);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/*---------------------------------------------------------------------------------*/
+
+/* 카테고리 관련 */
+function change_blog_category(id){
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/업데이트_예정",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+        	var list="";
+        	$.each(result.list, function (index, item) {
+        		
+            });//each 종료
+            $('해당 영역').html(list);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/*=================================== 개별 영역  종료 ===================================*/

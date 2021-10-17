@@ -101,7 +101,7 @@
 					<c:if test="${empty userInfo.blog_profile_image or userInfo.blog_profile_image eq ''}">
 						<img alt="" src="#" class="image_preview">
 					</c:if>
-					<input type="file" onchange="readURL(this, 'profile')" id="blog_profile_image"<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}"> class="hidden"</c:if>>
+					<input type="file" onchange="preview_image(this, 'profile')" id="blog_profile_image"<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}"> class="hidden"</c:if>>
 					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
 						<button id="profile_image_update_O" class="image_update_O" onclick="toggle_button_for_image('profile', 'change')">변경</button>
 						<button id="profile_image_update_X" class="image_update_X hidden" onclick="toggle_button_for_image('profile', '')">X</button>
@@ -135,7 +135,7 @@
 					<c:if test="${empty userInfo.blog_background_image or userInfo.blog_background_image eq ''}">
 						<img alt="" src="#" class="image_preview">
 					</c:if>
-					<input type="file" onchange="readURL(this, 'background')" id="blog_background_image"<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}"> class="hidden"</c:if>>
+					<input type="file" onchange="preview_image(this, 'background')" id="blog_background_image"<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}"> class="hidden"</c:if>>
 					<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}">
 						<button id="background_image_update_O" class="image_update_O" onclick="toggle_button_for_image('background', 'change')">변경</button>
 						<button id="background_image_update_X" class="image_update_X hidden" onclick="toggle_button_for_image('background', '')">X</button>
@@ -149,7 +149,7 @@
 					<c:if test="${empty userInfo.blog_logo_image or userInfo.blog_logo_image eq ''}">
 						<img alt="" src="#" class="image_preview">
 					</c:if>
-					<input type="file" onchange="readURL(this, 'logo')" id="blog_logo_image"<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}"> class="hidden"</c:if>>
+					<input type="file" onchange="preview_image(this, 'logo')" id="blog_logo_image"<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}"> class="hidden"</c:if>>
 					<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}">
 						<button id="logo_image_update_O" class="image_update_O" onclick="toggle_button_for_image('logo', 'change')">변경</button>
 						<button id="logo_image_update_X" class="image_update_X hidden" onclick="toggle_button_for_image('logo', '')">X</button>
@@ -164,27 +164,91 @@
 			<!-- 블로그 배치 설정 시작 -->
 			<article id="setting_blog_placement" class="hidden">
 				<div class="title"><span>블로그 배치</span></div>
-			블로그 배치 타입
+				<main>
+					<div class="setting_item_name"><span>블로그 배치 타입</span></div>
+					<div id="setting_nickname" class="setting_item">
+						항목
+					</div>
+					<div class="setting_item_name last"><span>마지막 항목</span></div>
+					<div id="setting_logo_text" class="setting_item last">
+						마지막 항목
+					</div>
+					<div class="change_button_area">
+						<button onclick="change_blog_placement('${sessionScope.user.id}')">확인</button>
+					</div>
+				</main>
 			</article>
 			<!-- 블로그 배치 설정 종료 -->
 			<!-- 블로그 위젯 설정 시작 -->
 			<article id="setting_blog_wizet" class="hidden">
 				<div class="title"><span>블로그 위젯</span></div>
+				<main>
+					<div class="setting_item_name"><span>항목</span></div>
+					<div id="setting_nickname" class="setting_item">
+						항목
+					</div>
+					<div class="setting_item_name last"><span>마지막 항목</span></div>
+					<div id="setting_logo_text" class="setting_item last">
+						마지막 항목
+					</div>
+					<div class="change_button_area">
+						<button onclick="change_blog_wizet('${sessionScope.user.id}')">확인</button>
+					</div>
+				</main>
 			</article>
 			<!-- 블로그 위젯 설정 종료 -->
 			<!-- 블로그 이웃 목록 설정 시작 -->
 			<article id="setting_blog_neighbor_list" class="hidden">
 				<div class="title"><span>이웃 목록</span></div>
+				<main>
+					<div class="setting_item_name"><span>항목</span></div>
+					<div id="setting_nickname" class="setting_item">
+						항목
+					</div>
+					<div class="setting_item_name last"><span>마지막 항목</span></div>
+					<div id="setting_logo_text" class="setting_item last">
+						마지막 항목
+					</div>
+					<div class="change_button_area">
+						<button onclick="change_blog_neighbor_list('${sessionScope.user.id}')">확인</button>
+					</div>
+				</main>
 			</article>
 			<!-- 블로그 이웃 목록 설정 종료 -->
 			<!-- 블로그 나를 추가한 이웃 설정 시작 -->
 			<article id="setting_blog_neighbor_follow_me" class="hidden">
-				<div class="title"><span> 나를 추가한 이웃</span></div>
+				<div class="title"><span>나를 추가한 이웃</span></div>
+				<main>
+					<div class="setting_item_name"><span>항목</span></div>
+					<div id="setting_nickname" class="setting_item">
+						항목
+					</div>
+					<div class="setting_item_name last"><span>마지막 항목</span></div>
+					<div id="setting_logo_text" class="setting_item last">
+						마지막 항목
+					</div>
+					<div class="change_button_area">
+						<button onclick="change_blog_neighbor_follow_me('${sessionScope.user.id}')">확인</button>
+					</div>
+				</main>
 			</article>
 			<!-- 블로그 나를 추가한 이웃 설정 종료 -->
 			<!-- 블로그 카테고리 설정 시작 -->
 			<article id="setting_blog_category" class="hidden">
 				<div class="title"><span>카테고리 설정</span></div>
+				<main>
+					<div class="setting_item_name"><span>항목</span></div>
+					<div id="setting_nickname" class="setting_item">
+						항목
+					</div>
+					<div class="setting_item_name last"><span>마지막 항목</span></div>
+					<div id="setting_logo_text" class="setting_item last">
+						마지막 항목
+					</div>
+					<div class="change_button_area">
+						<button onclick="change_blog_category('${sessionScope.user.id}')">확인</button>
+					</div>
+				</main>
 			</article>
 			<!-- 블로그 카테고리 설정 종료 -->
 		</section>

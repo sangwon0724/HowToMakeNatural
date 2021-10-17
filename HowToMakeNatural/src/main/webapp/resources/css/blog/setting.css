@@ -220,14 +220,44 @@
 
 /*============================================================================================================*/
 
-/* 설정 기능 화면 - 블로그 정보 */
+/* 설정 기능 화면 - 블로그 - 프로필 */
 #setting_function_panel>article#setting_blog_info>main{
 	height: 90vh;
 	grid-template-rows: 2fr 3fr 2fr 2fr 50px;
 }
 
-/* 설정 기능 화면 - 블로그  배경 */
+/* 설정 기능 화면 - 블로그 -  배경 */
 #setting_function_panel>article#setting_blog_background>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 배치 */
+#setting_function_panel>article#setting_blog_placement>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 위젯 */
+#setting_function_panel>article#setting_blog_wizet>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 이웃 목록 */
+#setting_function_panel>article#setting_blog_neighbor_list>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 나를 추가한 이웃 설정 */
+#setting_function_panel>article#setting_blog_neighbor_follow_me>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 카테고리 설정 */
+#setting_function_panel>article#setting_blog_category>main{
 	height: 70vh;
 	grid-template-rows: 2fr 2fr 50px;
 }
