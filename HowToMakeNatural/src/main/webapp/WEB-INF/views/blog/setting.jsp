@@ -96,15 +96,15 @@
 					<div class="setting_item_name"><span>프로필 이미지</span></div>
 					<div id="setting_profile_image" class="setting_item">
 					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
-						<div id="profile_image_preview" style="background-image: url('${userInfo.blog_profile_image}');"></div>
+						<div class="image_preview" style="background-image: url('${userInfo.blog_profile_image}');"></div>
 					</c:if>
 					<c:if test="${empty userInfo.blog_profile_image or userInfo.blog_profile_image eq ''}">
-						<div id="profile_image_preview"></div>
+						<div class="image_preview"></div>
 					</c:if>
 					<input type="file" id="blog_profile_image"<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}"> class="hidden"</c:if>>
 					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
-						<button id="profile_image_update_O" onclick="toggle_button_for_profiel_image('change')">변경</button>
-						<button id="profile_image_update_X" onclick="toggle_button_for_profiel_image('')" class="hidden">X</button>
+						<button id="profile_image_update_O" class="image_update_O" onclick="toggle_button_for_image('profile', 'change')">변경</button>
+						<button id="profile_image_update_X" class="image_update_X hidden" onclick="toggle_button_for_image('profile', '')">X</button>
 					</c:if>
 					</div>
 					<div class="setting_item_name"><span>프로필 소개글</span></div>
@@ -112,7 +112,7 @@
 						<input type="text" id="blog_profile_text" value="${userInfo.blog_profile_text}" maxlength="50" placeholder="최대 50자까지 가능합니다.">
 					</div>
 					<div class="setting_item_name last"><span>블로그 소개글</span></div>
-					<div id="setting_logo_text" class="setting_item">
+					<div id="setting_logo_text" class="setting_item last">
 						<input type="text" id="blog_logo_text" value="${userInfo.blog_logo_text}" maxlength="50" placeholder="최대 50자까지 가능합니다.">
 					</div>
 					<div class="change_button_area">
@@ -123,10 +123,40 @@
 			<!-- 블로그 정보 설정 종료 -->
 			<!-- 블로그 베경 설정 시작 -->
 			<article id="setting_blog_background" class="hidden">
-				<div class="title"><span>블로그 베경</span></div>
-				<div class="setting_item_name"><span>블로그 로고 배경</span></div>
-				<div id="setting_logo_image"></div>
-			배경이미지
+				<div class="title"><span>블로그 배경</span></div>
+				<main>
+					<div class="setting_item_name"><span>블로그 전체 배경</span></div>
+					<div id="setting_blog_background_image" class="setting_item">
+					<c:if test="${not empty userInfo.blog_profile_image and userInfo.blog_profile_image ne ''}">
+						<div class="image_preview" style="background-image: url('${userInfo.blog_background_image}');"></div>
+					</c:if>
+					<c:if test="${empty userInfo.blog_background_image or userInfo.blog_background_image eq ''}">
+						<div class="image_preview"></div>
+					</c:if>
+					<input type="file" id="blog_background_image"<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}"> class="hidden"</c:if>>
+					<c:if test="${not empty userInfo.blog_background_image and userInfo.blog_background_image ne ''}">
+						<button id="background_image_update_O" class="image_update_O" onclick="toggle_button_for_image('background', 'change')">변경</button>
+						<button id="background_image_update_X" class="image_update_X" onclick="toggle_button_for_image('background', '')" class="hidden">X</button>
+					</c:if>
+					</div>
+					<div class="setting_item_name last"><span>블로그 로고 배경</span></div>
+					<div id="setting_blog_logo_image" class="setting_item last">
+					<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}">
+						<div class="image_preview" style="background-image: url('${userInfo.blog_logo_image}');"></div>
+					</c:if>
+					<c:if test="${empty userInfo.blog_logo_image or userInfo.blog_logo_image eq ''}">
+						<div class="image_preview"></div>
+					</c:if>
+					<input type="file" id="blog_logo_image"<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}"> class="hidden"</c:if>>
+					<c:if test="${not empty userInfo.blog_logo_image and userInfo.blog_logo_image ne ''}">
+						<button id="logo_image_update_O" class="image_update_O" onclick="toggle_button_for_image('logo', 'change')">변경</button>
+						<button id="logo_image_update_X" class="image_update_X" onclick="toggle_button_for_image('logo', '')" class="hidden">X</button>
+					</c:if>
+					</div>
+					<div class="change_button_area">
+						<button onclick="change_blog_background('${sessionScope.user.id}')">확인</button>
+					</div>
+				</main>
 			</article>
 			<!-- 블로그 배경 설정 종료 -->
 			<!-- 블로그 배치 설정 시작 -->

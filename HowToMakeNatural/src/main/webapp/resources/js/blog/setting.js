@@ -1,4 +1,4 @@
-/* 블로그 개인 설정 */
+/*======= 블로그 개인 설정= ======*/
 
 /* 보이는 화면 설정 */
 function toggleSettingFunctionPanel(target){
@@ -8,34 +8,12 @@ function toggleSettingFunctionPanel(target){
 
 /* 프로필 변경 */
 function change_blog_info(id){
-	/*var data = {
-		userID : id,
-		blog_nickname: $("#blog_nickname").val(),
-		blog_profile_text: $("#profile_text").val(),
-		blog_logo_text: $("#logo_text").val()
-	};*/
-	
 	var formData = new FormData();
 	formData.append("userID", id);
 	formData.append("blog_nickname", $("#blog_nickname").val());
 	formData.append("blog_profile_image",$("#blog_profile_image")[0].files[0]);
 	formData.append("blog_profile_text", $("#blog_profile_text").val());
 	formData.append("blog_logo_text", $("#blog_logo_text").val());
-	
-	/*$.ajax({
-        url: "/blog/setting/profile",
-        type: "POST",
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        success: function(result){
-        	alert("정상적으로 변경되었습니다.");
-        	window.location.reload();
-        },
-        error: function(error){
-            alert("오류 발생");
-            console.log(error);
-        }
-    });*/
 	
 	$.ajax({
         url: "/blog/setting/profile",
@@ -56,7 +34,7 @@ function change_blog_info(id){
 }
 
 /* 프로필 이미지 변경에 대한 버튼 표출 여부 */
-function toggle_button_for_profiel_image(mode){
+function toggle_button_for_profile_image(mode){
 	if(mode === "change"){
 		//변경 버튼 클릭
 		$("#blog_profile_image").removeClass("hidden"); //input file 보이기
@@ -68,6 +46,50 @@ function toggle_button_for_profiel_image(mode){
 		$("#blog_profile_image").addClass("hidden"); //input file 숨기기
 		$("#profile_image_update_O").removeClass("hidden"); //변경 버튼 보이기
 		$("#profile_image_update_X").addClass("hidden"); //취소 버튼 숨기기
+		
+	}
+}
+
+/* 배경 변경 */
+function change_blog_background(id){
+	var formData = new FormData();
+	formData.append("userID", id);
+	formData.append("blog_nickname", $("#blog_nickname").val());
+	formData.append("blog_profile_image",$("#blog_profile_image")[0].files[0]);
+	formData.append("blog_profile_text", $("#blog_profile_text").val());
+	formData.append("blog_logo_text", $("#blog_logo_text").val());
+	
+	$.ajax({
+        url: "/blog/setting/profile",
+        type: "POST",
+        enctype: 'multipart/form-data', // 필수
+        processData: false, // 필수
+        contentType: false, // 필수
+        data: formData,
+        success: function(result){
+        	alert("정상적으로 변경되었습니다.");
+        	window.location.reload();
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 프로필 이미지 변경에 대한 버튼 표출 여부 */
+function toggle_button_for_image(target, mode){
+	if(mode === "change"){
+		//변경 버튼 클릭
+		$("#blog_"+ target +"_image").removeClass("hidden"); //input file 보이기
+		$("#" + target + "_image_update_O").addClass("hidden"); //변경 버튼 숨기기
+		$("#" + target + "_image_update_X").removeClass("hidden"); //취소 버튼 보이기
+	}
+	else if(mode !== "change"){
+		//취소 버튼 클릭
+		$("#blog_"+ target +"_image").addClass("hidden"); //input file 숨기기
+		$("#" + target + "_image_update_O").removeClass("hidden"); //변경 버튼 보이기
+		$("#" + target + "_image_update_X").addClass("hidden"); //취소 버튼 숨기기
 		
 	}
 }
