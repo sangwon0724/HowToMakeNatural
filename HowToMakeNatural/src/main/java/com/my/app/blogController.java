@@ -657,6 +657,8 @@ public class blogController {
 		map.put("blog_nickname", new String(request.getParameter("blog_nickname").getBytes("8859_1"),"utf-8"));
 		map.put("blog_profile_text", new String(request.getParameter("blog_profile_text").getBytes("8859_1"),"utf-8"));
 		map.put("blog_logo_text", new String(request.getParameter("blog_logo_text").getBytes("8859_1"),"utf-8"));
+		map.put("blog_logo_text_color", request.getParameter("blog_logo_text_color"));
+		map.put("blog_logo_text_size", request.getParameter("blog_logo_text_size"));
 
 		//내부경로로 저장
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
@@ -741,7 +743,6 @@ public class blogController {
 			MultipartFile mf = request.getFile(fileName); //ajax에서 이름을 주었던 대로 MultipartFile 객체에 저장
 			
         	String originalFileName = new String(mf.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명
-        	System.out.println("1 : " + originalFileName); //임시
     		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
     		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
     		
@@ -750,9 +751,6 @@ public class blogController {
             try {
             	//InputStream fileStream = mf.getInputStream(); //파일 저장 - 1
 				//FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장 - 2
-
-            	System.out.println("2 : " + fileName); //임시
-            	System.out.println("3 : " + mf.getName()); //임시
             	mf.transferTo(new File(fileRoot + savedFileName)); //InputStream를 사용하지 않고 쉽게 저장하는 방법
             	
 				map.put(fileName, "/resources/image/background/" + request.getParameter("userID") + "/" + savedFileName);
@@ -762,7 +760,7 @@ public class blogController {
                 e.printStackTrace();
             }
         }
-		
+		System.out.println("map : " + map);
 		userService.updateBlogBackground(map); //업데이트
 		
         result.put("message", "success"); //성공 메세지 전달

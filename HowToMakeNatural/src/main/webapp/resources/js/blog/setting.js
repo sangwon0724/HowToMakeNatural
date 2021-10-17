@@ -31,6 +31,8 @@ function change_blog_info(id){
 	formData.append("blog_profile_image",$("#blog_profile_image")[0].files[0]);
 	formData.append("blog_profile_text", $("#blog_profile_text").val());
 	formData.append("blog_logo_text", $("#blog_logo_text").val());
+	formData.append("blog_logo_text_color", $("#blog_logo_text_color").val());
+	formData.append("blog_logo_text_size", $("#blog_logo_text_size").val());
 	
 	$.ajax({
         url: "/blog/setting/profile",
@@ -54,12 +56,8 @@ function change_blog_info(id){
 function change_blog_background(id){
 	var formData = new FormData();
 	formData.append("userID", id);
-	if($("#blog_background_image")[0].files[0] !== undefined){
 		formData.append("blog_background_image", $("#blog_background_image")[0].files[0]);
-	}
-	if($("#blog_logo_image")[0].files[0] !== undefined){
 		formData.append("blog_logo_image", $("#blog_logo_image")[0].files[0]);
-	}
 	
 	if($("#blog_background_image")[0].files[0] === undefined && $("#blog_logo_image")[0].files[0] === undefined){
 		alert("변경하기 위해 선택된 이미지가 존재하지 않습니다.");
@@ -87,6 +85,7 @@ function change_blog_background(id){
 //사진 변경
 function readURL(input, target) {
     if (input.files && input.files[0]) {
+    	
     var reader = new FileReader();
 
     reader.onload = function (e) {
@@ -96,7 +95,3 @@ function readURL(input, target) {
       reader.readAsDataURL(input.files[0]);
     }
 }
-
-$("#blog_profile_image").on('change', function(){
-    readURL(this, "profile");
-});

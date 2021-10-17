@@ -78,10 +78,8 @@
 		
 		
 		<!-- 배경글 시작 -->
-		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>
-		onclick="go_user_blog('${userInfo.id}')"
-		>
-			<span>
+		<header id="background_logo" class="flex_column_center_center"  style="background-image: url('${userInfo.blog_logo_image}');" onclick="go_user_blog('${userInfo.id}')">
+			<span style="color: ${userInfo.blog_logo_text_color}; font-size: ${userInfo.blog_logo_text_size}px">
 				<c:if test='${userInfo.blog_logo_text != null && userInfo.blog_logo_text != ""}'>${userInfo.blog_logo_text}</c:if>
 				<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그입니다.</c:if>
 			</span>

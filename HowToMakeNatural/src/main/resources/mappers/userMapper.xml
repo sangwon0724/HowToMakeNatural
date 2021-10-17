@@ -7,9 +7,12 @@
 	<!-- 개인 블로그 입장시 해당 유저의 정보 가져오기 -->
     <select id="selectUserInfoForBlog" parameterType="String" resultType="hashmap" >
       		SELECT
-      			id, blog_profile_image,
-      			blog_nickname, blog_profile_text, blog_logo_text,
-      			blog_logo_image, blog_background_image, blog_setting_type
+      			id,
+      			blog_profile_image,
+      			blog_nickname, blog_profile_text,
+      			blog_logo_text, blog_logo_text_color, blog_logo_image, blog_logo_text_size,
+      			blog_background_image,
+      			blog_setting_type
      		FROM
      			user
      		where
@@ -26,7 +29,9 @@
     		blog_profile_image=#{blog_profile_image},
     		</if>
     		blog_profile_text=#{blog_profile_text},
-    		blog_logo_text=#{blog_logo_text}
+    		blog_logo_text=#{blog_logo_text},
+    		blog_logo_text_color=#{blog_logo_text_color},
+    		blog_logo_text_size=#{blog_logo_text_size}
     	WHERE
     		id=#{userID}
     </update>
