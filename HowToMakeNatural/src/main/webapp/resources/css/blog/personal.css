@@ -236,7 +236,13 @@
 	width: 100%;
 	height: 80%;
 	cursor: pointer;
-	background-size: cover;
+	background-color: white;
+}
+#neighbor_panel>main>div>main>img{
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	max-height: 68.5px;
 }
 #neighbor_panel>main>div>footer{
 	width: 100%;

@@ -32,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.my.service.blogServiceInterface;
 import com.my.service.userServiceInterface;
 import com.my.util.paging;
+import com.my.util.thumbnailMaker;
 
 @Controller
 public class blogController {
@@ -88,6 +89,9 @@ public class blogController {
 	//페이징용
 	private paging paging = new paging();
 	
+	//썸네일 생성용
+	private thumbnailMaker thumbnail = new thumbnailMaker();
+	
 	//============================================= 블로그 메인 영역 시작 =====================================================================
 	
 	/* 블로그 메인 */
@@ -109,6 +113,7 @@ public class blogController {
 		
 		//페이징 정보
 		if(!postList.isEmpty()) {
+			postList=thumbnail.make_single_thumbnail(postList); //썸네일 생성
 			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
 			model.addAttribute("paging", pagingSetting); //페이징 정보 설정
 		}
@@ -133,6 +138,7 @@ public class blogController {
 		
 		//페이징 정보
 		if(!postList.isEmpty()) {
+			postList=thumbnail.make_single_thumbnail(postList); //썸네일 생성
 			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
 			result.put("paging", pagingSetting); //페이징 정보 설정
 		}

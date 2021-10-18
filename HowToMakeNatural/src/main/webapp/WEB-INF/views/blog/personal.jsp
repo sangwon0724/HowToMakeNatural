@@ -17,7 +17,7 @@
 	<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그</c:if>
 </title>
 </head>
-<body>
+<body style="background-image: url('${userInfo.blog_background_image}');background-size: cover;background-position: 50% 0;background-repeat: repeat-x;"">
 	<!-- 히든 값 영역 시작 -->
 		<c:if test="${not empty sessionScope.user.id}">
 		<!-- 현재 유저의 아이디 -->
@@ -78,7 +78,7 @@
 		
 		
 		<!-- 배경글 시작 -->
-		<header id="background_logo" class="flex_column_center_center"  style="background-image: url('${userInfo.blog_logo_image}');" onclick="go_user_blog('${userInfo.id}')">
+		<header id="background_logo" class="flex_column_center_center" style="background-image: url('${userInfo.blog_logo_image}');" onclick="go_user_blog('${userInfo.id}')">
 			<span style="color: ${userInfo.blog_logo_text_color}; font-size: ${userInfo.blog_logo_text_size}px">
 				<c:if test='${userInfo.blog_logo_text != null && userInfo.blog_logo_text != ""}'>${userInfo.blog_logo_text}</c:if>
 				<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그입니다.</c:if>
@@ -145,9 +145,9 @@
 								</c:if>
 								<c:if test='${neighborList != null and neighborList != ""}'>	
 									<c:forEach items="${neighborList}" var="neighbor" begin="0" end="8">
-										<div neighborID="${neighbor.target}">
-											<main onclick="go_user_blog('${neighbor.target}')" style="background-image: url('${neighbor.blog_profile_image}');">
-												이미지 영역
+										<div>
+											<main>
+												<img onclick="go_user_blog('${neighbor.target}')" src="${neighbor.blog_profile_image}">
 											</main>
 											<footer>
 												<span>${neighbor.nickname}</span>
