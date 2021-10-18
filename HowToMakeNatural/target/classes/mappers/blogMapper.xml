@@ -17,7 +17,10 @@
       		SELECT
       			count(title) OVER(PARTITION BY 1) count, no, 
       			title, content, category, tag, 
-      			DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate, userID, (SELECT blog_nickname FROM user WHERE id=b.userID) userNickName, 
+      			DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate, userID, (SELECT blog_nickname FROM user WHERE id=b.userID) userNickName,
+      			<if test='userID == null or userID == ""'>
+	      		
+	      		</if>
       			 (SELECT count(no) FROM blog_comment WHERE post_no=b.no and useYN ='Y') commentCount,
       			 (SELECT count(userID) FROM blog_good WHERE post_no=b.no) goodCount
       		FROM blog_post b
