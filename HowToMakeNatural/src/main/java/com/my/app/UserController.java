@@ -73,7 +73,7 @@ public class UserController {
 		String referer = request.getHeader("Referer");
 
 		//세션 무효화
-		userService.logout(session);
+		session.invalidate();
 	   
 		//로그아웃 하기 전의 페이지 주소로 이동
 		return "redirect:"+referer;

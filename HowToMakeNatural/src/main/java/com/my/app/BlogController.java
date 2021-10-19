@@ -128,7 +128,7 @@ public class BlogController {
 	
 	/* 블로그 메인 글 가져오기 - Ajax */
 	@ResponseBody
-	@RequestMapping(value = "/blog/main/Ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/blog/main/ajax", method = RequestMethod.POST)
 	public Map<String, Object> getMainPostListAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("Ajax 요청 - 블로그 메인  / 게시글 단위 수 : " + map.get("block") + " / 요청 카테고리 : "+ map.get("category") + " / 검색 요청 항목 : " + map.get("object") + " / 검색 요청 문자 : "+map.get("search"));
@@ -153,7 +153,7 @@ public class BlogController {
 	
 	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
 	@ResponseBody
-	@RequestMapping(value = "/blog/menu/Ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/blog/menu/ajax", method = RequestMethod.POST)
 	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("Ajax 요청 - 개인 메뉴 : " + map.get("menu"));
@@ -391,7 +391,7 @@ public class BlogController {
 	
 	/* 개인 블로그 게시글 목록 가져오기 - Ajax */
 	@ResponseBody
-	@RequestMapping(value = "/blog/paging/Ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/blog/paging/ajax", method = RequestMethod.POST)
 	public Map<String, Object> getPersonalPostListAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("게시글 목록을 위한  Ajax 요청 - 개인 블로그 - 유저 아이디 : " + map.get("userID"));

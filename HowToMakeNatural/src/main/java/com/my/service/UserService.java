@@ -14,13 +14,6 @@ public class UserService  implements UserServiceInterface{
 	@Autowired
     private UserDAOInterface dao;
 	
-	//logout
-	@Override
-	public void logout(HttpSession session) throws Exception {
-		session.invalidate();
-	}
-
-	
 	//===========================================================<<< select >>>============================================================================
 	
 	/* 개인 블로그 입장시 해당 유저의 정보 가져오기 */
