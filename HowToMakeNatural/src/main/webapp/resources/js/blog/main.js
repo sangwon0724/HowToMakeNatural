@@ -37,7 +37,7 @@ function main_search(){
 	
 	//게시글 변경
 	$.ajax({
-      url: "/blog/main/Ajax",
+      url: "/blog/main/ajax",
       type: "POST",
       data: JSON.stringify(data),
       contentType: "application/json",
@@ -131,7 +131,7 @@ function blog_home_ajax(){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/main/Ajax",
+        url: "/blog/main/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -210,7 +210,7 @@ function blog_main_search_category_click(category){
 	
 	//게시글 변경
 	$.ajax({
-      url: "/blog/main/Ajax",
+      url: "/blog/main/ajax",
       type: "POST",
       data: JSON.stringify(data),
       contentType: "application/json",
@@ -302,7 +302,7 @@ function blog_main_category_click(category){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/main/Ajax",
+        url: "/blog/main/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -394,7 +394,7 @@ function blog_main_my_menu(id, menu){
     };
 	
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -571,7 +571,7 @@ function main_menu_paging_post_ajax(blogUserID, page){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -660,7 +660,7 @@ function main_menu_paging_neighbor_ajax(blogUserID, page){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -729,7 +729,7 @@ function main_post_paging(page, category, mode, object, search){
 		
 		//게시글 변경
 		$.ajax({
-	        url: "/blog/main/Ajax",
+	        url: "/blog/main/ajax",
 	        type: "POST",
 	        data: JSON.stringify(data),
 	        contentType: "application/json",

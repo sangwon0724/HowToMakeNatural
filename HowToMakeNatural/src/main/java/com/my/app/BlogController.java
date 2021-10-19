@@ -559,7 +559,7 @@ public class BlogController {
 	
 	/* 개인 블로그 - 좋아요 관련 ajax*/
 	@ResponseBody
-	@RequestMapping(value = "/blog/good/Ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/blog/good/ajax", method = RequestMethod.POST)
 	public Map<String, Object> controllPersonalGood(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 좋아요 - 유저 아이디 : " + map.get("userID") + " / 게시글 번호 : "+ map.get("no") + " / 모드 : " + map.get("mode"));
@@ -583,7 +583,7 @@ public class BlogController {
 	
 	/* 개인 블로그 - 이웃 관련 ajax*/
 	@ResponseBody
-	@RequestMapping(value = "/blog/neighbor/Ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/blog/neighbor/ajax", method = RequestMethod.POST)
 	public Map<String, Object> controllPersonalNeighbor(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 좋아요 - 신청자 : " + map.get("userID") + " / 대상자 : "+ map.get("target") + " / 모드 : " + map.get("mode"));
@@ -759,8 +759,8 @@ public class BlogController {
     		File targetFile = new File(fileRoot + savedFileName); //파일 객체에 저장
     		
             try {
-            	//InputStream fileStream = mf.getInputStream(); //파일 저장 - 1
-				//FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장 - 2
+            	//InputStream fileStream = mf.getInputStream(); //InputStream을 통한 파일 저장
+				//FileUtils.copyInputStreamToFile(fileStream, targetFile); //InputStream을 통한 파일 저장
             	mf.transferTo(new File(fileRoot + savedFileName)); //InputStream를 사용하지 않고 쉽게 저장하는 방법
             	
 				map.put(fileName, "/resources/image/background/" + request.getParameter("userID") + "/" + savedFileName);

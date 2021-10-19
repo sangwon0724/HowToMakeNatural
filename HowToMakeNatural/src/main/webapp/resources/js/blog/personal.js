@@ -104,7 +104,7 @@ function paging_neighbor_ajax(start, userID){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -177,7 +177,7 @@ function personal_paging_top(page,blogUserID,nowPostNo, mode){
 	    };
 		//게시글 변경
 		$.ajax({
-	        url: "/blog/paging/Ajax",
+	        url: "/blog/paging/ajax",
 	        type: "POST",
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
@@ -271,7 +271,7 @@ function personal_paging_bottom_ajax(blogUserID, page, nowPostNo){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/paging/Ajax",
+        url: "/blog/paging/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -348,7 +348,7 @@ function personal_paging_search(page, blogUserID, mode, type, value){
 		
 		//게시글 변경
 		$.ajax({
-	        url: "/blog/paging/Ajax",
+	        url: "/blog/paging/ajax",
 	        type: "POST",
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
@@ -696,7 +696,7 @@ function goodAddAndCancle(id, no){
 	};
 	
 	$.ajax({
-        url: "/blog/good/Ajax",
+        url: "/blog/good/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -752,7 +752,7 @@ function addNeighbor(id, target){
 	};
 	
 	$.ajax({
-        url: "/blog/neighbor/Ajax",
+        url: "/blog/neighbor/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
