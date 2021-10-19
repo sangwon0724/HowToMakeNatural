@@ -101,7 +101,7 @@ public class BlogController {
 	
 	/* 블로그 메인 */
 	@RequestMapping(value = "/blog/main", method = RequestMethod.GET)
-	public String getMainPostList(Model model) throws Exception {
+	public String blogMain(Model model) throws Exception {
 		
 		System.out.println("블로그 메인");
 		
@@ -118,8 +118,8 @@ public class BlogController {
 		
 		//페이징 정보
 		if(!postList.isEmpty()) {
-			postList=thumbnail.make_single_thumbnail(postList); //썸네일 생성
-			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
+			postList=thumbnail.setThumbnail(postList); //썸네일 생성
+			HashMap<String, Object> pagingSetting=paging.setPaging("blog_post", postList.get(0), 10); //페이징 설정
 			model.addAttribute("paging", pagingSetting); //페이징 정보 설정
 		}
 		
@@ -129,7 +129,7 @@ public class BlogController {
 	/* 블로그 메인 글 가져오기 - Ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/main/ajax", method = RequestMethod.POST)
-	public Map<String, Object> getMainPostListAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> blogMainPostAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("Ajax 요청 - 블로그 메인  / 게시글 단위 수 : " + map.get("block") + " / 요청 카테고리 : "+ map.get("category") + " / 검색 요청 항목 : " + map.get("object") + " / 검색 요청 문자 : "+map.get("search"));
 		
@@ -143,18 +143,21 @@ public class BlogController {
 		
 		//페이징 정보
 		if(!postList.isEmpty()) {
-			postList=thumbnail.make_single_thumbnail(postList); //썸네일 생성
-			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
+			postList=thumbnail.setThumbnail(postList); //썸네일 생성
+			HashMap<String, Object> pagingSetting=paging.setPaging("blog_post", postList.get(0), 10); //페이징 설정
 			result.put("paging", pagingSetting); //페이징 정보 설정
 		}
 		
 	    return result;
 	}
+
+	//============================================= 블로그 메인 영역 종료 =====================================================================
+	//============================================= 블로그 공통 영역 시작 ===============================================================
 	
-	/* 블로그 메인에서 로그인시 보이는 개인 메뉴 - Ajax */ //작성중
+	/* 블로그 개인 메뉴 - Ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/menu/ajax", method = RequestMethod.POST)
-	public Map<String, Object> getMainAjaxForMyMenu(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> blogMenuAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("Ajax 요청 - 개인 메뉴 : " + map.get("menu"));
 		
@@ -164,6 +167,7 @@ public class BlogController {
 		
 		switch (map.get("menu").toString()) {
 		case "my_news":
+			//생략한 기능
 			break;
 		case "my_post":
 			//개인 게시글 긁어오기
@@ -172,7 +176,7 @@ public class BlogController {
 			
 			//페이징 정보
 			if(!postList.isEmpty()) {
-				pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정
+				pagingSetting=paging.setPaging("blog_post", postList.get(0), 5); //페이징 설정
 				result.put("paging", pagingSetting); //페이징 정보 설정
 			}
 			else if(postList.isEmpty()) {
@@ -187,7 +191,7 @@ public class BlogController {
 			
 			//페이징 정보
 			if(!neighborList.isEmpty()) {
-				pagingSetting=paging.settingPaging("blog_neighbor", neighborList.get(0), 9); //페이징 설정
+				pagingSetting=paging.setPaging("blog_neighbor", neighborList.get(0), 9); //페이징 설정
 				result.put("paging", pagingSetting); //페이징 정보 설정
 			}
 			else if(neighborList.isEmpty()) {
@@ -201,12 +205,12 @@ public class BlogController {
 	    return result;
 	}
 	
-	//============================================= 블로그 메인 영역 종료 =====================================================================
+	//============================================= 블로그 공통 영역 종료 =====================================================================
 	//============================================= 개인 블로그 영역 (메인) 시작 ===============================================================
 	
 	/* 개인 블로그 - 방문하기 */
 	@RequestMapping(value = "/blog/{userID}", method = RequestMethod.GET)
-	public String getPersonalBlog(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, Model model, HttpServletRequest request) throws Exception {
+	public String personalBlog(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, Model model, HttpServletRequest request) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
@@ -270,7 +274,7 @@ public class BlogController {
 		
 		//페이징 정보
 		if(!postList.isEmpty()) {
-			HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", onePost, 5); //페이징 설정
+			HashMap<String, Object> pagingSetting=paging.setPaging("blog_post", onePost, 5); //페이징 설정
 			model.addAttribute("paging", pagingSetting); //페이징 정보 설정
 		}
 		
@@ -279,7 +283,7 @@ public class BlogController {
 	
 	/* 개인 블로그 - 게시글 한 개만 보기 */
 	@RequestMapping(value = "/blog/{userID}/{no}", method = RequestMethod.GET)
-	public String getPersonalPostView(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, @PathVariable int no, Model model, HttpServletRequest request) throws Exception {
+	public String findOnePost(@RequestParam(value="category", defaultValue="") String category, @PathVariable String userID, @PathVariable int no, Model model, HttpServletRequest request) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		
@@ -337,7 +341,7 @@ public class BlogController {
 		}
 		
 		//페이징 정보
-		HashMap<String, Object> pagingSetting=paging.settingPaging("blog_post", postList.get(0), 5); //페이징 설정
+		HashMap<String, Object> pagingSetting=paging.setPaging("blog_post", postList.get(0), 5); //페이징 설정
 		model.addAttribute("paging", pagingSetting); //페이징 정보 설정
 		
 	    return "/blog/personal";
@@ -346,7 +350,7 @@ public class BlogController {
 
 	/* 개인 블로그 - 검색 */
 	@RequestMapping(value = "/blog/{userID}/{menu}/{target}", method = RequestMethod.GET)
-	public String getPersonalBlogSearch(@PathVariable String userID, @PathVariable String menu, @PathVariable String target, Model model) throws Exception {
+	public String findSearchPost(@PathVariable String userID, @PathVariable String menu, @PathVariable String target, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
@@ -374,14 +378,14 @@ public class BlogController {
 		
 		if(postList.size() > 0 == true) {
 			model.addAttribute("count", postList.get(0).get("count")); //게시글 개수
-			pagingSetting=paging.settingPaging("blog_post", postList.get(0), 10); //페이징 설정
+			pagingSetting=paging.setPaging("blog_post", postList.get(0), 10); //페이징 설정
 		}
 		else if(postList.size() > 0 == false) {
 			model.addAttribute("count", 0); //게시글 개수
 			HashMap<String, Object> temp = new HashMap<String, Object>(); //페이징 설정
 			temp.put("count", 0);
 			temp.put("orderNo", 0);
-			pagingSetting=paging.settingPaging("blog_post_search", temp, 10); //페이징 설정
+			pagingSetting=paging.setPaging("blog_post_search", temp, 10); //페이징 설정
 		}
 		
 		model.addAttribute("paging", pagingSetting); //페이징 정보 설정
@@ -392,7 +396,7 @@ public class BlogController {
 	/* 개인 블로그 게시글 목록 가져오기 - Ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/paging/ajax", method = RequestMethod.POST)
-	public Map<String, Object> getPersonalPostListAjax(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> personalBlogAjax_postPaging(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("게시글 목록을 위한  Ajax 요청 - 개인 블로그 - 유저 아이디 : " + map.get("userID"));
 		
@@ -421,7 +425,7 @@ public class BlogController {
 	/* 개인 블로그 - 게시글 작성 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/{userID}/write/ajax", method = RequestMethod.POST)
-	public Map<String, Object> ajaxPersonalPostWrite(@PathVariable String userID, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> inputPersonalPost(@PathVariable String userID, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 게시글 작성  ajax- 유저 아이디 : " + userID);
 		
@@ -464,7 +468,7 @@ public class BlogController {
 	/* 개인 블로그 - 게시글 수정 ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/{userID}/{no}/update/ajax", method = RequestMethod.POST)
-	public Map<String, Object> postPersonalPostUpdate(@PathVariable String userID, @PathVariable int no, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> modifyPersonalPost(@PathVariable String userID, @PathVariable int no, @RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 게시글 수정 (post)- 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 		
@@ -479,7 +483,7 @@ public class BlogController {
 	/* 개인 블로그 - 게시글 삭제 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/{userID}/{no}/delete", method = RequestMethod.POST)
-	public Map<String, Object> getPersonalPostDelete(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
+	public Map<String, Object> deletePersonalPost(@PathVariable String userID, @PathVariable int no, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 게시글 삭제 - 유저 아이디 : " + userID + " / 게시글 번호 : "+ no);
 
@@ -497,7 +501,7 @@ public class BlogController {
 	/* 개인 블로그 - 댓글 작성 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/comment/insert", method = RequestMethod.POST)
-	public Map<String, Object> ajaxPersonalCommentInsert(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> inputPersonalComment(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 댓글 작성  ajax- 작성자 아이디 : " + map.get("userID") + " / 작성 대상 게시글 번호 : " + map.get("no"));
 		
@@ -518,7 +522,7 @@ public class BlogController {
 	/* 개인 블로그 - 댓글 수정 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/comment/update", method = RequestMethod.POST)
-	public Map<String, Object> ajaxPersonalCommentUpdate(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
+	public Map<String, Object> modifyPersonalComment(@RequestBody HashMap<String, Object> map,  Model model) throws Exception {
 		
 		System.out.println("개인 블로그 댓글 수정  ajax- 작성자 아이디 : " + map.get("userID") + " / 수정 대상 게시글 번호 : " + map.get("no"));
 		
@@ -539,7 +543,7 @@ public class BlogController {
 	/* 개인 블로그 - 댓글 삭제 - ajax */
 	@ResponseBody
 	@RequestMapping(value = "/blog/comment/delete", method = RequestMethod.POST)
-	public Map<String, Object> ajaxPersonalCommentDelete(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+	public Map<String, Object> deletePersonalComment(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 댓글 삭제  ajax- 작성자 아이디 : " + map.get("userID") + " / 삭제 대상 게시글 번호 : " + map.get("no"));
 		
@@ -556,7 +560,7 @@ public class BlogController {
 	/* 개인 블로그 - 좋아요 관련 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/good/Ajax", method = RequestMethod.POST)
-	public Map<String, Object> getGoodControll(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+	public Map<String, Object> controllPersonalGood(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 좋아요 - 유저 아이디 : " + map.get("userID") + " / 게시글 번호 : "+ map.get("no") + " / 모드 : " + map.get("mode"));
 
@@ -580,7 +584,7 @@ public class BlogController {
 	/* 개인 블로그 - 이웃 관련 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/neighbor/Ajax", method = RequestMethod.POST)
-	public Map<String, Object> getNeighborControll(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+	public Map<String, Object> controllPersonalNeighbor(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
 		
 		System.out.println("개인 블로그 좋아요 - 신청자 : " + map.get("userID") + " / 대상자 : "+ map.get("target") + " / 모드 : " + map.get("mode"));
 
@@ -642,7 +646,7 @@ public class BlogController {
 
 	/* 개인 블로그 - 방문하기 */
 	@RequestMapping(value = "/blog/{userID}/setting", method = RequestMethod.GET)
-	public String getPersonalBlogSetting(@PathVariable String userID, Model model, HttpServletRequest request) throws Exception {
+	public String settingPersonalBlog(@PathVariable String userID, Model model, HttpServletRequest request) throws Exception {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
@@ -657,7 +661,7 @@ public class BlogController {
 	/* 개인 블로그 설정- 프로필 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/setting/profile", method = RequestMethod.POST)
-	public Map<String, Object> getSettingProfile(MultipartHttpServletRequest request) throws Exception {
+	public Map<String, Object> serPersonalProfile(MultipartHttpServletRequest request) throws Exception {
 		
 		System.out.println("개인 블로그 설정 - 프로필   (대상자 : " + request.getParameter("userID") + ")");
 
@@ -686,12 +690,7 @@ public class BlogController {
 			
 			File targetFile = new File(fileRoot + savedFileName); //파일 객체에 저장
 			
-			//System.out.println(multipartFile.getOriginalFilename() +" uploaded!");
-			
 			try {
-				//System.out.println("file length : " + multipartFile.getBytes().length);
-				//System.out.println("file name : " + multipartFile.getOriginalFilename());
-				
 				InputStream fileStream = multipartFile.getInputStream();
 				FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
 				System.out.println(fileRoot + savedFileName);//경로 및 파일명 출력
@@ -714,7 +713,7 @@ public class BlogController {
 	/* 개인 블로그 설정- 배경 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/setting/background", method = RequestMethod.POST)
-	public Map<String, Object> getSettingBackground(MultipartHttpServletRequest request) throws Exception {
+	public Map<String, Object> serPersonalBackground(MultipartHttpServletRequest request) throws Exception {
 		System.out.println("개인 블로그 설정 - 배경   (대상자 : " + request.getParameter("userID") + ")");
 
 		HashMap<String, Object> map = new HashMap<String, Object>(); //SQL 실행용
@@ -737,7 +736,7 @@ public class BlogController {
     	if (!Folder.exists()) {
 			try{
 				//Folder.mkdir() => 해당 디렉토리가 없을 때 해당 경로의 부모 디렉터리가 존재하지 않으면 폴더를 생성하지 않는다.
-				//Folder.mkdir() => 해당 디렉토리가 없을때 해당 경로의 부모 디렉터리가 존재하지 않으면 부모 디렉터리까지 함께 폴더를 생성한다.
+				//Folder.mkdirs() => 해당 디렉토리가 없을때 해당 경로의 부모 디렉터리가 존재하지 않으면 부모 디렉터리까지 함께 폴더를 생성한다.
 			    Folder.mkdirs(); //폴더 생성합니다.
 			    System.out.println("폴더가 생성되었습니다.");
 	        } 

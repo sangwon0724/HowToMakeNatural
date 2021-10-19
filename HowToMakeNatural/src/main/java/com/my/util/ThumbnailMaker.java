@@ -10,7 +10,7 @@ public class ThumbnailMaker {
     //System.out.println(matcher.group(1)); //이미지 태그의 src만 출력
 	
 	//단일 썸네일용
-	public List<HashMap<String, Object>> make_single_thumbnail (List<HashMap<String, Object>> mapList){
+	public List<HashMap<String, Object>> setThumbnail (List<HashMap<String, Object>> mapList){
 		for (HashMap<String, Object> map : mapList) {
 			String text = map.get("content").toString(); //게시글의 내용 가져오기
 	        Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); //img 태그 src 추출 정규표현식
@@ -29,7 +29,7 @@ public class ThumbnailMaker {
 	} //단일용 종료
 	
 	//복수 썸네일용
-	public List<HashMap<String, Object>> make_multiple_thumbnail (List<HashMap<String, Object>> mapList){
+	public List<HashMap<String, Object>> setThumbnails (List<HashMap<String, Object>> mapList){
 		for (HashMap<String, Object> map : mapList) {
 			String text = map.get("content").toString(); //게시글의 내용 가져오기
 	        Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); //img 태그 src 추출 정규표현식

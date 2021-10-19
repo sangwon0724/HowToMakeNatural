@@ -39,7 +39,7 @@ public class UserController {
 	
 	//login - get
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String loginGET(HttpServletRequest request) {
+	public String getLogin(HttpServletRequest request) {
 		//로그인 전의 페이지 주소를 세션에 저장
 		String referer = request.getHeader("Referer");
 		request.getSession().setAttribute("redirectURI", referer);
@@ -55,7 +55,7 @@ public class UserController {
 		//userVO result=userService.selectLogin(vo);
 		HttpSession session = request.getSession();
 		
-		//임시
+		//임시 - 데이터 검증 과정 필요
 		if(map != null) {
 			session.setAttribute("user", userService.selectUserInfoForBlog(map.get("id").toString()));
 		}
@@ -66,7 +66,7 @@ public class UserController {
 	
 	//logout
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String getLogout(HttpServletRequest request, HttpSession session) throws Exception {
+	public String logout(HttpServletRequest request, HttpSession session) throws Exception {
 		System.out.println("start logout - method : get");
 
 		//로그인 전의 페이지 주소를 String 변수에 저장

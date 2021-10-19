@@ -3,7 +3,7 @@ package com.my.util;
 import java.util.HashMap;
 
 public class Paging {
-	public HashMap<String, Object> settingPaging(String mode, HashMap<String, Object> map, int block){
+	public HashMap<String, Object> setPaging(String mode, HashMap<String, Object> map, int block){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		
 		int count=Integer.parseInt(map.get("count").toString());
