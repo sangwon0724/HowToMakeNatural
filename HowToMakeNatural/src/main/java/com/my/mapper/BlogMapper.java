@@ -27,8 +27,8 @@ public interface BlogMapper {
 	//delete
 	public void deletePost(Map<String, Object> map) throws Exception; //게시글 삭제
 	public void deleteComment(Map<String, Object> map) throws Exception; //댓글 삭제
-	public void deleteAllCommentByPost(Map<String, Object> map) throws Exception; //특정 게시글에 대한 모든 댓글 삭제
+	public void deleteAllCommentForPost(Map<String, Object> map) throws Exception; //특정 게시글에 대한 모든 댓글 삭제
 	public void deleteNeighbor(Map<String, Object> map) throws Exception; //이웃 취소
 	public void deleteGood(Map<String, Object> map) throws Exception; //좋아요 취소
-	public void deleteAllGoodByPost(Map<String, Object> map) throws Exception; //특정 게시글에 대한 모든 좋아요 취소
+	public void deleteAllGoodForPost(Map<String, Object> map) throws Exception; //특정 게시글에 대한 모든 좋아요 취소
 }

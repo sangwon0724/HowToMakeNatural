@@ -496,8 +496,8 @@ public class BlogController {
 		//삭제 처리
 		result.put("no", no);
 		blogService.deletePost(result); //해당 게시글 삭제
-		//해당 게시글에 대한 댓글 삭제
-		//해당 게시글에 대한 좋아요 삭제
+		blogService.deleteAllCommentForPost(result);//해당 게시글에 대한 댓글 삭제
+		blogService.deleteAllGoodForPost(result); //해당 게시글에 대한 좋아요 삭제
 		
 		result.put("message", "success"); //성공 메세지 전달
 		
