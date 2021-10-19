@@ -495,7 +495,9 @@ public class BlogController {
 		
 		//삭제 처리
 		result.put("no", no);
-		blogService.deletePost(result);
+		blogService.deletePost(result); //해당 게시글 삭제
+		//해당 게시글에 대한 댓글 삭제
+		//해당 게시글에 대한 좋아요 삭제
 		
 		result.put("message", "success"); //성공 메세지 전달
 		
@@ -571,10 +573,10 @@ public class BlogController {
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
 		if(map.get("mode").equals("insert")) {
-			blogService.addGood(map);
+			blogService.insertGood(map);
 		}
 		else if(map.get("mode").equals("delete")) {
-			blogService.cancleGood(map);
+			blogService.deleteGood(map);
 		}
 		
 		int goodCount = blogService.selectGood(map);
@@ -595,10 +597,10 @@ public class BlogController {
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
 		if(map.get("mode").equals("insert")) {
-			blogService.addNeighbor(map);
+			blogService.insertNeighbor(map);
 		}
 		else if(map.get("mode").equals("delete")) {
-			//blogService.cancleNeighbor(map);
+			//blogService.deleteNeighbor(map);
 		}
 		
 		result.put("message", "success"); //성공 메세지 전달
@@ -673,39 +675,27 @@ public class BlogController {
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
 		map.put("userID",  request.getParameter("userID"));
-		map.put("blog_nickname", new String(request.getParameter("blog_nickname").getBytes("8859_1"),"utf-8"));
-		map.put("blog_profile_text", new String(request.getParameter("blog_profile_text").getBytes("8859_1"),"utf-8"));
-		map.put("blog_logo_text", new String(request.getParameter("blog_logo_text").getBytes("8859_1"),"utf-8"));
+		map.put("blog_nickname", new String(request.getParameter("blog_nickname").getBytes("8859_1"),"utf-8")); //한글 꺠짐 방지
+		map.put("blog_profile_text", new String(request.getParameter("blog_profile_text").getBytes("8859_1"),"utf-8")); //한글 꺠짐 방지
+		map.put("blog_logo_text", new String(request.getParameter("blog_logo_text").getBytes("8859_1"),"utf-8")); //한글 꺠짐 방지
 		map.put("blog_logo_text_color", request.getParameter("blog_logo_text_color"));
 		map.put("blog_logo_text_size", request.getParameter("blog_logo_text_size"));
 
 		//내부경로로 저장
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
-		String fileRoot = contextRoot+"resources/image/profile/"+ request.getParameter("userID") +"/"; //경로 지정
+ 		String targetRoot = "/resources/image/profile/"+ request.getParameter("userID") +"/";
+ 		String uploadRoot = contextRoot + targetRoot; //경로 지정
 		
 		//파일 업로드
 		Iterator<String> itr = request.getFileNames();
-		if(itr.hasNext()) {
-			MultipartFile multipartFile = request.getFile(itr.next());
-			
-			String originalFileName = new String(multipartFile.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명
-			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-			String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-			
-			File targetFile = new File(fileRoot + savedFileName); //파일 객체에 저장
-			
-			try {
-				InputStream fileStream = multipartFile.getInputStream();
-				FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
-				System.out.println(fileRoot + savedFileName);//경로 및 파일명 출력
 
-				map.put("blog_profile_image", "/resources/image/profile/" + request.getParameter("userID") + "/" + savedFileName);
-			}
-			catch (IOException e) {
-				System.out.println(e.getMessage());
-				FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
-				e.printStackTrace();
-			}
+		//파일명은 ajax에서 설정한 항목명에 따라 blog_profile_image가 넘어온다.
+		if(itr.hasNext()) {
+			String fileName = itr.next(); //파일명 찾기
+			
+			String savedFileName = upload.fileUpload(request, uploadRoot, fileName); //파일 업로드 후 랜덤생성된 파일명 문자열 받기
+        	
+			map.put(fileName, targetRoot + savedFileName); //map에 집어넣기
 		}
 		
 		userService.updateUserProfile(map); //업데이트
@@ -724,9 +714,7 @@ public class BlogController {
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
 		map.put("userID",  request.getParameter("userID"));
-
-        List<MultipartFile> fileList = request.getFiles("file"); //파일 목록
-
+		
  		Iterator<String> itr = request.getFileNames(); //파일 이름 목록
  		
         //내부경로로 저장
@@ -736,7 +724,8 @@ public class BlogController {
  		
  		//폴더 존재 여부 확인 (없는 경우 생성)
     	upload.checkFolder(uploadRoot);
- 		
+
+		//파일명은 ajax에서 설정한 항목명에 따라 blog_background_image와 blog_logo_image가 넘어온다.
 		while(itr.hasNext()) {
 			String fileName = itr.next(); //파일명 찾기
 

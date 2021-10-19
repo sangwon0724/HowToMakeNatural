@@ -122,6 +122,7 @@
 
 /* 설정 기능 화면 - 공통 */
 
+/* 각 기능 패널 */
 #setting_function_panel>article{
 	width: 100%;
 	height: auto;
@@ -129,7 +130,7 @@
 	position: relative;
 	padding-top: 7vh;
 }
-
+/* 각 기능 패널의 이름 */
 #setting_function_panel>article>.title{
 	width: 100%;
 	height: 7vh;
@@ -146,27 +147,24 @@
 	font-weight: bold;
 	font-size: 1.3em;
 }
-
-/*============================================================================================================*/
-
-/* 설정 기능 화면 - 블로그 정보 */
-#setting_function_panel>article#setting_blog_info>main{
+/* 각 기능 패널마다의 grid 영역 */
+#setting_function_panel>article>main{
 	width: 80%;
-	height: 90vh;
 	display: grid;
-	grid-template-rows: 2fr 3fr 2fr 2fr 0.75fr;
 	grid-template-columns: 1fr 7fr;
 	margin: 0 0 5vh 3vw;
 }
-#setting_function_panel>article#setting_blog_info>main>.setting_item_name{
+/* 각 기능 패널마다의 각 요소별 이름 */
+#setting_function_panel>article>main>.setting_item_name{
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-#setting_function_panel>article#setting_blog_info>main>.setting_item_name:not(.last){
+#setting_function_panel>article>main>.setting_item_name:not(.last){
 	border-bottom: 1px solid black;
 }
-#setting_function_panel>article#setting_blog_info>main>div.setting_item{
+/* 각 기능 패널마다의 각 요소별 아이템 영역 */
+#setting_function_panel>article>main>div.setting_item{
 	display: flex;
 	/*justify-content: flex-start;*/
 	justify-content: center;
@@ -174,23 +172,92 @@
 	/*padding-left: 5vw;*/
 	box-sizing: border-box;
 }
-#setting_function_panel>article#setting_blog_info>main>.setting_item:not(#setting_logo_text){
+#setting_function_panel>article>main>.setting_item:not(.last){
 	border-bottom: 1px solid black;
 }
-#setting_function_panel>article#setting_blog_info>main>div.setting_item>#blog_nickname,
-#setting_function_panel>article#setting_blog_info>main>div.setting_item>#profile_text,
-#setting_function_panel>article#setting_blog_info>main>div.setting_item>#logo_text{
+#setting_function_panel>article>main>div.setting_item>input[type=text]{
 	width: 70%;
 	height: 50%;
 }
-#setting_function_panel>article#setting_blog_info>main>div.change_button_area{
+/* 확인 버튼 영역 */
+#setting_function_panel>article>main>div.change_button_area{
 	grid-column: 1 / -1; /* 한 줄 차지*/
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-#setting_function_panel>article#setting_blog_info>main>div.change_button_area>button{
+/* 확인 버튼 */
+#setting_function_panel>article>main>div.change_button_area>button{
 	width: 75px;
 	height: 35px;
 	cursor: pointer;
+}
+/* 이미지 변경 - 변경 버튼 */
+#setting_function_panel>article>main>div.setting_item>.image_update_O{
+	width: 55px;
+	height: 25px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: white;
+	cursor: pointer;
+}
+/* 이미지 변경 - 취소 버튼 */
+#setting_function_panel>article>main>div.setting_item>.mage_update_X{
+	width: 25px;
+	height: 25px;
+	border: 1px solid black;
+	background-color: white;
+	cursor: pointer;
+}
+/* 이미지 미리보기 */
+#setting_function_panel>article>main>div.setting_item>.image_preview{
+	width: 150px;
+	height: 150px;
+	background-size: cover;
+	margin-right: 50px;
+	border: 1px solid black;
+}
+
+/*============================================================================================================*/
+
+/* 설정 기능 화면 - 블로그 - 프로필 */
+#setting_function_panel>article#setting_blog_info>main{
+	height: 90vh;
+	grid-template-rows: 2fr 3fr 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 -  배경 */
+#setting_function_panel>article#setting_blog_background>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 배치 */
+#setting_function_panel>article#setting_blog_placement>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 위젯 */
+#setting_function_panel>article#setting_blog_wizet>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 이웃 목록 */
+#setting_function_panel>article#setting_blog_neighbor_list>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 나를 추가한 이웃 설정 */
+#setting_function_panel>article#setting_blog_neighbor_follow_me>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
+}
+
+/* 설정 기능 화면 - 블로그 - 카테고리 설정 */
+#setting_function_panel>article#setting_blog_category>main{
+	height: 70vh;
+	grid-template-rows: 2fr 2fr 50px;
 }

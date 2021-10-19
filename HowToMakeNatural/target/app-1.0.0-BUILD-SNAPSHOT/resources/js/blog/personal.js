@@ -104,7 +104,7 @@ function paging_neighbor_ajax(start, userID){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -113,8 +113,8 @@ function paging_neighbor_ajax(start, userID){
         	$.each(result.neighborList, function (index, item) {
         		neighborList+=
                `<div neighborID="${item.target}">
-					<main onclick="go_user_blog('${item.target}')">
-						이미지 영역
+					<main>
+						<img onclick="go_user_blog('${item.target}')" src="${item.blog_profile_image}">
 					</main>
 					<footer>
 						<span>${item.nickname}</span>
@@ -177,7 +177,7 @@ function personal_paging_top(page,blogUserID,nowPostNo, mode){
 	    };
 		//게시글 변경
 		$.ajax({
-	        url: "/blog/paging/Ajax",
+	        url: "/blog/paging/ajax",
 	        type: "POST",
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
@@ -271,7 +271,7 @@ function personal_paging_bottom_ajax(blogUserID, page, nowPostNo){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/paging/Ajax",
+        url: "/blog/paging/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -348,7 +348,7 @@ function personal_paging_search(page, blogUserID, mode, type, value){
 		
 		//게시글 변경
 		$.ajax({
-	        url: "/blog/paging/Ajax",
+	        url: "/blog/paging/ajax",
 	        type: "POST",
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
@@ -413,7 +413,7 @@ function personal_paging_search(page, blogUserID, mode, type, value){
 /* 블로그 작성 + 수정 + 삭제 부분 */
 
 /* 게시글 추가 */
-function write_submit(text, id, userNickName, no){
+function write_submit(mode, id, userNickName, no){
 	var title = $("#title").val();
 	var tag = $("#tag").val();
 	var category = $("#category option:selected").val();
@@ -421,10 +421,10 @@ function write_submit(text, id, userNickName, no){
 	var url="";
 	var no;
 	
-	if(text === "등록"){
+	if(mode === "insert"){
 		url = "/blog/" + id +"/write/ajax";
 	}
-	else if(text === "수정"){
+	else if(mode === "update"){
 		url = "/blog/" + id +"/" + parseInt(no) + "/update/ajax";
 	}
 	
@@ -460,8 +460,14 @@ function write_submit(text, id, userNickName, no){
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	alert("게시글이 정상적으로 " + text + "되었습니다.");
-        	location.href="/blog/"+id;
+        	if(mode === "insert"){
+            	alert("게시글이 정상적으로 동록되었습니다.");
+        		location.href="/blog/" + id;
+        	}
+        	else if(mode === "update"){
+            	alert("게시글이 정상적으로 수정되었습니다.");
+        		location.href="/blog/" + id + "/" + no;
+        	}
         },
         error: function(error){
             alert("오류 발생");
@@ -690,7 +696,7 @@ function goodAddAndCancle(id, no){
 	};
 	
 	$.ajax({
-        url: "/blog/good/Ajax",
+        url: "/blog/good/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -746,7 +752,7 @@ function addNeighbor(id, target){
 	};
 	
 	$.ajax({
-        url: "/blog/neighbor/Ajax",
+        url: "/blog/neighbor/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",

@@ -67,7 +67,7 @@
 	height: 20vh;
 	margin-bottom: 3vh;
 	cursor: pointer;
-	background-color: lightblue;/*임시*/
+	background-size: cover;
 }
 
 /*============================================================================================================*/
@@ -93,6 +93,7 @@
 /* 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 (typeA)*/
 #left{
 	width: 20%;
+	background-color: white;
 }
 #profile_panel{
 	width: 95%;
@@ -109,7 +110,7 @@
 #profile_panel>#profile_image{
 	width: 95%;
 	height: 55%;
-	background-color: yellow;/*임시*/
+	background-size: cover;
 }
 #profile_panel>#profile_nickname{
 	width: 95%;
@@ -236,7 +237,13 @@
 	width: 100%;
 	height: 80%;
 	cursor: pointer;
-	background-color: red;/*임시*/
+	background-color: white;
+}
+#neighbor_panel>main>div>main>img{
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	max-height: 68.5px;
 }
 #neighbor_panel>main>div>footer{
 	width: 100%;
@@ -344,7 +351,7 @@
 	border-radius: 50%;
 	margin-right: 1vw;
 	cursor: pointer;
-	background-color: red; /* 임시 */
+	background-size: cover;
 }
 .personal_post>.post_profileAndNameAndSigndate>span{
 	cursor: pointer;

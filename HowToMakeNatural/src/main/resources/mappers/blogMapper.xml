@@ -3,7 +3,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="blogMapper">
+<mapper namespace="com.my.mapper.BlogMapper">
 	<!-- 블로그 메인 페이지의 글 가져오기 -->
     <!-- A. 아이디 값 존재 O => 해당 유저의 블로그에 대한 글  가져오기 -->
     <!-- A-1. 카테고리 값 존재 O => 해당 유저의 블로그에서 해당 카테고리에 대한 글  가져오기 (태그 값과 별개) -->
@@ -138,6 +138,16 @@
     		no=${no} and userID=#{userID}
     </update>
     
+    <!-- 특정 게시글에 대한 모든 댓글 삭제 -->
+    <update id="deleteAllCommentByPost" parameterType="hashmap">
+    	update
+    		blog_comment
+    	set
+    		useYN="N"
+    	where
+    		post_no=${no}
+    </update>
+    
     
     
     <!--  카테고리 목록 검색  -->
@@ -228,4 +238,14 @@
    		where
    			userID = #{userID} and post_no = #{no}
     </delete>
+    
+    <!-- 특정 게시글에 대한 모든 좋아요 삭제 -->
+    <update id="deleteAllGoodByPost" parameterType="hashmap">
+    	update
+    		blog_good
+    	set
+    		useYN="N"
+    	where
+    		post_no=${no}
+    </update>
 </mapper>

@@ -131,7 +131,7 @@
 		function uploadImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
-			var url = "/blog/"+$("#myID").val()+"/write/image";
+			var url = "/blog/${sessionScope.user.id}/write/image";
 			
 			$.ajax({
 				data : data,
@@ -178,7 +178,7 @@
 			</div>
 	    </div>
 	 	<div id="summernote" name="text"></div>
-	 	<button id="submit" onclick="write_submit('<c:if test="${mode ne 'update'}">등록</c:if><c:if test="${mode eq 'update'}">수정</c:if>', '${sessionScope.user.id}', '${sessionScope.user.blog_nickname}','<c:if test="${mode eq 'update'}">${data.no}</c:if>')" >작성</button>
+	 	<button id="submit" onclick="write_submit('<c:if test="${mode ne 'update'}">insert</c:if><c:if test="${mode eq 'update'}">update</c:if>', '${sessionScope.user.id}', '${sessionScope.user.blog_nickname}','<c:if test="${mode eq 'update'}">${data.no}</c:if>')" >작성</button>
  	</form>
  	
 	<!-- Scripts -->

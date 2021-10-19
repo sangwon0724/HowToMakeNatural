@@ -7,54 +7,54 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.my.dao.BlogDAOInterface;
+import com.my.mapper.BlogMapper;
 
 @Service
 public class BlogService implements BlogServiceInterface {
 	@Autowired
-    private BlogDAOInterface dao;
+    private BlogMapper mapper;
 	
 	//===========================================================<<< select >>>============================================================================
 	/* 메인에서 가장 최근글 10개 긁어오기 */
 	@Override
 	public List<HashMap<String, Object>> selectPost(Map<String, Object> map) throws Exception {
-		return dao.selectPost(map);
+		return mapper.selectPost(map);
 	}
 	
 	/* 댓글 가져오기 */
 	@Override
 	public List<HashMap<String, Object>> selectComment(Map<String, Object> map) throws Exception {
-		return dao.selectComment(map);
+		return mapper.selectComment(map);
 	}
 	
 	/* 카테고리 검색 */
 	@Override
 	public List<HashMap<String, Object>> selectCategory(Map<String, Object> map) throws Exception {
-		return dao.selectCategory(map);
+		return mapper.selectCategory(map);
 	}
 	
 	/* 이웃 검색 */
 	@Override
 	public List<HashMap<String, Object>> selectNeighbor(Map<String, Object> map) throws Exception {
-		return dao.selectNeighbor(map);
+		return mapper.selectNeighbor(map);
 	}
 	
 	/* 이웃 여부 확인 */
 	@Override
 	public int checkMyNeighbor(Map<String, Object> map) throws Exception {
-		return dao.checkMyNeighbor(map);
+		return mapper.checkMyNeighbor(map);
 	};
 
 	/* 좋아요 검색 */
 	@Override
 	public int selectGood(Map<String, Object> map) throws Exception {
-		return dao.selectGood(map);
+		return mapper.selectGood(map);
 	}
 
 	/* 좋아요 여부 확인*/
 	@Override
 	public int checkMyGood(Map<String, Object> map) throws Exception {
-		return dao.checkMyGood(map);
+		return mapper.checkMyGood(map);
 	}
 
 	
@@ -64,25 +64,25 @@ public class BlogService implements BlogServiceInterface {
 	//게시글 작성
 	@Override
 	public void insertPost(Map<String, Object> map) throws Exception {
-		dao.insertPost(map);
+		mapper.insertPost(map);
 	}
 
 	//댓글 작성
 	@Override
 	public void insertComment(Map<String, Object> map) throws Exception{
-		dao.insertComment(map);
+		mapper.insertComment(map);
 	};
 
 	//이웃 추가
 	@Override
-	public void addNeighbor(Map<String, Object> map) throws Exception {
-		dao.addNeighbor(map);
+	public void insertNeighbor(Map<String, Object> map) throws Exception {
+		mapper.insertNeighbor(map);
 	}
 
 	//좋아요 추가
 	@Override
-	public void addGood(Map<String, Object> map) throws Exception {
-		dao.addGood(map);
+	public void insertGood(Map<String, Object> map) throws Exception {
+		mapper.insertGood(map);
 	}
 
 	
@@ -92,13 +92,13 @@ public class BlogService implements BlogServiceInterface {
 	//게시글 수정
 	@Override
 	public void updatePost(Map<String, Object> map) throws Exception {
-		dao.updatePost(map);
+		mapper.updatePost(map);
 	}
 
 	//댓글 수정
 	@Override
 	public void updateComment(Map<String, Object> map) throws Exception{
-		dao.updateComment(map);
+		mapper.updateComment(map);
 	};
 
 	
@@ -107,24 +107,24 @@ public class BlogService implements BlogServiceInterface {
 	//게시글 석제
 	@Override
 	public void deletePost(Map<String, Object> map) throws Exception {
-		dao.deletePost(map);
+		mapper.deletePost(map);
 	}
 	
 	//댓글 삭제
 	@Override
 	public void deleteComment(Map<String, Object> map) throws Exception{
-		dao.deleteComment(map);
+		mapper.deleteComment(map);
 	}
 
 	//이웃 취소
 	@Override
-	public void cancleNeighbor(Map<String, Object> map) throws Exception {
-		dao.cancleNeighbor(map);
+	public void deleteNeighbor(Map<String, Object> map) throws Exception {
+		mapper.deleteNeighbor(map);
 	}
 
 	//좋아요 취소
 	@Override
-	public void cancleGood(Map<String, Object> map) throws Exception {
-		dao.cancleGood(map);
+	public void deleteGood(Map<String, Object> map) throws Exception {
+		mapper.deleteGood(map);
 	}
 }

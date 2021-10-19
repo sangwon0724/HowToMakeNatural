@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
@@ -95,16 +96,11 @@
 								<span>댓글 ${post.commentCount}</span>
 							</div>
 						</div>
-						
-						<div class="post_image"
-							<%-- 임시 코드 사용하는 부분 시작 --%>
-							<c:if test="${post.no == 22}"> style="background-image : url('<c:url value="/resources/image/test/cheeze.jpg"/>');background-size:cover;"</c:if>
-							<c:if test="${post.no == 21}"> style="background-image : url('<c:url value="/resources/image/test/googleAndApple.jpg"/>');background-size:cover;"</c:if>
-							<c:if test="${post.no == 20}"> style="background-image : url('<c:url value="/resources/image/test/penthouse.jpg"/>');background-size:cover;"</c:if>
-						>
-						<%-- 임시 코드 사용하는 부분 종료 --%>
-						</div>
-						
+						<c:if test="${not empty post.thumbnail and post.thumbnail ne ''}">
+							<div class="post_images">
+					        	<img src="${post.thumbnail}" onclick="location.href='/blog/${post.userID}/${post.no}'">
+							</div>
+						</c:if>
 					</div>
 			    </c:forEach>
     		</main>
@@ -131,7 +127,7 @@
 			<!-- 로그인을 하지 않았을 경우에 보일 부분 시작 -->
 			<c:if test="${empty sessionScope.user.id}">
 			<div id="sign">
-				<div id="login"><span>Natural Blog 로그인</span></div>
+				<div id="login" onclick="login()"><span>Natural Blog 로그인</span></div>
 				<div id="searchAndSignUp"><span><span id="searchID">아이디 찾기</span> | <span id="searchPW">비밀번호 찾기</span></span><span id="signUp">회원가입</span></div>
 			</div>
 			</c:if>
@@ -146,7 +142,7 @@
 						<span id="my_nickname" onclick="go_user_blog('${sessionScope.user.id}')">${sessionScope.user.blog_nickname}</span>
 					</div>
 					<div id="my_logout">
-						<div id="logout">로그아웃</div>
+						<div id="logout" onclick="logout()">로그아웃</div>
 					</div>
 				</div>
 				<div id="second">

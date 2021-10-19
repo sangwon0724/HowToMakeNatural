@@ -17,7 +17,7 @@
 	<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그</c:if>
 </title>
 </head>
-<body>
+<body style="background-image: url('${userInfo.blog_background_image}');background-size: cover;background-position: 50% 0;background-repeat: repeat-x;"">
 	<!-- 히든 값 영역 시작 -->
 		<c:if test="${not empty sessionScope.user.id}">
 		<!-- 현재 유저의 아이디 -->
@@ -78,10 +78,8 @@
 		
 		
 		<!-- 배경글 시작 -->
-		<header id="background_logo" class="flex_column_center_center" <c:if test='${userInfo.blog_logo_image != null and userInfo.blog_logo_image != ""}'> background-image="${userInfo.blog_logo_image}"</c:if>
-		onclick="go_user_blog('${userInfo.id}')"
-		>
-			<span>
+		<header id="background_logo" class="flex_column_center_center" style="background-image: url('${userInfo.blog_logo_image}');" onclick="go_user_blog('${userInfo.id}')">
+			<span style="color: ${userInfo.blog_logo_text_color}; font-size: ${userInfo.blog_logo_text_size}px">
 				<c:if test='${userInfo.blog_logo_text != null && userInfo.blog_logo_text != ""}'>${userInfo.blog_logo_text}</c:if>
 				<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그입니다.</c:if>
 			</span>
@@ -105,7 +103,7 @@
 				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
 					<div id="left" class="typeA">
 						<div id="profile_panel">
-							<div id="profile_image">프로필 이미지</div>
+							<div id="profile_image" style="background-image: url('${userInfo.blog_profile_image}');"><%-- 프로필 이미지 --%></div>
 							<div id="profile_nickname" class="flex_center_center"><span>${userInfo.blog_nickname}</span>&nbsp;<span>(${userInfo.id})</span></div>
 							<div id="profile_text" class="flex_center_center">
 								<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
@@ -147,9 +145,9 @@
 								</c:if>
 								<c:if test='${neighborList != null and neighborList != ""}'>	
 									<c:forEach items="${neighborList}" var="neighbor" begin="0" end="8">
-										<div neighborID="${neighbor.target}">
-											<main onclick="go_user_blog('${neighbor.target}')">
-												이미지 영역
+										<div>
+											<main>
+												<img onclick="go_user_blog('${neighbor.target}')" src="${neighbor.blog_profile_image}">
 											</main>
 											<footer>
 												<span>${neighbor.nickname}</span>
@@ -246,7 +244,7 @@
 								</c:if>
 							</header>
 							<header class="post_profileAndNameAndSigndate">
-								<div class="profile_image" onclick="go_user_blog('${userInfo.id}')"></div>
+								<div class="profile_image" onclick="go_user_blog('${userInfo.id}')" style="background-image: url('${userInfo.blog_profile_image}');"></div>
 								<span onclick="go_user_blog('${userInfo.id}')">${userInfo.blog_nickname}</span>
 							</header>
 							<main class="post_content">${onePost.content}</main>
@@ -351,7 +349,7 @@
 			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type B. 스타일 변경)-->
 			<div id="bottom" class="typeB hidden">
 				<div id="profile_panel">
-					<div id="profile_image">프로필 이미지</div>
+					<div id="profile_image" style="background-image: url('${userInfo.blog_profile_image}');"><%-- 프로필 이미지 --%></div>
 					<div id="profile_text" class="flex_center_center">
 						<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
 					</div>

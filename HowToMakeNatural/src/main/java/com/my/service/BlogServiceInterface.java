@@ -17,8 +17,8 @@ public interface BlogServiceInterface {
 	//insert
 	public void insertPost(Map<String, Object> map) throws Exception;
 	public void insertComment(Map<String, Object> map) throws Exception;
-	public void addNeighbor(Map<String, Object> map) throws Exception;
-	public void addGood(Map<String, Object> map) throws Exception;
+	public void insertNeighbor(Map<String, Object> map) throws Exception;
+	public void insertGood(Map<String, Object> map) throws Exception;
 	
 	//update
 	public void updatePost(Map<String, Object> map) throws Exception;
@@ -27,6 +27,6 @@ public interface BlogServiceInterface {
 	//delete
 	public void deletePost(Map<String, Object> map) throws Exception;
 	public void deleteComment(Map<String, Object> map) throws Exception;
-	public void cancleNeighbor(Map<String, Object> map) throws Exception;
-	public void cancleGood(Map<String, Object> map) throws Exception;
+	public void deleteNeighbor(Map<String, Object> map) throws Exception;
+	public void deleteGood(Map<String, Object> map) throws Exception;
 }

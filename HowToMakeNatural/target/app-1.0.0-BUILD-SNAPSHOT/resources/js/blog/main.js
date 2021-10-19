@@ -37,7 +37,7 @@ function main_search(){
 	
 	//게시글 변경
 	$.ajax({
-      url: "/blog/main/Ajax",
+      url: "/blog/main/ajax",
       type: "POST",
       data: JSON.stringify(data),
       contentType: "application/json",
@@ -59,12 +59,21 @@ function main_search(){
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
 					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
-						<span>좋아요 ${item.commentCount}</span>
-						<span>댓글 0</span>
+						<span>좋아요 ${item.goodCount}</span>
+						<span>댓글 ${item.commentCount}</span>
 					</div>
-				</div>
-				<div class="post_image"></div>
-			</div>`;
+				</div>`;
+	        		
+	        		if(item.thumbnail !== null && item.thumbnail !== ''){
+	        			postList+=
+        				`
+        				<div class="post_images">
+		      				<img src="${item.thumbnail}" onclick="location.href='/blog/${item.userID}/${item.no}'">
+						</div>
+        				`;
+	        		}
+	        		
+	        		postList += `</div>`;
           });//each 종료
           $('#board').html(postList);
 
@@ -122,7 +131,7 @@ function blog_home_ajax(){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/main/Ajax",
+        url: "/blog/main/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -144,12 +153,21 @@ function blog_home_ajax(){
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
 					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
-						<span>좋아요 0</span>
+						<span>좋아요 ${item.goodCount}</span>
 						<span>댓글 ${item.commentCount}</span>
 					</div>
-				</div>
-				<div class="post_image"></div>
-			</div>`;
+				</div>`;
+	        		
+	        		if(item.thumbnail !== null && item.thumbnail !== ''){
+	        			postList+=
+        				`
+        				<div class="post_images">
+		      				<img src="${item.thumbnail}" onclick="location.href='/blog/${item.userID}/${item.no}'">
+						</div>
+        				`;
+	        		}
+	        		
+	        		postList += `</div>`;
             });//each 종료
             $('#board').html(postList);
         },
@@ -192,7 +210,7 @@ function blog_main_search_category_click(category){
 	
 	//게시글 변경
 	$.ajax({
-      url: "/blog/main/Ajax",
+      url: "/blog/main/ajax",
       type: "POST",
       data: JSON.stringify(data),
       contentType: "application/json",
@@ -214,12 +232,21 @@ function blog_main_search_category_click(category){
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
 					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
-						<span>좋아요 0</span>
-						<span>댓글 0</span>
+						<span>좋아요 ${item.goodCount}</span>
+						<span>댓글 ${item.commentCount}</span>
 					</div>
-				</div>
-				<div class="post_image"></div>
-			</div>`;
+				</div>`;
+	        		
+	        		if(item.thumbnail !== null && item.thumbnail !== ''){
+	        			postList+=
+        				`
+        				<div class="post_images">
+		      				<img src="${item.thumbnail}" onclick="location.href='/blog/${item.userID}/${item.no}'">
+						</div>
+        				`;
+	        		}
+	        		
+	        		postList += `</div>`;
           });//each 종료
           $('#board').html(postList);
 
@@ -275,7 +302,7 @@ function blog_main_category_click(category){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/main/Ajax",
+        url: "/blog/main/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -297,12 +324,21 @@ function blog_main_category_click(category){
 					<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
 					<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
 					<div class="post_goodAndComment">
-						<span>좋아요 ${item.commentCount}</span>
-						<span>댓글 0</span>
+						<span>좋아요 ${item.goodCount}</span>
+						<span>댓글 ${item.commentCount}</span>
 					</div>
-				</div>
-				<div class="post_image"></div>
-			</div>`;
+				</div>`;
+	        		
+	        		if(item.thumbnail !== null && item.thumbnail !== ''){
+	        			postList+=
+        				`
+        				<div class="post_images">
+		      				<img src="${item.thumbnail}" onclick="location.href='/blog/${item.userID}/${item.no}'">
+						</div>
+        				`;
+	        		}
+	        		
+	        		postList += `</div>`;
             });//each 종료
             $('#board').html(postList);
             
@@ -358,7 +394,7 @@ function blog_main_my_menu(id, menu){
     };
 	
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -422,7 +458,9 @@ function blog_main_my_menu(id, menu){
             		$.each(result.neighborList, function (index, item) {
                 		list+=`
                 			<div class="neighbor">
-                				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
+                				<main>
+		        					<img onclick="go_user_blog('${item.target}')" src="${item.blog_profile_image}">
+		        				</main>
 								<footer>
 									<span>${item.nickname}</span>
 								</footer>
@@ -431,12 +469,14 @@ function blog_main_my_menu(id, menu){
                     });//each 종료
             		list+=`</main>`;
         		}//count if 종료
-        		else if(result.paging.count>5){
+        		else if(result.paging.count>9){
         			list+=`<main style="width: 100%; height: 85%; display: grid; grid-template-rows: repeat(3, 1fr); grid-template-columns: repeat(3, 1fr); padding: 5px; gap: 5px; box-sizing: border-box;">`;
             		$.each(result.neighborList, function (index, item) {
                 		list+=`
                 			<div class="neighbor">
-                				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
+                				<main>
+		        					<img onclick="go_user_blog('${item.target}')" src="${item.blog_profile_image}">
+		        				</main>
 								<footer>
 									<span>${item.nickname}</span>
 								</footer>
@@ -531,7 +571,7 @@ function main_menu_paging_post_ajax(blogUserID, page){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -620,7 +660,7 @@ function main_menu_paging_neighbor_ajax(blogUserID, page){
 	
 	//게시글 변경
 	$.ajax({
-        url: "/blog/menu/Ajax",
+        url: "/blog/menu/ajax",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
@@ -629,7 +669,9 @@ function main_menu_paging_neighbor_ajax(blogUserID, page){
         	$.each(result.neighborList, function (index, item) {
         		neighborList+=`
         			<div class="neighbor">
-        				<main onclick="go_user_blog('${item.target}')">이미지 영역</main>
+        				<main>
+        					<img onclick="go_user_blog('${item.target}')" src="${item.blog_profile_image}">
+        				</main>
 						<footer>
 							<span>${item.nickname}</span>
 						</footer>
@@ -687,7 +729,7 @@ function main_post_paging(page, category, mode, object, search){
 		
 		//게시글 변경
 		$.ajax({
-	        url: "/blog/main/Ajax",
+	        url: "/blog/main/ajax",
 	        type: "POST",
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
@@ -703,20 +745,29 @@ function main_post_paging(page, category, mode, object, search){
 	          		
 	        		postList+=
 	               `<div class="main_post">
-	                   <div class="post_content">
-						<div class="post_profileAndName">
-							<div class="post_userProfile" userID="${item.userID}"></div>
-							<a href="/blog/${item.userID}">${item.userNickName}</a>
+	        			<div class="post_content">
+							<div class="post_profileAndName">
+								<div class="post_userProfile" userID="${item.userID}"></div>
+								<a href="/blog/${item.userID}">${item.userNickName}</a>
+							</div>
+							<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
+							<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
+							<div class="post_goodAndComment">
+								<span>좋아요 ${item.goodCount}</span>
+								<span>댓글 ${item.commentCount}</span>
+							</div>
+	        			</div>`;
+	        		
+	        		if(item.thumbnail !== null && item.thumbnail !== ''){
+	        			postList+=
+        				`
+        				<div class="post_images">
+		      				<img src="${item.thumbnail}" onclick="location.href='/blog/${item.userID}/${item.no}'">
 						</div>
-						<div class="post_title"><a href="/blog/${item.userID}/${item.no}">${item.title}</a></div>
-						<div class="post_text"><a href="/blog/${item.userID}/${item.no}">${content}</a></div>
-						<div class="post_goodAndComment">
-							<span>좋아요 ${item.commentCount}</span>
-							<span>댓글 0</span>
-						</div>
-					</div>
-					<div class="post_image"></div>
-        			</div>`;
+        				`;
+	        		}
+	        		
+	        		postList += `</div>`;
 	            });//each 종료
 	            $('#board').html(postList);
 	            

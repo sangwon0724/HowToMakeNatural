@@ -21,7 +21,7 @@ public class FileUpload {
 	public String fileUpload(MultipartHttpServletRequest request, String uploadRoot, String fileName) throws Exception {
 		MultipartFile mf = request.getFile(fileName); //ajax에서 이름을 주었던 대로 MultipartFile 객체에 저장
 		
-    	String originalFileName = new String(mf.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명
+    	String originalFileName = new String(mf.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명, 한글깨짐방지
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 		
