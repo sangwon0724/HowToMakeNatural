@@ -29,13 +29,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.JsonObject;
-import com.my.service.blogServiceInterface;
-import com.my.service.userServiceInterface;
-import com.my.util.paging;
-import com.my.util.thumbnailMaker;
+import com.my.service.BlogServiceInterface;
+import com.my.service.UserServiceInterface;
+import com.my.util.Paging;
+import com.my.util.ThumbnailMaker;
 
 @Controller
-public class blogController {
+public class BlogController {
 	//==========할 일 목록==========
 	//19. 블로그 꾸미기 기능 추가
 	//19-1. 엘리먼트 배치
@@ -86,16 +86,16 @@ public class blogController {
     private SqlSession sqlSession;
 	
 	@Inject
-	private blogServiceInterface blogService;
+	private BlogServiceInterface blogService;
 	
 	@Inject
-	private userServiceInterface userService;
+	private UserServiceInterface userService;
 	
 	//페이징용
-	private paging paging = new paging();
+	private Paging paging = new Paging();
 	
 	//썸네일 생성용
-	private thumbnailMaker thumbnail = new thumbnailMaker();
+	private ThumbnailMaker thumbnail = new ThumbnailMaker();
 	
 	//============================================= 블로그 메인 영역 시작 =====================================================================
 	

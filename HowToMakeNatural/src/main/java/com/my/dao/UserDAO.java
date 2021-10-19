@@ -1,45 +1,35 @@
-package com.my.service;
+package com.my.dao;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpSession;
-
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import com.my.dao.userDAOInterface;
-
-@Service
-public class userService  implements userServiceInterface{
+@Repository
+public class UserDAO implements UserDAOInterface {
 	@Autowired
-    private userDAOInterface dao;
-	
-	//logout
-	@Override
-	public void logout(HttpSession session) throws Exception {
-		session.invalidate();
-	}
-
+    private SqlSession sqlSession;
 	
 	//===========================================================<<< select >>>============================================================================
-	
+
 	/* 개인 블로그 입장시 해당 유저의 정보 가져오기 */
 	@Override
 	public HashMap<String, Object> selectUserInfoForBlog(String id) throws Exception {
-		return dao.selectUserInfoForBlog(id);
+		return sqlSession.selectOne("userMapper.selectUserInfoForBlog", id);
 	}
 	
 	//===========================================================<<< update >>>============================================================================
 	
-	/* 블로그 정보 변경*/
+	/* 블로그 정보 변경 */
 	@Override
 	public void updateUserProfile(HashMap<String, Object> map) throws Exception {
-		dao.updateUserProfile(map);
+		sqlSession.update("userMapper.updateUserProfile", map);
 	}
-	
+
 	/* 블로그 배경 변경 */
 	@Override
 	public void updateBlogBackground(HashMap<String, Object> map) throws Exception {
-		dao.updateBlogBackground(map);
+		sqlSession.update("userMapper.updateBlogBackground", map);
 	}
 }

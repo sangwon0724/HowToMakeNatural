@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-public interface userServiceInterface {
+public interface UserServiceInterface {
 	//logout
 	public void logout(HttpSession session) throws Exception;
 	

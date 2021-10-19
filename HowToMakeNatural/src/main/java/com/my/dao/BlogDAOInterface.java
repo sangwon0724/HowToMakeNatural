@@ -1,10 +1,10 @@
-package com.my.service;
+package com.my.dao;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public interface blogServiceInterface {
+public interface BlogDAOInterface {
 	//select
 	public List<HashMap<String, Object>> selectPost(Map<String, Object> map) throws Exception;
 	public List<HashMap<String, Object>> selectComment(Map<String, Object> map) throws Exception;

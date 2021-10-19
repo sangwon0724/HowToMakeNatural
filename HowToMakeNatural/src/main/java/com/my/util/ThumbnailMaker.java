@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class thumbnailMaker {
+public class ThumbnailMaker {
     //System.out.println(matcher.group(0)); //이미지 태그 자체를 출력
     //System.out.println(matcher.group(1)); //이미지 태그의 src만 출력
 	

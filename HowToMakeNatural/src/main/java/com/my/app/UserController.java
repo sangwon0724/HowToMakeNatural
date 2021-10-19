@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.my.service.userServiceInterface;
+import com.my.service.UserServiceInterface;
 
 @Controller
-public class userController {
+public class UserController {
 	//==========할 일 목록==========
 	//1. 로그인 페이지 구체화
 	//1-1. 영어 및 숫자만 입력되도록 함수 추가
@@ -35,7 +35,7 @@ public class userController {
     private SqlSession sqlSession;
 	
 	@Inject
-	private userServiceInterface userService;
+	private UserServiceInterface userService;
 	
 	//login - get
 	@RequestMapping(value="/login", method=RequestMethod.GET)
