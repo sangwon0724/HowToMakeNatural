@@ -93,6 +93,7 @@
 /* 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 (typeA)*/
 #left{
 	width: 20%;
+	background-color: white;
 }
 #profile_panel{
 	width: 95%;

@@ -34,9 +34,9 @@
     <!-- Interceptor 설정 -->
     <interceptors>
         <interceptor>
-            <!-- <mapping path="/blog/main/Ajax"/> -->
-            <mapping path="/blog/menu/Ajax"/>
-            <!-- <mapping path="/blog/paging/Ajax"/> -->
+            <!-- <mapping path="/blog/main/ajax"/> -->
+            <mapping path="/blog/menu/ajax"/>
+            <!-- <mapping path="/blog/paging/ajax"/> -->
             <mapping path="/blog/{userID}/write"/>
             <mapping path="/blog/{userID}/write/ajax"/>
             <mapping path="/blog/{userID}/{no}/update"/>

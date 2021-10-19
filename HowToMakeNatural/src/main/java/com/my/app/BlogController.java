@@ -33,6 +33,7 @@ import com.my.service.BlogServiceInterface;
 import com.my.service.UserServiceInterface;
 import com.my.util.Paging;
 import com.my.util.ThumbnailMaker;
+import com.my.util.FileUpload;
 
 @Controller
 public class BlogController {
@@ -96,6 +97,9 @@ public class BlogController {
 	
 	//썸네일 생성용
 	private ThumbnailMaker thumbnail = new ThumbnailMaker();
+	
+	//파일 업로드용
+	private FileUpload upload = new FileUpload();
 	
 	//============================================= 블로그 메인 영역 시작 =====================================================================
 	
@@ -727,50 +731,20 @@ public class BlogController {
  		
         //내부경로로 저장
  		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
- 		String fileRoot = contextRoot+"resources/image/background/"+ request.getParameter("userID") +"/"; //경로 지정
+ 		String targetRoot = "/resources/image/background/"+ request.getParameter("userID") +"/";
+ 		String uploadRoot = contextRoot + targetRoot; //경로 지정
  		
- 		//폴더 존재 여부 확인
- 		File Folder = new File(fileRoot); //필요한 경로에 폴더가 존재 하는 지 확인용 (확인 이유 : MultipartFile.transferTo 메소드는 해당 경로에 폴더가 없으면 오류가 발생한다.)
-
-    	// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-    	if (!Folder.exists()) {
-			try{
-				//Folder.mkdir() => 해당 디렉토리가 없을 때 해당 경로의 부모 디렉터리가 존재하지 않으면 폴더를 생성하지 않는다.
-				//Folder.mkdirs() => 해당 디렉토리가 없을때 해당 경로의 부모 디렉터리가 존재하지 않으면 부모 디렉터리까지 함께 폴더를 생성한다.
-			    Folder.mkdirs(); //폴더 생성합니다.
-			    System.out.println("폴더가 생성되었습니다.");
-	        } 
-	        catch(Exception e){
-	        	e.getStackTrace();
-	        }        
-        }
-    	else {
-    		System.out.println("이미 폴더가 생성되어 있습니다.");
-    	}
+ 		//폴더 존재 여부 확인 (없는 경우 생성)
+    	upload.checkFolder(uploadRoot);
  		
 		while(itr.hasNext()) {
-			String fileName = itr.next();
-			MultipartFile mf = request.getFile(fileName); //ajax에서 이름을 주었던 대로 MultipartFile 객체에 저장
-			
-        	String originalFileName = new String(mf.getOriginalFilename().getBytes("8859_1"),"utf-8"); //원본 파일명
-    		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-    		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-    		
-    		File targetFile = new File(fileRoot + savedFileName); //파일 객체에 저장
-    		
-            try {
-            	//InputStream fileStream = mf.getInputStream(); //InputStream을 통한 파일 저장
-				//FileUtils.copyInputStreamToFile(fileStream, targetFile); //InputStream을 통한 파일 저장
-            	mf.transferTo(new File(fileRoot + savedFileName)); //InputStream를 사용하지 않고 쉽게 저장하는 방법
-            	
-				map.put(fileName, "/resources/image/background/" + request.getParameter("userID") + "/" + savedFileName);
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+			String fileName = itr.next(); //파일명 찾기
+
+			String savedFileName = upload.fileUpload(request, uploadRoot, fileName); //파일 업로드 후 랜덤생성된 파일명 문자열 받기
+        	
+			map.put(fileName, targetRoot + savedFileName); //map에 집어넣기
         }
-		System.out.println("map : " + map);
+		
 		userService.updateBlogBackground(map); //업데이트
 		
         result.put("message", "success"); //성공 메세지 전달
