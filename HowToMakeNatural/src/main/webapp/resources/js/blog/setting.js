@@ -134,35 +134,6 @@ function change_blog_placement(id){
 
 /*---------------------------------------------------------------------------------*/
 
-/* 위젯 변경 */
-function change_blog_wizet(id){
-	//Ajax로 전달할 값 설정
-	var data = {
-	    userID : id
-    };
-	
-	//게시글 변경
-	$.ajax({
-        url: "/업데이트_예정",
-        type: "POST",
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        success: function(result){
-        	var list="";
-        	$.each(result.list, function (index, item) {
-        		
-            });//each 종료
-            $('해당 영역').html(list);
-        },
-        error: function(error){
-            alert("오류 발생");
-            console.log(error);
-        }
-    });
-}
-
-/*---------------------------------------------------------------------------------*/
-
 /* 이웃 목록 관련 */
 function change_blog_neighbor_list(id){
 	//Ajax로 전달할 값 설정

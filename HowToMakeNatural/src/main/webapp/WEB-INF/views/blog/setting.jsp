@@ -179,24 +179,6 @@
 				</main>
 			</article>
 			<!-- 블로그 배치 설정 종료 -->
-			<!-- 블로그 위젯 설정 시작 -->
-			<article id="setting_blog_wizet" class="hidden">
-				<div class="title"><span>블로그 위젯</span></div>
-				<main>
-					<div class="setting_item_name"><span>항목</span></div>
-					<div id="setting_nickname" class="setting_item">
-						항목
-					</div>
-					<div class="setting_item_name last"><span>마지막 항목</span></div>
-					<div id="setting_logo_text" class="setting_item last">
-						마지막 항목
-					</div>
-					<div class="change_button_area">
-						<button onclick="change_blog_wizet('${sessionScope.user.id}')">확인</button>
-					</div>
-				</main>
-			</article>
-			<!-- 블로그 위젯 설정 종료 -->
 			<!-- 블로그 이웃 목록 설정 시작 -->
 			<article id="setting_blog_neighbor_list" class="hidden">
 				<div class="title"><span>이웃 목록</span></div>
