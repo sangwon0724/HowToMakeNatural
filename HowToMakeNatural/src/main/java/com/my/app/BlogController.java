@@ -656,7 +656,8 @@ public class BlogController {
 		map.put("userID",  userID);
 		
 		model.addAttribute("userInfo", userService.selectUserInfoForBlog(userID)); //해당 유저 정보
-		model.addAttribute("followMeNeighborList", blogService.selectNeighborFollowMe(map)); //해당 유저를 이웃 추가한 유저들의 정보
+		model.addAttribute("neighborList_mine", blogService.selectNeighbor(map)); //해당 유저가 이웃 추가한 유저들의 정보
+		model.addAttribute("neighborList_followMe", blogService.selectNeighborFollowMe(map)); //해당 유저를 이웃 추가한 유저들의 정보
 		
 	    return "/blog/setting";
 	}
@@ -747,6 +748,29 @@ public class BlogController {
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
 		userService.updateBlogPlacement(map);
+		
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+	
+	/* 개인 블로그 - 이웃 관련 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/setting/neighbor", method = RequestMethod.POST)
+	public Map<String, Object> setPersonalNeighbor(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 설정 - 이웃   (대상자 : " + map.get("userID") + ") / 모드 : " + map.get("mode"));
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		if(map.get("mode").equals("insert")) {
+			blogService.insertNeighbor(map); //이웃 추가
+			
+			result.put("neighborList", blogService.selectNeighbor(map)); //변경된 이웃 리스트를 반환
+		}
+		else if(map.get("mode").equals("delete")) {
+			blogService.deleteNeighbor(map); //이웃 취소
+		}
 		
 		result.put("message", "success"); //성공 메세지 전달
 		

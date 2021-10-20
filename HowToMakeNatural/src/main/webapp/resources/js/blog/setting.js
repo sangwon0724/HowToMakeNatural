@@ -129,25 +129,107 @@ function change_blog_placement(id){
 
 /*---------------------------------------------------------------------------------*/
 
-/* 이웃 목록 관련 */
-function change_blog_neighbor_list(id){
+/* 이웃 추가  */
+function add_my_neighbor(id, target, nickname){
+	if(!confirm(nickname + "님을 이웃목록에 추가하시겠습니까?")){
+		return;
+	}
+	
 	//Ajax로 전달할 값 설정
 	var data = {
-	    userID : id
+	    userID : id,
+	    target: target,
+	    mode: "insert"
     };
 	
 	//게시글 변경
 	$.ajax({
-        url: "/업데이트_예정",
+        url: "/blog/setting/neighbor",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	var list="";
-        	$.each(result.list, function (index, item) {
+            //1. 나를 추가한 이읏 패널에서 해당 이웃이 차지하고 있던 라인의 이웃추가 라인에서 추가 버튼을 지우고 서로이웃 추가
+        	$("#setting_function_panel>article.neighbor>main>.neighbor_list>div.neighbor_status[target=" + target + "]").html("<span>이웃</서로이웃>");
+
+        	//2. 이웃 목록을 다시 받아서 내 이웃 패널에 html을 다시 씌우기
+        	var neighborList = ``;
+        	
+        	neighborList += `
+        		<div class="neighbor_list title">
+					<div class="neighbor_info"><span>이웃 정보</span></div>
+					<div class="neighbor_status"><span>이웃 상태</span></div>
+					<div class="neighbor_signdate"><span>추가일</span></div>
+				</div>
+        	`;
+        	
+        	$.each(result.neighborList, function (index, item) {
+        		neighborList += `
+        			<div class="neighbor_list" target="${item.target}">
+						<div class="neighbor_info">
+							<span>${item.nickname}</span>
+							&nbsp;|&nbsp;
+							<a href="/blog/${item.target}" class="neighbor_logo_text">
+				`;
         		
+        		if(item.blog_logo_text != null && item.blog_logo_text != ""){
+        			neighborList += `${item.blog_logo_text}`;
+        		}
+        		if(item.blog_logo_text == null || item.blog_logo_text == ""){
+        			neighborList += `${item.target}님의 블로그`;
+        		}
+        		
+				neighborList += `	
+							</a>
+						</div>
+						<div class="neighbor_status" target="${item.target}">
+							<button onclick="cancle_my_neighbor('${item.id}', '${item.target}', '${item.nickname}')">이웃취소</button>
+						</div>
+						<div class="neighbor_signdate"><span>${item.signdate}</span></div>
+					</div>
+        		`;
             });//each 종료
-            $('해당 영역').html(list);
+        	$("#setting_function_panel>article#setting_blog_neighbor_list>main").html(neighborList);
+        	$("#setting_function_panel>article#setting_blog_neighbor_list>main>.neighbor_list:last-child").addClass("last");
+        	
+        	alert("요청하신 작업이 정상적으로 처리되었습니다.");
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 이웃 취소  */
+function cancle_my_neighbor(id, target, nickname){
+	if(!confirm(nickname + "님을 이웃목록에서 삭제하시겠습니까?")){
+		return;
+	}
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id,
+	    target: target,
+	    mode: "delete"
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/setting/neighbor",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+            //1. 해당 이웃이 차지하고 있던 라인에 cutsom css class 중에서 hidden 추가
+        	$("#setting_function_panel>article#setting_blog_neighbor_list>main>.neighbor_list[target=" + target + "]").css("display", "none");
+        	$("#setting_function_panel>article#setting_blog_neighbor_list>main>.neighbor_list:last-child").addClass("last");
+        	
+        	//2. 만약 나를 추가한 이웃에 해당 이웃이 남아있는 상태라면 이웃추가 버튼으로 변경
+        	if($("#setting_function_panel>article.neighbor>main>.neighbor_list>div.neighbor_status[target=" + target + "]")){
+        		$("#setting_function_panel>article.neighbor>main>.neighbor_list>div.neighbor_status[target=" + target + "]").html(`<button onclick="add_my_neighbor('${id}', '${target}', '${nickname}')">이웃추가</button>`);
+        	}
+        	
+        	alert("요청하신 작업이 정상적으로 처리되었습니다.");
         },
         error: function(error){
             alert("오류 발생");

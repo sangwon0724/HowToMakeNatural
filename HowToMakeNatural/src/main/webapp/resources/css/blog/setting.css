@@ -148,7 +148,7 @@
 	font-size: 1.3em;
 }
 /* 각 기능 패널마다의 grid 영역 */
-#setting_function_panel>article>main{
+#setting_function_panel>article:not(.neighbor)>main{
 	width: 80%;
 	display: grid;
 	grid-template-columns: 1fr 7fr;
@@ -195,7 +195,7 @@
 /* 이미지 변경 - 변경 버튼 */
 #setting_function_panel>article>main>div.setting_item>.image_update_O{
 	width: 55px;
-	height: 25px;
+	height: 30px;
 	border: 1px solid black;
 	border-radius: 10px;
 	background-color: white;
@@ -260,22 +260,60 @@
 	border: 1px solid black;
 }
 
-/* 설정 기능 화면 - 블로그 - 위젯 */
-#setting_function_panel>article#setting_blog_wizet>main{
-	height: 70vh;
-	grid-template-rows: 2fr 2fr 50px;
+/* 설정 기능 화면 - 블로그 - 이웃 공통 */
+#setting_function_panel>article.neighbor>main{
+	width: 80%;
+	height: auto;
+	min-height: 30vh;
+	margin: 3vh auto 10vh auto;
 }
-
-/* 설정 기능 화면 - 블로그 - 이웃 목록 */
-#setting_function_panel>article#setting_blog_neighbor_list>main{
-	height: 70vh;
-	grid-template-rows: 2fr 2fr 50px;
+#setting_function_panel>article.neighbor>main>.neighbor_list:not(.title){
+	width: 100%;
+	height: 10vh;
 }
-
-/* 설정 기능 화면 - 블로그 - 나를 추가한 이웃 설정 */
-#setting_function_panel>article#setting_blog_neighbor_follow_me>main{
-	height: min-70vh;
-	grid-template-rows: 2fr 2fr 50px;
+#setting_function_panel>article.neighbor>main>.neighbor_list:not(.title, .last){
+	border-bottom: 1px solid #eeeeee;
+}
+#setting_function_panel>article.neighbor>main>.neighbor_list.title{
+	width: 100%;
+	height: 7vh;
+	background-color: #eeeeee;
+}
+#setting_function_panel>article.neighbor>main>.neighbor_list{
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 11fr 3fr 2fr;
+}
+#setting_function_panel>article.neighbor>main>.neighbor_list>div.neighbor_info{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 1vw;
+	box-sizing: border-box;
+}
+#setting_function_panel>article.neighbor>main>.neighbor_list>div.neighbor_info>a.neighbor_logo_text{
+	display: block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	color: #b2bec3;
+	text-decoration: none;
+}
+#setting_function_panel>article.neighbor>main>.neighbor_list>div.neighbor_info>a.neighbor_logo_text:hover{
+	text-decoration: underline;
+}
+#setting_function_panel>article.neighbor>main>.neighbor_list>div:not(.neighbor_info){
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#setting_function_panel>article.neighbor>main>.neighbor_list>div.neighbor_status>button{
+	width: 70px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
 }
 
 /* 설정 기능 화면 - 블로그 - 카테고리 설정 */

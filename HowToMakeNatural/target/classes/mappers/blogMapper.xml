@@ -166,26 +166,27 @@
     <!-- 이웃목록 검색 -->
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
     	SELECT
-    		count(target) OVER(PARTITION BY 1) count, target, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate,
-    		(SELECT blog_nickname FROM user WHERE id=b.target) nickname,
-    		(SELECT blog_profile_image FROM user WHERE id=b.target) blog_profile_image
+    		COUNT(b.target) OVER(PARTITION BY 1) count, target, DATE_FORMAT(b.signdate, '%Y.%m.%d.') signdate,
+    		blog_nickname nickname, blog_logo_text, blog_profile_image
    		FROM
-   			blog_neighbor b
+   			blog_neighbor b, user u
 		WHERE
-			id = #{userID}
+			b.id = #{userID} AND u.id=b.target
 		ORDER BY no
+		<if test="start != null">
 		limit ${start},9
+		</if>
     </select>
     <!-- 나를 추가한 이웃목록 검색 -->
     <select id="selectNeighborFollowMe" parameterType="hashmap" resultType="hashmap">
     	SELECT
-    		id, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate,
-    		(SELECT blog_nickname FROM user WHERE id=b.id) nickname,
-    		(SELECT IFNULL(count(target), 0) FROM blog_neighbor c WHERE id = #{userID} AND target = b.id) count
+    		b.id, DATE_FORMAT(signdate, '%Y.%m.%d.') signdate,
+    		u.blog_nickname nickname, u.blog_logo_text,
+    		(SELECT IFNULL(count(target), 0) FROM blog_neighbor c WHERE c.id = #{userID} AND c.target = b.id) status
    		FROM
-   			blog_neighbor b
+   			blog_neighbor b, user u
 		WHERE
-			target = #{userID}
+			target = #{userID} AND u.id = b.id
     </select>
     
     <!--  이웃 여부 확인  -->
@@ -200,8 +201,8 @@
     
     <!--  이웃 추가  -->
     <insert id="insertNeighbor" parameterType="hashmap">
-   		INSERT into blog_neighbor(id, target)
-    	VALUES (#{userID}, #{target})
+   		INSERT into blog_neighbor(id, target, signdate)
+    	VALUES (#{userID}, #{target}, NOW())
     </insert>
     
     <!--  이웃 삭제  -->

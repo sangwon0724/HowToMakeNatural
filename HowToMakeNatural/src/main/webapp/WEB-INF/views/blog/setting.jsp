@@ -68,7 +68,7 @@
 			<div class="setting_menu_grid">
 				<div class="setting_menu">
 					<span class="setting_menu_line big"><bold>이웃 관리</bold></span>
-					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_neighbor_list')">이웃 목록</span>
+					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_neighbor_list')">내가 추가한 이웃</span>
 					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_neighbor_follow_me')">나를 추가한 이웃</span>
 				</div>
 			</div>
@@ -198,38 +198,59 @@
 			</article>
 			<!-- 블로그 배치 설정 종료 -->
 			<!-- 블로그 이웃 목록 설정 시작 -->
-			<article id="setting_blog_neighbor_list" class="hidden">
+			<article id="setting_blog_neighbor_list" class="neighbor hidden">
 				<div class="title"><span>이웃 목록</span></div>
 				<main>
-					<div class="setting_item_name"><span>항목</span></div>
-					<div id="setting_nickname" class="setting_item">
-						항목
+					<div class="neighbor_list title">
+						<div class="neighbor_info"><span>이웃 정보</span></div>
+						<div class="neighbor_status"><span>이웃 상태</span></div>
+						<div class="neighbor_signdate"><span>추가일</span></div>
 					</div>
-					<div class="setting_item_name last"><span>마지막 항목</span></div>
-					<div id="setting_logo_text" class="setting_item last">
-						마지막 항목
-					</div>
-					<div class="change_button_area">
-						<button onclick="change_blog_neighbor_list('${sessionScope.user.id}')">확인</button>
-					</div>
+					<c:forEach var="neighbor" items="${neighborList_mine}" varStatus="status">
+						<div class="neighbor_list<c:if test="${status.last}"> last</c:if>" target="${neighbor.target}">
+							<div class="neighbor_info">
+								<span>${neighbor.nickname}</span>
+								&nbsp;|&nbsp;
+								<a href="/blog/${neighbor.target}" class="neighbor_logo_text">
+									<c:if test="${not empty neighbor.blog_logo_text and neighbor.blog_logo_text ne ''}">${neighbor.blog_logo_text}</c:if>
+									<c:if test="${empty neighbor.blog_logo_text or neighbor.blog_logo_text eq ''}">${neighbor.target}님의 블로그</c:if>
+								</a>
+							</div>
+							<div class="neighbor_status" target="${neighbor.target}">
+								<button onclick="cancle_my_neighbor('${sessionScope.user.id}', '${neighbor.target}', '${neighbor.nickname}')">이웃취소</button>
+							</div>
+							<div class="neighbor_signdate"><span>${neighbor.signdate}</span></div>
+						</div>
+					</c:forEach>
 				</main>
 			</article>
 			<!-- 블로그 이웃 목록 설정 종료 -->
 			<!-- 블로그 나를 추가한 이웃 설정 시작 -->
-			<article id="setting_blog_neighbor_follow_me" class="hidden">
+			<article id="setting_blog_neighbor_follow_me" class="neighbor hidden">
 				<div class="title"><span>나를 추가한 이웃</span></div>
 				<main>
-					<div class="setting_item_name"><span>항목</span></div>
-					<div id="setting_nickname" class="setting_item">
-						항목
+					<div class="neighbor_list title">
+						<div class="neighbor_info"><span>이웃 정보</span></div>
+						<div class="neighbor_status"><span>이웃 상태</span></div>
+						<div class="neighbor_signdate"><span>추가일</span></div>
 					</div>
-					<div class="setting_item_name last"><span>마지막 항목</span></div>
-					<div id="setting_logo_text" class="setting_item last">
-						마지막 항목
-					</div>
-					<div class="change_button_area">
-						<button onclick="change_blog_neighbor_follow_me('${sessionScope.user.id}')">확인</button>
-					</div>
+					<c:forEach var="neighbor" items="${neighborList_followMe}" varStatus="status">
+						<div class="neighbor_list<c:if test="${status.last}"> last</c:if>">
+							<div class="neighbor_info">
+								<span>${neighbor.nickname}</span>
+								&nbsp;|&nbsp;
+								<a href="/blog/${neighbor.id}" class="neighbor_logo_text">
+									<c:if test="${not empty neighbor.blog_logo_text and neighbor.blog_logo_text ne ''}">${neighbor.blog_logo_text}</c:if>
+									<c:if test="${empty neighbor.blog_logo_text or neighbor.blog_logo_text eq ''}">${neighbor.id}님의 블로그</c:if>
+								</a>
+							</div>
+							<div class="neighbor_status" target="${neighbor.id}">
+								<c:if test="${neighbor.status == 1}"><span>이웃</span></c:if>
+								<c:if test="${neighbor.status == 0}"><button onclick="add_my_neighbor('${sessionScope.user.id}', '${neighbor.id}', '${neighbor.nickname}')">이웃추가</button></c:if>
+							</div>
+							<div class="neighbor_signdate"><span>${neighbor.signdate}</span></div>
+						</div>
+					</c:forEach>
 				</main>
 			</article>
 			<!-- 블로그 나를 추가한 이웃 설정 종료 -->
