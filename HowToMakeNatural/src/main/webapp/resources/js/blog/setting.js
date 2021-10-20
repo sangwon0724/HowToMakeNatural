@@ -62,7 +62,6 @@ function change_blog_info(id){
         data: formData,
         success: function(result){
         	alert("정상적으로 변경되었습니다.");
-        	window.location.reload();
         },
         error: function(error){
             alert("오류 발생");
@@ -94,7 +93,6 @@ function change_blog_background(id){
         data: formData,
         success: function(result){
         	alert("정상적으로 변경되었습니다.");
-        	window.location.reload();
         },
         error: function(error){
             alert("오류 발생");
@@ -109,21 +107,18 @@ function change_blog_background(id){
 function change_blog_placement(id){
 	//Ajax로 전달할 값 설정
 	var data = {
-	    userID : id
+	    userID : id,
+	    blog_setting_type: $("input[name=blog_setting_type_radio]:checked").val()
     };
 	
 	//게시글 변경
 	$.ajax({
-        url: "/업데이트_예정",
+        url: "/blog/setting/placement",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	var list="";
-        	$.each(result.list, function (index, item) {
-        		
-            });//each 종료
-            $('해당 영역').html(list);
+        	alert("정상적으로 변경되었습니다.");
         },
         error: function(error){
             alert("오류 발생");

@@ -609,8 +609,8 @@ public class BlogController {
 	}
 	
 	//게시글 작성시 이미지 처리
-	@RequestMapping(value="/blog/{userID}/write/image", produces = "application/json; charset=utf8")
 	@ResponseBody
+	@RequestMapping(value="/blog/{userID}/write/image", produces = "application/json; charset=utf8")
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, @PathVariable String userID, HttpServletRequest request)  {
 		System.out.println("이미지 업로드 - 유저 아이디 : " + userID);
 		
@@ -667,7 +667,7 @@ public class BlogController {
 	/* 개인 블로그 설정- 프로필 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/setting/profile", method = RequestMethod.POST)
-	public Map<String, Object> serPersonalProfile(MultipartHttpServletRequest request) throws Exception {
+	public Map<String, Object> setPersonalProfile(MultipartHttpServletRequest request) throws Exception {
 		
 		System.out.println("개인 블로그 설정 - 프로필   (대상자 : " + request.getParameter("userID") + ")");
 
@@ -707,7 +707,7 @@ public class BlogController {
 	/* 개인 블로그 설정- 배경 ajax*/
 	@ResponseBody
 	@RequestMapping(value = "/blog/setting/background", method = RequestMethod.POST)
-	public Map<String, Object> serPersonalBackground(MultipartHttpServletRequest request) throws Exception {
+	public Map<String, Object> setPersonalBackground(MultipartHttpServletRequest request) throws Exception {
 		System.out.println("개인 블로그 설정 - 배경   (대상자 : " + request.getParameter("userID") + ")");
 
 		HashMap<String, Object> map = new HashMap<String, Object>(); //SQL 실행용
@@ -739,5 +739,21 @@ public class BlogController {
         result.put("message", "success"); //성공 메세지 전달
 	    return result;
     }
+	
+	/* 개인 블로그 - 이웃 관련 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/setting/placement", method = RequestMethod.POST)
+	public Map<String, Object> setPersonalPlacement(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 설정 - 배치   (대상자 : " + map.get("userID") + ")");
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		userService.updateBlogPlacement(map);
+		
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
 	//=========================================== 개인 블로그 영역 (설정) 종료 =================================================================
 }

@@ -53,4 +53,14 @@
     	WHERE
     		id=#{userID}
     </update>
+    
+    <!-- 블로그 배경 업데이트 -->
+    <update id="updateBlogPlacement" parameterType="hashmap">
+    	UPDATE
+    		user
+    	SET
+    		blog_setting_type=#{blog_setting_type}
+    	WHERE
+    		id=#{userID}
+    </update>
 </mapper>

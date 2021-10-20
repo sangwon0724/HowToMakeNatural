@@ -35,4 +35,10 @@ public class UserService  implements UserServiceInterface{
 	public void updateBlogBackground(HashMap<String, Object> map) throws Exception {
 		mapper.updateBlogBackground(map);
 	}
+	
+	/* 블로그 배치 변경 */
+	@Override
+	public void updateBlogPlacement(HashMap<String, Object> map) throws Exception {
+		mapper.updateBlogPlacement(map);
+	}
 }

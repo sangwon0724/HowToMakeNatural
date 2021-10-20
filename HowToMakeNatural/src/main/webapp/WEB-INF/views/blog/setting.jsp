@@ -62,7 +62,6 @@
 					<span class="setting_menu_line big"><bold>블로그 꾸미기</bold></span>
 					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_background')">배경 변경</span>
 					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_placement')">배치 변경</span>
-					<span class="setting_menu_line small" onclick="toggleSettingFunctionPanel('setting_blog_wizet')">위젯 설정</span>
 				</div>
 			</div>
 			
@@ -165,13 +164,32 @@
 			<article id="setting_blog_placement" class="hidden">
 				<div class="title"><span>블로그 배치</span></div>
 				<main>
-					<div class="setting_item_name"><span>블로그 배치 타입</span></div>
-					<div id="setting_nickname" class="setting_item">
-						항목
-					</div>
-					<div class="setting_item_name last"><span>마지막 항목</span></div>
-					<div id="setting_logo_text" class="setting_item last">
-						마지막 항목
+					<div class="setting_item_name last"><span>블로그 배치 타입</span></div>
+					<div id="blog_setting_type" class="setting_item last">
+						<div>
+							<div class="blog_setting_type_top">
+								<div class="blog_setting_type_preview" style="background-image: url(); background-size: cover;"></div>
+							</div>
+							<div class="blog_setting_type_middle">
+								<span>A 타입</span>
+							</div>
+							<div class="blog_setting_type_bottom">
+								<input type="radio" id="blog_setting_type_A" name="blog_setting_type_radio" value="A"<c:if test="${userInfo.blog_setting_type eq 'A'}"> checked</c:if>>&nbsp;
+  								<label for="blog_setting_type_A">선택</label>
+							</div>
+						</div>
+						<div>
+							<div class="blog_setting_type_top">
+								<div class="blog_setting_type_preview" style="background-image: url(); background-size: cover;"></div>
+							</div>
+							<div class="blog_setting_type_middle">
+								<span>B 타입</span>
+							</div>
+							<div class="blog_setting_type_bottom">
+								<input type="radio" id="blog_setting_type_B" name="blog_setting_type_radio"<c:if test="${userInfo.blog_setting_type eq 'B'}"> checked</c:if>>&nbsp;
+  								<label for="blog_setting_type_B">선택</label>
+							</div>
+						</div>
 					</div>
 					<div class="change_button_area">
 						<button onclick="change_blog_placement('${sessionScope.user.id}')">확인</button>

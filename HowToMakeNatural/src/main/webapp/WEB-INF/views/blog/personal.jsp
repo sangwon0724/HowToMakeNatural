@@ -46,6 +46,7 @@
 	
 	
 	
+	<!-- 중앙 패널 시작 -->
 	<div id="center_panel">
 		<!-- 네비게이션 시작 -->
 		<nav id="personal_nav">
@@ -90,18 +91,10 @@
 		
 		<c:if test="${mode eq 'view'}">
 		<!-- 블로그 메인화면 시작 -->
-			<c:choose>
-				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
-					<main id="blog_personal_main" class="typeA">
-				</c:when>
-				<c:when test="${fn:contains(userInfo.blog_setting_type, 'B')}">
-					<main id="blog_personal_main" class="typeB">
-				</c:when>
-			</c:choose>
-			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type A. 기본)-->
-			<c:choose>
-				<c:when test="${fn:contains(userInfo.blog_setting_type, 'A')}">
-					<div id="left" class="typeA">
+			<main id="blog_personal_main" class="type${userInfo.blog_setting_type}">
+				<c:if test="${userInfo.blog_setting_type eq 'A'}">
+				<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type A)-->
+					<div id="left">
 						<div id="profile_panel">
 							<div id="profile_image" style="background-image: url('${userInfo.blog_profile_image}');"><%-- 프로필 이미지 --%></div>
 							<div id="profile_nickname" class="flex_center_center"><span>${userInfo.blog_nickname}</span>&nbsp;<span>(${userInfo.id})</span></div>
@@ -166,12 +159,11 @@
 							</footer>
 						</div>
 					</div>
-				</c:when>
-			</c:choose>
-			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 종료 (type A. 기본)-->
+			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 종료 (type A)-->
+			</c:if>
 			
-			<!-- 게시글 패널 (type A. 기본) -->
-			<div id=center class="flex_column_center_center typeA">
+			<!-- 메인 패널 시작 (공통) -->
+			<div id=center class="flex_column_center_center type${userInfo.blog_setting_type}">
 				<!-- 검색창 시작 (type B. 기본X) -->
 				<span class="searchbox typeB"></span>
 				<!-- 검색창 종료  (type B. 기본X) -->
@@ -342,33 +334,86 @@
 					</footer>
 				</c:if>
 				</footer>
-				<!-- 게시글 패널 종료 (목록 열기/닫기 가능 X) -->
-			</div>
-			<!-- 게시글 목록 종료 (type A. 기본) -->
-	
-			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 시작 (type B. 스타일 변경)-->
-			<div id="bottom" class="typeB hidden">
-				<div id="profile_panel">
-					<div id="profile_image" style="background-image: url('${userInfo.blog_profile_image}');"><%-- 프로필 이미지 --%></div>
-					<div id="profile_text" class="flex_center_center">
-						<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
+				<!-- 게시글 목록 종료 (목록 열기/닫기 가능 X) -->
+				
+				<c:if test="${userInfo.blog_setting_type eq 'B'}">
+				<!-- 프로필  + 검색 + 카테고리 + 이웃목록 시작 (type B)-->
+				<div id="bottom">
+					<div id="profile_panel">
+						<div id="profile_image" style="background-image: url('${userInfo.blog_profile_image}');"><%-- 프로필 이미지 --%></div>
+						<div id="profile_nickname" class="flex_center_center"><span>${userInfo.blog_nickname}</span>&nbsp;<span>(${userInfo.id})</span></div>
+						<div id="profile_text" class="flex_center_center">
+							<span><c:if test='${userInfo.blog_profile_text != null and userInfo.blog_profile_text != "" }'>${userInfo.blog_profile_text}</c:if></span>
+						</div>
+						<div id="personal_buttons" class="flex_center_center">
+							<c:if test="${not empty sessionScope.user.id and sessionScope.user.id eq userInfo.id}">
+								<span onclick="location.href='/blog/${sessionScope.user.id}/write'"><i class="fas fa-pen"></i>&nbsp;글쓰기</span>
+								<span onclick="location.href='/blog/${sessionScope.user.id}/setting'"><i class="fas fa-cog"></i>&nbsp;관리</span>
+							</c:if>
+							<c:if test="${(empty sessionScope.user.id or neighborCheck == 0) and sessionScope.user.id ne userInfo.id}">
+								<div class="flex_center_center" onclick="open_modal_for_add_neighbor('${sessionScope.user.id}')">
+									<span>이웃 추가</span>
+									<i class="fas fa-plus"></i>
+								</div>
+							</c:if>
+						</div>
 					</div>
-					<div id="personal_buttons" class="flex_center_center"><span>프로필/관리/통계</span></div>
-				</div>
-				<div id="search_panel" class="flex_center_center">
-					<input type="text" id="search_text">
-					<div id="search_button">
-						<i class="fas fa-search"></i>
+					<div id="searchAndCategory_panel">
+						<div id="search_panel" class="flex_center_center">
+							<input type="text" id="search_text" onkeyup="search_enter()">
+							<div id="search_button" onclick="personal_blog_search('${userInfo.id}')">
+								<i class="fas fa-search"></i>
+							</div>
+						</div>
+						<div id="category_panel">
+							<span<c:if test='${param.category == null or param.category == ""}'> class="active"</c:if> onclick="go_user_blog('${userInfo.id}')">전체</span>
+							<c:if test='${categoryList != null and categoryList != ""}'>
+								<c:forEach items="${categoryList}" var="item">
+									<span<c:if test="${param.category eq item.name}"> class="active"</c:if> onclick="go_user_blog_category('${userInfo.id}','${item.name}')">${item.name}</span>
+								</c:forEach>
+							</c:if>
+						</div>
+					</div>
+					<div id="neighbor_panel">
+						<header>
+							<span>이웃 목록</span>
+						</header>
+						<main<c:if test='${empty neighborList or neighborList eq ""}'> style="border-bottom:none;"</c:if>>
+							<c:if test='${neighborList == null or neighborList == ""}'>
+								<span>이웃이 없습니다.</span>
+							</c:if>
+							<c:if test='${neighborList != null and neighborList != ""}'>	
+								<c:forEach items="${neighborList}" var="neighbor" begin="0" end="8">
+									<div>
+										<main>
+											<img onclick="go_user_blog('${neighbor.target}')" src="${neighbor.blog_profile_image}">
+										</main>
+										<footer>
+											<span>${neighbor.nickname}</span>
+										</footer>
+									</div>
+								</c:forEach>
+							</c:if>
+						</main>
+						<footer class="<c:if test='${empty neighborList or neighborList eq ""}'>hidden</c:if><c:if test='${not empty neighborList and neighborList ne ""}'>flex_center_center</c:if>">
+							<div id="neighbor_page_left" class="flex_center_center disabled" onclick="paging_neighbor_left(${neighbor_page_total},'${userInfo.id}')" page="0">
+								<i class="fas fa-chevron-left" aria-hidden="true"></i>
+							</div>
+							<div id="neighbor_page_right" class="flex_center_center<c:if test="${neighbor_page_total == 1}"> disabled</c:if>" onclick="paging_neighbor_right(${neighbor_page_total},'${userInfo.id}')" page="2">
+								<i class="fas fa-chevron-right" aria-hidden="true"></i>
+							</div>
+						</footer>
 					</div>
 				</div>
-				<div id="category_panel">카테고리</div>
+				<!-- 프로필  + 검색 + 카테고리 + 이웃목록 종료 (type B)-->
+				</c:if>
 			</div>
-			<!-- 프로필  + 검색 + 카테고리 + 이웃목록 + 위젯 종료 (type B. 스타일 변경)-->
+			<!-- 메인 패널 종료 (공통) -->
 		</div>
 		<%--게시글이 빈 경우에 대한 화면 잘림 방지용 --%>
 		<c:if test="${empty postList or postList eq ''}"><div style="width: 100%; height: 30vh;"></div></c:if>
-		<!-- 블로그 메인화면 종료 -->
 		</c:if>
+		<%--view 모드 종료 --%>
 		
 		
 		
@@ -452,6 +497,7 @@
 		<!-- 블로그 검색화면 종료 -->
 		</c:if>
 	</div>
+	<!-- 중앙 패널 종료 -->
 	
 	
 	

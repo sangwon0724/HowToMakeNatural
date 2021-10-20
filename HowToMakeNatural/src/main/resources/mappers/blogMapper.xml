@@ -153,9 +153,9 @@
     <!--  카테고리 목록 검색  -->
     <select id="selectCategory" parameterType="hashmap" resultType="hashmap">
     	SELECT
-    		category_name, count
+    		category_name, (select count(no) from blog_post where category=b.category_name) count
    		FROM
-   			blog_category
+   			blog_category b
   		WHERE
   			userID = #{userID} and useYN = "Y"
  		ORDER BY category_order_no, no
