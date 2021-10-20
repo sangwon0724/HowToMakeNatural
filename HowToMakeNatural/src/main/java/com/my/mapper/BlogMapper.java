@@ -10,6 +10,7 @@ public interface BlogMapper {
 	public List<HashMap<String, Object>> selectComment(Map<String, Object> map) throws Exception; //댓글 목록
 	public List<HashMap<String, Object>> selectCategory(Map<String, Object> map) throws Exception; //카테고리 목록
 	public List<HashMap<String, Object>> selectNeighbor(Map<String, Object> map) throws Exception; //이웃 목록
+	public List<HashMap<String, Object>> selectNeighborFollowMe(Map<String, Object> map) throws Exception; //나를 추가한 이웃 목록
 	public int checkMyNeighbor(Map<String, Object> map) throws Exception; //이웃 여부 확인
 	public int selectGood(Map<String, Object> map) throws Exception; //좋아요 개수
 	public int checkMyGood(Map<String, Object> map) throws Exception; //좋아요 여부 확인

@@ -274,7 +274,7 @@
 
 /* 설정 기능 화면 - 블로그 - 나를 추가한 이웃 설정 */
 #setting_function_panel>article#setting_blog_neighbor_follow_me>main{
-	height: 70vh;
+	height: min-70vh;
 	grid-template-rows: 2fr 2fr 50px;
 }
 

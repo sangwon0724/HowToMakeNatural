@@ -266,9 +266,7 @@ public class BlogController {
 			temp.put("userID", user.get("id"));
 			temp.put("target", userID);
 			
-			int check_neighbor = blogService.checkMyNeighbor(temp);
-			
-			model.addAttribute("neighborCheck", check_neighbor);
+			model.addAttribute("neighborCheck", blogService.checkMyNeighbor(temp));
 			
 			if(onePost != null) {
 				int check_good = blogService.checkMyGood(onePost);
@@ -334,9 +332,7 @@ public class BlogController {
 			temp.put("userID", user.get("id"));
 			temp.put("target", userID);
 			
-			int check_neighbor = blogService.checkMyNeighbor(temp);
-			
-			model.addAttribute("neighborCheck", check_neighbor);
+			model.addAttribute("neighborCheck", blogService.checkMyNeighbor(temp));
 			
 			if(onePost != null) {
 				int check_good = blogService.checkMyGood(onePost);
@@ -656,10 +652,11 @@ public class BlogController {
 		
 		System.out.println("개인 블로그 - 유저 아이디 : " + userID);
 		
-		//해당 블로그의 유저 정보 가져오기
-		HashMap<String, Object> userInfo=userService.selectUserInfoForBlog(userID);
+		HashMap<String, Object> map = new HashMap<String, Object>(); //SQL 실행용
+		map.put("userID",  userID);
 		
-		model.addAttribute("userInfo", userInfo); //유저 정보
+		model.addAttribute("userInfo", userService.selectUserInfoForBlog(userID)); //해당 유저 정보
+		model.addAttribute("followMeNeighborList", blogService.selectNeighborFollowMe(map)); //해당 유저를 이웃 추가한 유저들의 정보
 		
 	    return "/blog/setting";
 	}

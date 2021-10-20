@@ -166,7 +166,7 @@
     <!-- 이웃목록 검색 -->
     <select id="selectNeighbor" parameterType="hashmap" resultType="hashmap">
     	SELECT
-    		count(target) OVER(PARTITION BY 1) count, target,
+    		count(target) OVER(PARTITION BY 1) count, target, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate,
     		(SELECT blog_nickname FROM user WHERE id=b.target) nickname,
     		(SELECT blog_profile_image FROM user WHERE id=b.target) blog_profile_image
    		FROM
@@ -175,6 +175,17 @@
 			id = #{userID}
 		ORDER BY no
 		limit ${start},9
+    </select>
+    <!-- 나를 추가한 이웃목록 검색 -->
+    <select id="selectNeighborFollowMe" parameterType="hashmap" resultType="hashmap">
+    	SELECT
+    		id, DATE_FORMAT(signdate, '%Y-%m-%d %p %h:%i') signdate,
+    		(SELECT blog_nickname FROM user WHERE id=b.id) nickname,
+    		(SELECT IFNULL(count(target), 0) FROM blog_neighbor c WHERE id = #{userID} AND target = b.id) count
+   		FROM
+   			blog_neighbor b
+		WHERE
+			target = #{userID}
     </select>
     
     <!--  이웃 여부 확인  -->

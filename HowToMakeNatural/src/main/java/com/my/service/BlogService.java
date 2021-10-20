@@ -38,6 +38,12 @@ public class BlogService implements BlogServiceInterface {
 	public List<HashMap<String, Object>> selectNeighbor(Map<String, Object> map) throws Exception {
 		return mapper.selectNeighbor(map);
 	}
+
+	/* 나를 추가한 이웃 목록 */
+	@Override
+	public List<HashMap<String, Object>> selectNeighborFollowMe(Map<String, Object> map) throws Exception {
+		return mapper.selectNeighborFollowMe(map);
+	}
 	
 	/* 이웃 여부 확인 */
 	@Override
