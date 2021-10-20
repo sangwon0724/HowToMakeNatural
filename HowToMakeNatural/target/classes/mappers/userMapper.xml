@@ -19,6 +19,15 @@
      			id=#{id}
     </select>
     
+    <!-- 회원가입 -->
+    <insert id="insertNewUser" parameterType="hashmap">
+    	INSERT INTO user(blog_logo_image, blog_background_image)
+    	VALUES('/resources/image/background/common/user_background.JPG','/resources/image/background/common/user_background.JPG')
+    </insert>
+    
+    
+    
+    
     <!-- 블로그 프로필 업데이트 -->
     <update id="updateUserProfile" parameterType="hashmap">
     	UPDATE

@@ -114,7 +114,7 @@
     
     <!-- 댓글 추가 -->
     <insert id="insertComment" parameterType="hashmap">
-    	INSERT into blog_comment(content, post_no, signdate, userID)
+    	INSERT INTO blog_comment(content, post_no, signdate, userID)
     	VALUES (#{content}, #{no}, NOW(), #{userID})
     </insert>
     
