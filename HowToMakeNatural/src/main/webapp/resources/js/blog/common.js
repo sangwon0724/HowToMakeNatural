@@ -11,3 +11,8 @@ function search_enter(){
   	$('#search_button').click();
   }
 }
+
+/* 개인 블로그 네이게이션 - 블로그 홈 */
+function blog_home(){
+	location.href="/blog/main";
+}

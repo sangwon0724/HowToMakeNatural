@@ -10,7 +10,7 @@
 <!-- 공통 적용 파일 시작 -->
 <c:import url="../include/header.jsp"></c:import>
 <!-- 공통 적용 파일 종료-->
-<link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet"type="text/css">
+<link href="<c:url value="/resources/css/blog/setting.css" />" rel="stylesheet"type="text/css">
 <title>
 	${sessionScope.user.id}님의 블로그 설정
 </title>
@@ -85,7 +85,7 @@
 		<!-- 블로그 설정 기능 화면 시작 -->
 		<section id="setting_function_panel">
 			<!-- 블로그 정보 설정 시작 -->
-			<article id="setting_blog_info">
+			<article id="setting_blog_info" class="settingPanel_grid">
 				<div class="title"><span>블로그 정보</span></div>
 				<main>
 					<div class="setting_item_name"><span>닉네임</span></div>
@@ -123,7 +123,7 @@
 			</article>
 			<!-- 블로그 정보 설정 종료 -->
 			<!-- 블로그 베경 설정 시작 -->
-			<article id="setting_blog_background" class="hidden">
+			<article id="setting_blog_background" class="settingPanel_grid hidden">
 				<div class="title"><span>블로그 배경</span></div>
 				<main>
 					<div class="setting_item_name"><span>블로그 전체 배경</span></div>
@@ -161,7 +161,7 @@
 			</article>
 			<!-- 블로그 배경 설정 종료 -->
 			<!-- 블로그 배치 설정 시작 -->
-			<article id="setting_blog_placement" class="hidden">
+			<article id="setting_blog_placement" class="settingPanel_grid hidden">
 				<div class="title"><span>블로그 배치</span></div>
 				<main>
 					<div class="setting_item_name last"><span>블로그 배치 타입</span></div>
@@ -198,7 +198,7 @@
 			</article>
 			<!-- 블로그 배치 설정 종료 -->
 			<!-- 블로그 이웃 목록 설정 시작 -->
-			<article id="setting_blog_neighbor_list" class="neighbor hidden">
+			<article id="setting_blog_neighbor_list" class="settingPanel_normal neighbor hidden">
 				<div class="title"><span>이웃 목록</span></div>
 				<main>
 					<div class="neighbor_list title">
@@ -226,7 +226,7 @@
 			</article>
 			<!-- 블로그 이웃 목록 설정 종료 -->
 			<!-- 블로그 나를 추가한 이웃 설정 시작 -->
-			<article id="setting_blog_neighbor_follow_me" class="neighbor hidden">
+			<article id="setting_blog_neighbor_follow_me" class="settingPanel_normal neighbor hidden">
 				<div class="title"><span>나를 추가한 이웃</span></div>
 				<main>
 					<div class="neighbor_list title">
@@ -255,20 +255,23 @@
 			</article>
 			<!-- 블로그 나를 추가한 이웃 설정 종료 -->
 			<!-- 블로그 카테고리 설정 시작 -->
-			<article id="setting_blog_category" class="hidden">
+			<article id="setting_blog_category" class="settingPanel_normal hidden">
 				<div class="title"><span>카테고리 설정</span></div>
 				<main>
-					<div class="setting_item_name"><span>항목</span></div>
-					<div id="setting_nickname" class="setting_item">
-						항목
-					</div>
-					<div class="setting_item_name last"><span>마지막 항목</span></div>
-					<div id="setting_logo_text" class="setting_item last">
-						마지막 항목
-					</div>
-					<div class="change_button_area">
-						<button onclick="change_blog_category('${sessionScope.user.id}')">확인</button>
-					</div>
+					<c:forEach var="category" items="${categoryList}" varStatus="status">
+						<div class="category_list<c:if test="${status.last}"> last</c:if>" category_order_no="${category.category_order_no}">
+							<div class="category_name">
+								<span class="name">${category.category_name}</span>&nbsp;
+								<span class="count">(&nbsp;${category.count}&nbsp;)</span>
+							</div>
+							<div class="category_move">
+								<button onclick="" style="color: blue;"><i class="fas fa-caret-square-up"></i></button>
+								<button onclick="" style="color: blue;"><i class="fas fa-caret-square-down"></i></button>
+								<button onclick=""><i class="fas fa-edit"></i></button>
+								<button onclick="" category_name="${category.category_name}" style="color: red;"><i class="fas fa-window-close"></i></button>
+							</div>
+						</div>
+					</c:forEach>
 				</main>
 			</article>
 			<!-- 블로그 카테고리 설정 종료 -->

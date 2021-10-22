@@ -90,6 +90,12 @@ public class BlogService implements BlogServiceInterface {
 	public void insertGood(Map<String, Object> map) throws Exception {
 		mapper.insertGood(map);
 	}
+	
+	//카테고리 추가
+	@Override
+	public void insertCategory(Map<String, Object> map) throws Exception {
+		mapper.insertCategory(map);
+	}
 
 	
 	
@@ -106,6 +112,24 @@ public class BlogService implements BlogServiceInterface {
 	public void updateComment(Map<String, Object> map) throws Exception{
 		mapper.updateComment(map);
 	};
+	
+	//카테고리 수정
+	@Override
+	public void updateCategory(Map<String, Object> map) throws Exception {
+		mapper.updateCategory(map);
+	}
+	
+	//카테고리 순서 앞으로 당기기
+	@Override
+	public void categoryMoveUp(Map<String, Object> map) throws Exception {
+		mapper.categoryMoveUp(map);
+	}
+	
+	//카테고리 순서 뒤로 밀기
+	@Override
+	public void categoryMoveDown(Map<String, Object> map) throws Exception {
+		mapper.categoryMoveDown(map);
+	}
 
 	
 	
@@ -144,5 +168,11 @@ public class BlogService implements BlogServiceInterface {
 	@Override
 	public void deleteAllGoodForPost(Map<String, Object> map) throws Exception {
 		mapper.deleteAllGoodForPost(map);
+	}
+
+	//카테고리 삭제
+	@Override
+	public void deleteCategory(Map<String, Object> map) throws Exception {
+		mapper.deleteCategory(map);
 	}
 }

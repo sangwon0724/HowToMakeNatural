@@ -163,7 +163,7 @@
     </select>
     
     <!-- 카테고리 추가 -->
-    <insert id="insertCategory" parameterType="com.my.vo.categoryVO">
+    <insert id="insertCategory" parameterType="hashmap">
     	INSERT INTO blog_category(category_name,category_order_no, userID)
 		VALUES(#{category_name}, (SELECT IFNULL(MAX(category_order_no) + 1, 1) FROM blog_category WHERE userID=#{userID}), #{userID})
     </insert>
@@ -180,17 +180,17 @@
     
     <!-- 카테고리 삭제 -->
     <delete id="deleteCategory" parameterType="hashmap">
-    	call deleteList(#{category_order_no},#{userID})
+    	call deleteCategory(#{category_order_no},#{userID})
     </delete>
     
     <!-- 카테고리 순서 앞으로 당기기 -->
-    <update id="moveUp" parameterType="hashmap">
-    	call moveUp(#{category_order_no},#{userID})
+    <update id="categoryMoveUp" parameterType="hashmap">
+    	call categoryMoveUp(#{category_order_no},#{userID})
     </update>
     
     <!-- 카테고리 순서 뒤로 밀기-->
-    <update id="moveDown" parameterType="hashmap">
-    	call moveDown(#{category_order_no},#{userID})
+    <update id="categoryMoveDown" parameterType="hashmap">
+    	call categoryMoveDown(#{category_order_no},#{userID})
     </update>
     
     

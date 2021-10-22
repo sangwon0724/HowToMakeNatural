@@ -656,6 +656,7 @@ public class BlogController {
 		model.addAttribute("userInfo", userService.selectUserInfoForBlog(userID)); //해당 유저 정보
 		model.addAttribute("neighborList_mine", blogService.selectNeighbor(map)); //해당 유저가 이웃 추가한 유저들의 정보
 		model.addAttribute("neighborList_followMe", blogService.selectNeighborFollowMe(map)); //해당 유저를 이웃 추가한 유저들의 정보
+		model.addAttribute("categoryList", blogService.selectCategory(map)); //해당 유저 블로그의 카테고리 목록
 		
 	    return "/blog/setting";
 	}
@@ -770,6 +771,37 @@ public class BlogController {
 			blogService.deleteNeighbor(map); //이웃 취소
 		}
 		
+		result.put("message", "success"); //성공 메세지 전달
+		
+	    return result;
+	}
+	
+	/* 개인 블로그 - 카테고리 관련 ajax*/
+	@ResponseBody
+	@RequestMapping(value = "/blog/setting/category", method = RequestMethod.POST)
+	public Map<String, Object> setPersonalCategory(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
+		
+		System.out.println("개인 블로그 설정 - 카테고리   (대상자 : " + map.get("userID") + ")");
+
+		Map<String, Object> result = new HashMap<String, Object>(); //반환용
+		
+		switch (map.get("mode").toString()) {
+		case "insert":
+			blogService.insertCategory(map);
+			break;
+		case "update":
+			blogService.updateCategory(map);
+			break;
+		case "delete":
+			blogService.deleteCategory(map);
+			break;
+		case "moveUp":
+			blogService.categoryMoveUp(map);
+			break;
+		case "moveDown":
+			blogService.categoryMoveDown(map);
+			break;
+		}
 		result.put("message", "success"); //성공 메세지 전달
 		
 	    return result;

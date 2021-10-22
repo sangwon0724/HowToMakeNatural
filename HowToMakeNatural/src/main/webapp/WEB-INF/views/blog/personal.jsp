@@ -10,8 +10,7 @@
 <!-- 공통 적용 파일 시작 -->
 <c:import url="../include/header.jsp"></c:import>
 <!-- 공통 적용 파일 종료-->
-<link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet"
-	type="text/css">
+<link href="<c:url value="/resources/css/blog/personal.css" />" rel="stylesheet"type="text/css">
 <title>
 	<c:if test='${userInfo.blog_logo_text != null && userInfo.blog_logo_text != ""}'>${userInfo.blog_logo_text}</c:if>
 	<c:if test='${userInfo.blog_logo_text == null or userInfo.blog_logo_text == ""}'>${userInfo.id}님의 블로그</c:if>

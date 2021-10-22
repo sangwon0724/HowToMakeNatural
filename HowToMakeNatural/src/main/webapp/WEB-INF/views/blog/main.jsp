@@ -8,7 +8,7 @@
 	<!-- 공통 적용 파일 시작 -->
 			<c:import url="../include/header.jsp"></c:import>
 	<!-- 공통 적용 파일 -->
-	<link href="<c:url value="/resources/css/blog.css" />" rel="stylesheet" type="text/css">
+	<link href="<c:url value="/resources/css/blog/main.css" />" rel="stylesheet" type="text/css">
 	<title>블로그 메인</title>
 </head>
 <body>

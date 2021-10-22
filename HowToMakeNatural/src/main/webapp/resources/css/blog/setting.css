@@ -148,11 +148,18 @@
 	font-size: 1.3em;
 }
 /* 각 기능 패널마다의 grid 영역 */
-#setting_function_panel>article:not(.neighbor)>main{
+#setting_function_panel>article.settingPanel_grid>main{
 	width: 80%;
 	display: grid;
 	grid-template-columns: 1fr 7fr;
 	margin: 0 0 5vh 3vw;
+}
+/* 설정 기능 화면 - 블로그 - 이웃/카테고리 공통 */
+#setting_function_panel>article.settingPanel_normal>main{
+	width: 80%;
+	height: auto;
+	min-height: 30vh;
+	margin: 3vh auto 10vh auto;
 }
 /* 각 기능 패널마다의 각 요소별 이름 */
 #setting_function_panel>article>main>.setting_item_name{
@@ -260,13 +267,7 @@
 	border: 1px solid black;
 }
 
-/* 설정 기능 화면 - 블로그 - 이웃 공통 */
-#setting_function_panel>article.neighbor>main{
-	width: 80%;
-	height: auto;
-	min-height: 30vh;
-	margin: 3vh auto 10vh auto;
-}
+/* 설정 기능 화면 - 블로그 - 이웃/카테고리 공통 */
 #setting_function_panel>article.neighbor>main>.neighbor_list:not(.title){
 	width: 100%;
 	height: 10vh;
@@ -317,7 +318,40 @@
 }
 
 /* 설정 기능 화면 - 블로그 - 카테고리 설정 */
-#setting_function_panel>article#setting_blog_category>main{
-	height: 70vh;
-	grid-template-rows: 2fr 2fr 50px;
+#setting_function_panel>article#setting_blog_category>main>.category_list{
+	width: 80%;
+	height: 7vh;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 1fr 125px;
+	margin: 0 auto 3vh auto;
+	background-color: #eeeeee;
+}
+#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 1vw;
+	box-sizing: border-box;
+}
+#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name>span.name{
+	font-size: 1.1em;
+	font-weight: bold;
+}
+#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name>span.count{
+	font-weight: bold;
+	color: red;
+}
+#setting_function_panel>article#setting_blog_category>main>.category_list>.category_move{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+#setting_function_panel>article#setting_blog_category>main>.category_list>.category_move>button{
+	width: 25px;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
 }
