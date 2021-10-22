@@ -269,25 +269,144 @@ function change_blog_neighbor_follow_me(id){
 
 /*---------------------------------------------------------------------------------*/
 
-/* 카테고리 관련 */
-function change_blog_category(id){
+/* 카테고리 관련 - 순서 변경 - 앞으로 당기기 */
+function category_move_up(id, order_no){
+	if(order_no === 1){
+		alert("선택하신 카테고리는 현재 이미 최상단에 위치하고 있습니다.");
+		return;
+	}
+	
 	//Ajax로 전달할 값 설정
 	var data = {
-	    userID : id
+	    userID : id,
+	    category_order_no: order_no,
+	    mode: "moveUp"
     };
 	
 	//게시글 변경
 	$.ajax({
-        url: "/업데이트_예정",
+        url: "/blog/setting/category",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-        	var list="";
-        	$.each(result.list, function (index, item) {
-        		
-            });//each 종료
-            $('해당 영역').html(list);
+        	var changeTarget=$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+order_no+"]").html();
+        	
+        	$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+order_no+"]").html($("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+(parseInt(order_no)-1)+"]").html());
+        	
+        	$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+(parseInt(order_no)-1)+"]").html(changeTarget);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 카테고리 관련 - 순서 변경 - 뒤로 밀기 */
+function category_move_down(id, order_no, max){
+	if(order_no === max){
+		alert("선택하신 카테고리는 현재 이미 최하단에 위치하고 있습니다.");
+		return;
+	}
+	
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id,
+	    category_order_no: order_no,
+	    mode: "moveDown"
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/setting/category",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+    		var changeTarget=$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+order_no+"]").html();
+        	
+        	$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+order_no+"]").html($("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+(parseInt(order_no)+1)+"]").html());
+        	
+        	$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no="+(parseInt(order_no)+1)+"]").html(changeTarget);
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 카테고리 관련 - 카테고리 추가 */
+function category_insert(id){
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id,
+	    mode: "insert"
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/setting/category",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+    		//max 값때문에 전체 변경
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 카테고리 관련 - 카테고리 변경 */
+function category_update(id, order_no){
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id,
+	    category_order_no: order_no,
+	    mode: "update"
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/setting/category",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+    		
+        },
+        error: function(error){
+            alert("오류 발생");
+            console.log(error);
+        }
+    });
+}
+
+/* 카테고리 관련 - 카테고리 삭제 */
+function category_delete(id, category_name){
+	if(!confirm("카테고리 &#34;"+ category_name + "&#34;를 삭제하시겠습니까?")){
+		return;
+	}
+	
+	//Ajax로 전달할 값 설정
+	var data = {
+	    userID : id,
+	    category_order_no: order_no,
+	    mode: "delete"
+    };
+	
+	//게시글 변경
+	$.ajax({
+        url: "/blog/setting/category",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result){
+    		
         },
         error: function(error){
             alert("오류 발생");

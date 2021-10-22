@@ -781,7 +781,7 @@ public class BlogController {
 	@RequestMapping(value = "/blog/setting/category", method = RequestMethod.POST)
 	public Map<String, Object> setPersonalCategory(@RequestBody HashMap<String, Object> map, Model model) throws Exception {
 		
-		System.out.println("개인 블로그 설정 - 카테고리   (대상자 : " + map.get("userID") + ")");
+		System.out.println("개인 블로그 설정 - 카테고리   (대상자 : " + map.get("userID") + ") / 모드  : " + map.get("mode"));
 
 		Map<String, Object> result = new HashMap<String, Object>(); //반환용
 		
@@ -806,5 +806,6 @@ public class BlogController {
 		
 	    return result;
 	}
+	
 	//=========================================== 개인 블로그 영역 (설정) 종료 =================================================================
 }

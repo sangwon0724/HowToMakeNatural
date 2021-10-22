@@ -153,7 +153,9 @@
     <!--  카테고리 목록 검색  -->
     <select id="selectCategory" parameterType="hashmap" resultType="hashmap">
     	SELECT
-    		category_name, (select count(no) from blog_post where category=b.category_name) count
+    		category_name, category_order_no,
+    		MAX(category_order_no) OVER(PARTITION BY 1) max,
+    		(select count(no) from blog_post where category=b.category_name) count
    		FROM
    			blog_category b
   		WHERE
