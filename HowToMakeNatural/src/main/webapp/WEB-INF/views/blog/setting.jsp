@@ -256,7 +256,10 @@
 			<!-- 블로그 나를 추가한 이웃 설정 종료 -->
 			<!-- 블로그 카테고리 설정 시작 -->
 			<article id="setting_blog_category" class="settingPanel_normal hidden">
-				<div class="title"><span>카테고리 설정</span></div>
+				<div class="title">
+					<span>카테고리 설정</span>
+					<button onclick="category_insert('${sessionScope.user.id}')" style="color: green;"><i class="fas fa-plus-square"></i></button>
+				</div>
 				<main>
 					<c:forEach var="category" items="${categoryList}">
 						<div class="category_list">

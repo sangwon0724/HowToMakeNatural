@@ -174,6 +174,9 @@
 		    <div class="custom-select" style="width:200px;">
 			  <select id="category">
 			    <option value="">전체</option>
+			    <c:forEach var="category" items="${categoryList}">
+			    <option value="${category.category_name}">${category.category_name}</option>
+			    </c:forEach>
 			  </select>
 			</div>
 	    </div>

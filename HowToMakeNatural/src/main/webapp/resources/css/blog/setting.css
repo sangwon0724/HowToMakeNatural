@@ -126,7 +126,7 @@
 #setting_function_panel>article{
 	width: 100%;
 	height: auto;
-	min-height: 100%;
+	min-height: 100vh;
 	position: relative;
 	padding-top: 7vh;
 }
@@ -355,4 +355,16 @@
 	align-items: center;
 	background-color: white;
 	cursor: pointer;
+}
+#setting_function_panel>article>.title>button{
+	width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: green;
+    cursor: pointer;
+    margin-left: 1vw;
+	margin-bottom: -2px;
 }

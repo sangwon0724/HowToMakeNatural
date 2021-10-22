@@ -417,6 +417,11 @@ public class BlogController {
 		
 		System.out.println("개인 블로그 게시글 작성 - 유저 아이디 : " + userID);
 		
+		HashMap<String, Object> map = new HashMap<String, Object>(); //SQL 실행용
+		map.put("userID",  userID);
+		
+		model.addAttribute("categoryList", blogService.selectCategory(map)); //해당 유저 블로그의 카테고리 목록
+		
 	    return "/blog/write";
 	}
 	

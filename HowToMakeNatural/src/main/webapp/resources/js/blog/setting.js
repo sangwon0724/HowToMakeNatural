@@ -320,6 +320,7 @@ function category_insert(id){
 	//Ajax로 전달할 값 설정
 	var data = {
 	    userID : id,
+	    category_name: category_name,
 	    mode: "insert"
     };
 	
