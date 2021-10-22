@@ -261,14 +261,14 @@
 					<c:forEach var="category" items="${categoryList}">
 						<div class="category_list">
 							<div class="category_name" category_order_no="${category.category_order_no}">
-								<span class="name">${category.category_name}</span>&nbsp;
+								<span class="name" category_name="${category.category_name}">${category.category_name}</span>&nbsp;
 								<span class="count">(&nbsp;${category.count}&nbsp;)</span>
 							</div>
 							<div class="category_move">
 								<button onclick="category_move_up('${sessionScope.user.id}', ${category.category_order_no})" style="color: blue;"><i class="fas fa-caret-square-up"></i></button>
 								<button onclick="category_move_down('${sessionScope.user.id}', ${category.category_order_no}, ${category.max})" style="color: blue;"><i class="fas fa-caret-square-down"></i></button>
-								<button onclick="category_update('${sessionScope.user.id}')"><i class="fas fa-edit"></i></button>
-								<button onclick="category_delete('${sessionScope.user.id}', '${category.category_name}')" category_name="${category.category_name}" style="color: red;"><i class="fas fa-window-close"></i></button>
+								<button onclick="category_update('${sessionScope.user.id}', ${category.category_order_no})"><i class="fas fa-edit"></i></button>
+								<button onclick="category_delete('${sessionScope.user.id}', ${category.category_order_no})" style="color: red;"><i class="fas fa-window-close"></i></button>
 							</div>
 						</div>
 					</c:forEach>

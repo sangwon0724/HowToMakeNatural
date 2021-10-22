@@ -111,7 +111,7 @@ function change_blog_placement(id){
 	    blog_setting_type: $("input[name=blog_setting_type_radio]:checked").val()
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/placement",
         type: "POST",
@@ -142,7 +142,7 @@ function add_my_neighbor(id, target, nickname){
 	    mode: "insert"
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/neighbor",
         type: "POST",
@@ -213,7 +213,7 @@ function cancle_my_neighbor(id, target, nickname){
 	    mode: "delete"
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/neighbor",
         type: "POST",
@@ -240,35 +240,6 @@ function cancle_my_neighbor(id, target, nickname){
 
 /*---------------------------------------------------------------------------------*/
 
-/* 나를 추가한 이웃 관련 */
-function change_blog_neighbor_follow_me(id){
-	//Ajax로 전달할 값 설정
-	var data = {
-	    userID : id
-    };
-	
-	//게시글 변경
-	$.ajax({
-        url: "/업데이트_예정",
-        type: "POST",
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        success: function(result){
-        	var list="";
-        	$.each(result.list, function (index, item) {
-        		
-            });//each 종료
-            $('해당 영역').html(list);
-        },
-        error: function(error){
-            alert("오류 발생");
-            console.log(error);
-        }
-    });
-}
-
-/*---------------------------------------------------------------------------------*/
-
 /* 카테고리 관련 - 순서 변경 - 앞으로 당기기 */
 function category_move_up(id, order_no){
 	if(order_no === 1){
@@ -283,7 +254,7 @@ function category_move_up(id, order_no){
 	    mode: "moveUp"
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/category",
         type: "POST",
@@ -317,7 +288,7 @@ function category_move_down(id, order_no, max){
 	    mode: "moveDown"
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/category",
         type: "POST",
@@ -339,13 +310,20 @@ function category_move_down(id, order_no, max){
 
 /* 카테고리 관련 - 카테고리 추가 */
 function category_insert(id){
+	var category_name=prompt("추가하실 카테고리명을 입력해주세요.");
+	
+	if($("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name>span.name[category_name=" + category_name +"]").length){
+		alert("이미 존재하는 카테고리명입니다.");
+		return;
+	}
+	
 	//Ajax로 전달할 값 설정
 	var data = {
 	    userID : id,
 	    mode: "insert"
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/category",
         type: "POST",
@@ -353,6 +331,26 @@ function category_insert(id){
         contentType: "application/json",
         success: function(result){
     		//max 값때문에 전체 변경
+    		var categoryList="";
+    		
+        	$.each(result.categoryList, function (index, item) {
+        		categoryList += `
+					<div class="category_list">
+						<div class="category_name" category_order_no="${item.category_order_no}">
+							<span class="name" category_name="${item.category_name}">${item.category_name}</span>&nbsp;
+							<span class="count">(&nbsp;${item.count}&nbsp;)</span>
+						</div>
+						<div class="category_move">
+							<button onclick="category_move_up('${id}', ${item.category_order_no})" style="color: blue;"><i class="fas fa-caret-square-up"></i></button>
+							<button onclick="category_move_down('${id}', ${item.category_order_no}, ${item.max})" style="color: blue;"><i class="fas fa-caret-square-down"></i></button>
+							<button onclick="category_update('${id}', ${item.category_order_no})"><i class="fas fa-edit"></i></button>
+							<button onclick="category_delete('${id}', ${item.category_order_no})" style="color: red;"><i class="fas fa-window-close"></i></button>
+						</div>
+					</div>
+        		`;
+            });//each 종료
+        	
+    		$("#setting_function_panel>article#setting_blog_category>main").html(categoryList);
         },
         error: function(error){
             alert("오류 발생");
@@ -363,21 +361,31 @@ function category_insert(id){
 
 /* 카테고리 관련 - 카테고리 변경 */
 function category_update(id, order_no){
+	var category_name=prompt("변경하실 카테고리명을 입력해주세요.");
+	
+	if($("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name>span.name[category_name=" + category_name +"]").length){
+		alert("이미 존재하는 카테고리명입니다.");
+		return;
+	}
+	
 	//Ajax로 전달할 값 설정
 	var data = {
 	    userID : id,
+	    category_name: category_name,
 	    category_order_no: order_no,
 	    mode: "update"
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/category",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
-    		
+    		//해당하는 order_no를 가지고 있는 category_list의 div.name의 text 변경 후 속성값도 변경
+        	$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no=" + order_no +"]>span.name").html(category_name);
+        	$("#setting_function_panel>article#setting_blog_category>main>.category_list>.category_name[category_order_no=" + order_no +"]>span.name").attr("category_name", category_name);
         },
         error: function(error){
             alert("오류 발생");
@@ -387,26 +395,46 @@ function category_update(id, order_no){
 }
 
 /* 카테고리 관련 - 카테고리 삭제 */
-function category_delete(id, category_name){
-	if(!confirm("카테고리 &#34;"+ category_name + "&#34;를 삭제하시겠습니까?")){
+function category_delete(id, category_order_no){
+	if(!confirm("선택하신 카테고리를 삭제하시겠습니까?\n관련된 게시글 및 댓글이 모두 삭제됩니다.")){
 		return;
 	}
 	
 	//Ajax로 전달할 값 설정
 	var data = {
 	    userID : id,
-	    category_order_no: order_no,
+	    category_order_no: category_order_no,
 	    mode: "delete"
     };
 	
-	//게시글 변경
+	//ajax
 	$.ajax({
         url: "/blog/setting/category",
         type: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(result){
+        	//max 값때문에 전체 변경
+    		var categoryList="";
     		
+        	$.each(result.categoryList, function (index, item) {
+        		categoryList += `
+					<div class="category_list">
+						<div class="category_name" category_order_no="${item.category_order_no}">
+							<span class="name" category_name="${item.category_name}">${item.category_name}</span>&nbsp;
+							<span class="count">(&nbsp;${item.count}&nbsp;)</span>
+						</div>
+						<div class="category_move">
+							<button onclick="category_move_up('${id}', ${item.category_order_no})" style="color: blue;"><i class="fas fa-caret-square-up"></i></button>
+							<button onclick="category_move_down('${id}', ${item.category_order_no}, ${item.max})" style="color: blue;"><i class="fas fa-caret-square-down"></i></button>
+							<button onclick="category_update('${id}', ${item.category_order_no})"><i class="fas fa-edit"></i></button>
+							<button onclick="category_delete('${id}', ${item.category_order_no})" style="color: red;"><i class="fas fa-window-close"></i></button>
+						</div>
+					</div>
+        		`;
+            });//each 종료
+        	
+    		$("#setting_function_panel>article#setting_blog_category>main").html(categoryList);
         },
         error: function(error){
             alert("오류 발생");

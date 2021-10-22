@@ -788,12 +788,14 @@ public class BlogController {
 		switch (map.get("mode").toString()) {
 		case "insert":
 			blogService.insertCategory(map);
+			result.put("categoryList", blogService.selectCategory(map));
 			break;
 		case "update":
 			blogService.updateCategory(map);
 			break;
 		case "delete":
 			blogService.deleteCategory(map);
+			result.put("categoryList", blogService.selectCategory(map));
 			break;
 		case "moveUp":
 			blogService.categoryMoveUp(map);

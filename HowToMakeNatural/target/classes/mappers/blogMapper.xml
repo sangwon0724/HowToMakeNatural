@@ -177,7 +177,7 @@
     	SET
     		category_name = #{category_name}
     	WHERE
-    		userID=${userID}
+    		userID=${userID} AND category_order_no = ${category_order_no}
     </update>
     
     <!-- 카테고리 삭제 -->
