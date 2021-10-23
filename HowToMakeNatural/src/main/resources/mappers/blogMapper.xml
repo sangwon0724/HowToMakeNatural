@@ -90,12 +90,13 @@
     
     <!-- 게시글 삭제 -->
     <update id="deletePost" parameterType="hashmap">
-    	UPDATE
+    	<!-- UPDATE
     		blog_post
    		SET
     		useYN ='N'
    		WHERE
-   			no=#{no}
+   			no=#{no} -->
+ 		call deletePost(#{no})
     </update>
     
     
@@ -139,14 +140,14 @@
     </update>
     
     <!-- 특정 게시글에 대한 모든 댓글 삭제 -->
-    <update id="deleteAllCommentForPost" parameterType="hashmap">
+    <!-- <update id="deleteAllCommentForPost" parameterType="hashmap">
     	UPDATE
     		blog_comment
     	SET
     		useYN="N"
     	WHERE
     		post_no=${no}
-    </update>
+    </update> -->
     
     
     
@@ -286,11 +287,11 @@
     </delete>
     
     <!-- 특정 게시글에 대한 모든 좋아요 삭제 -->
-    <delete id="deleteAllGoodForPost" parameterType="hashmap">
+    <!-- <delete id="deleteAllGoodForPost" parameterType="hashmap">
     	DELETE
     	FROM
     		blog_good
     	WHERE
     		post_no=${no}
-    </delete>
+    </delete> -->
 </mapper>

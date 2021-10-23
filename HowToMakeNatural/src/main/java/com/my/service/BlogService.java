@@ -145,13 +145,7 @@ public class BlogService implements BlogServiceInterface {
 	public void deleteComment(Map<String, Object> map) throws Exception{
 		mapper.deleteComment(map);
 	}
-
-	//특정 게시글에 대한 모든 댓글 삭제
-	@Override
-	public void deleteAllCommentForPost(Map<String, Object> map) throws Exception {
-		mapper.deleteAllCommentForPost(map);
-	}
-
+	
 	//이웃 취소
 	@Override
 	public void deleteNeighbor(Map<String, Object> map) throws Exception {
@@ -163,13 +157,7 @@ public class BlogService implements BlogServiceInterface {
 	public void deleteGood(Map<String, Object> map) throws Exception {
 		mapper.deleteGood(map);
 	}
-
-	//특정 게시글에 대한 모든 좋아요 취소
-	@Override
-	public void deleteAllGoodForPost(Map<String, Object> map) throws Exception {
-		mapper.deleteAllGoodForPost(map);
-	}
-
+	
 	//카테고리 삭제
 	@Override
 	public void deleteCategory(Map<String, Object> map) throws Exception {

@@ -1,11 +1,3 @@
-/* 개인 블로그 */
-
-/* 개인 블로그 네이게이션 - 이웃 블로그 */
-function neighbor_blog(){
-	//작성 예정
-	alert("이웃 블로그 목록 열기 기능 제작 예정");
-}
-
 /* 카테고리 클릭 */
 function go_user_blog_category(id, category){
 	location.href="/blog/" + id + "?category=" + category;

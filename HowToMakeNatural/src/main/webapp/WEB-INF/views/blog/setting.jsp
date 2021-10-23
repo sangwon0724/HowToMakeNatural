@@ -12,7 +12,7 @@
 <!-- 공통 적용 파일 종료-->
 <link href="<c:url value="/resources/css/blog/setting.css" />" rel="stylesheet"type="text/css">
 <title>
-	${sessionScope.user.id}님의 블로그 설정
+	${sessionScope.user.blog_nickname}&nbsp;님의 블로그 설정
 </title>
 </head>
 <body>
