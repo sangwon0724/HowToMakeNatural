@@ -59,6 +59,34 @@
     color: #6c5ce7;
 }
 
+/* 이웃 목록 */
+#neighbor_blog_list {
+  position: relative;
+  display: inline-block;
+}
+
+#neighbor_blog_list>.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 13px;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+#neighbor_blog_list>.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+#neighbor_blog_list>.dropdown-content>a:hover {background-color: #ddd;}
+
+#neighbor_blog_list:hover>.dropdown-content {display: block;}
+
 /*============================================================================================================*/
 
 /* 블로그 배경글 (=최상단 로고) */

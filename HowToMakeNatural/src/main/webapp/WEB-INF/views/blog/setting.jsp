@@ -33,10 +33,19 @@
 						<c:if test="${not empty sessionScope.user.id}"> onclick="go_user_blog('${sessionScope.user.id}')"</c:if>
 					>내 블로그</span>
 					<span> | </span>
-					<span id="neighbor_blog" class="click"
-						<c:if test="${empty sessionScope.user.id}"> onclick="login()"</c:if>
-						<c:if test="${not empty sessionScope.user.id}"> onclick="neighbor_blog()"</c:if>
-					>이웃 블로그</span>
+					<span id="neighbor_blog_list" class="click">이웃 블로그
+						<div class="dropdown-content">
+						<c:if test="${not empty sessionScope.user.id}">
+						    <c:forEach var="neighbor" items="${neighborList_mine}" varStatus="status">
+								<a href="/blog/${neighbor.target}" class="neighbor_logo_text">
+									<span>${neighbor.nickname}</span>&nbsp;|&nbsp;
+									<c:if test="${not empty neighbor.blog_logo_text and neighbor.blog_logo_text ne ''}">${neighbor.blog_logo_text}</c:if>
+									<c:if test="${empty neighbor.blog_logo_text or neighbor.blog_logo_text eq ''}">${neighbor.target}님의 블로그</c:if>
+								</a>
+							</c:forEach>
+					    </c:if>
+					  </div>
+					</span>
 					<span> | </span>
 					<span id="blog_home" class="click" onclick="blog_home()">블로그홈</span>
 				</div>

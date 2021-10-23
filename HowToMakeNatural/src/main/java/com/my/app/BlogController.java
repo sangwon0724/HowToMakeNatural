@@ -219,46 +219,38 @@ public class BlogController {
 		
 		//xml 파일에서 사용할 값 설정
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("start", 0); //게시글 검색 + 이웃 검색
 		map.put("category", category); //게시글 검색
 		map.put("userID", userID); //게시글 검색 + 카테고리 검색 + 이웃 검색
 		map.put("block", 5); //게시글 검색
 		
 
+		model.addAttribute("neighborList", blogService.selectNeighbor(map)); //이웃 목록 (전체 목록), 이웃 패널에서는 c:forEach문으로 조절
+		
+		map.put("start", 0); //게시글 검색을 위한 조건 추가
+		
 		//개인 게시글 긁어오기
-		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 10개
+		List<HashMap<String, Object>> postList=blogService.selectPost(map); //게시글 5개
 		
-		//해당 블로그의 유저 정보 가져오기
-		HashMap<String, Object> userInfo=userService.selectUserInfoForBlog(userID);
-		
-		//카테고리목록 긁어오기
-		List<HashMap<String, Object>> categoryList=blogService.selectCategory(map); //카테고리 목록
-		
-		//이웃목록 긁어오기
-		List<HashMap<String, Object>> neighborList=blogService.selectNeighbor(map); //이웃 9명
-		
-		//단일 게시글 정보
-		HashMap<String, Object> onePost=null;
+		//단일 게시글 정보 (게시글 정보 + 관련 댓글 목록)
 		if(!postList.isEmpty()) {
-			onePost=postList.get(0);
+			HashMap<String, Object> onePost=postList.get(0); //단일 게시글 정보
+			
+
+			HashMap<String, Object> pagingSetting=paging.setPaging("blog_post", onePost, 5); //페이징 설정
+			model.addAttribute("paging", pagingSetting); //페이징 정보 설정
+			
+			model.addAttribute("postList", postList); //게시글 목록
+			model.addAttribute("commentList", blogService.selectComment(onePost)); //댓글 목록
+			model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
 		}
 		
-		//댓글 가져오기
-		List<HashMap<String, Object>> commentList = null;
-		if(!postList.isEmpty()) {
-			commentList = blogService.selectComment(onePost);
-		}
-		
-		model.addAttribute("postList", postList); //게시글
-		model.addAttribute("userInfo", userInfo); //유저 정보
-		model.addAttribute("categoryList", categoryList); //카테고리 목록
-		model.addAttribute("neighborList", neighborList); //이웃 목록
-		model.addAttribute("onePost", onePost); //단일 게시물에 대한 정보 등록
-		model.addAttribute("commentList", commentList); //댓글 목록
+		model.addAttribute("userInfo", userService.selectUserInfoForBlog(userID)); //유저 정보
+		model.addAttribute("categoryList", blogService.selectCategory(map)); //카테고리 목록
 		model.addAttribute("mode", "view"); //게시글 모드
 		
 		//로그인 한 경우
 		if(request.getSession().getAttribute("user") != null && request.getSession().getAttribute("user") != "") {
+			//세션에 저장된 유저 정보를 HashMap에 저장
 			HashMap<String, Object> user = (HashMap<String, Object>) request.getSession().getAttribute("user");
 			
 			Map<String, Object> temp = new HashMap<String, Object>();
@@ -267,16 +259,10 @@ public class BlogController {
 			
 			model.addAttribute("neighborCheck", blogService.checkMyNeighbor(temp));
 			
-			if(onePost != null) {
-				int check_good = blogService.checkMyGood(onePost);
+			if(!postList.isEmpty()) {
+				int check_good = blogService.checkMyGood(postList.get(0));
 				model.addAttribute("goodCheck", check_good);
 			}
-		}
-		
-		//페이징 정보
-		if(!postList.isEmpty()) {
-			HashMap<String, Object> pagingSetting=paging.setPaging("blog_post", onePost, 5); //페이징 설정
-			model.addAttribute("paging", pagingSetting); //페이징 정보 설정
 		}
 		
 	    return "/blog/personal";
