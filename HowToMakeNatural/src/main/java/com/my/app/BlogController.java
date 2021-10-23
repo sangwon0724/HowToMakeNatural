@@ -38,7 +38,6 @@ import com.my.util.FileUpload;
 @Controller
 public class BlogController {
 	//==========할 일 목록==========
-	//임시 2. 소스 코드 줄이기 => ex) 페이징 유틸이 필요없는 기능같은 경우에는 바로 model 객체에 추가하기
 	
 	//==========완료 목록==========
 	//1. 블로그 메인 기본 틀 완성
