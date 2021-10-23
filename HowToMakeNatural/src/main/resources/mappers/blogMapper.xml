@@ -60,7 +60,6 @@
 					where useYN ='Y'
  				</if>
  			</if>
-			<!-- and b.userID = u.id -->
       		order by no desc
 			) a
 		<if test='block == null or block == ""'>
@@ -138,16 +137,6 @@
     	WHERE
     		no=${no} and userID=#{userID}
     </update>
-    
-    <!-- 특정 게시글에 대한 모든 댓글 삭제 -->
-    <!-- <update id="deleteAllCommentForPost" parameterType="hashmap">
-    	UPDATE
-    		blog_comment
-    	SET
-    		useYN="N"
-    	WHERE
-    		post_no=${no}
-    </update> -->
     
     
     
@@ -285,13 +274,4 @@
    		WHERE
    			userID = #{userID} and post_no = #{no}
     </delete>
-    
-    <!-- 특정 게시글에 대한 모든 좋아요 삭제 -->
-    <!-- <delete id="deleteAllGoodForPost" parameterType="hashmap">
-    	DELETE
-    	FROM
-    		blog_good
-    	WHERE
-    		post_no=${no}
-    </delete> -->
 </mapper>

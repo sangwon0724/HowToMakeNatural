@@ -7,7 +7,6 @@ public class Paging {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		
 		int count=Integer.parseInt(map.get("count").toString());
-		//Double orderNo=(Double) .doubleValue();
 		
 		switch (mode) {
 			case "blog_post":
